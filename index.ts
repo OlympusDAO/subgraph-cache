@@ -4,21 +4,21 @@ import * as pulumi from "@pulumi/pulumi";
 import { handler } from "./src/index";
 
 const GCP_REGION = "us-central1";
-const BUCKET_NAME = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
+const BUCKET_NAME_PREFIX = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
 
 /**
  * Define required resources
  */
 
 // Create a bucket to store the cached results
-const storageBucket = new gcp.storage.Bucket(BUCKET_NAME, {
+const storageBucket = new gcp.storage.Bucket(BUCKET_NAME_PREFIX, {
   location: GCP_REGION,
   uniformBucketLevelAccess: true,
   versioning: { enabled: false },
 });
 
 // Export the DNS name of the bucket
-export const storageBucketName = storageBucket.url;
+export const storageBucketUrl = storageBucket.url;
 
 // Create a function
 const pulumiConfig = new pulumi.Config();
@@ -28,7 +28,7 @@ const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction("token-h
   region: GCP_REGION,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   callback: async (req: Express.Request, res: Express.Response) => {
-    await handler(BUCKET_NAME, GCP_REGION, pulumiConfig.get("finalDate"));
+    await handler(storageBucket.name.get(), pulumiConfig.get("finalDate"));
   },
 });
 

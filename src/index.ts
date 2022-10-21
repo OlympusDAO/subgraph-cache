@@ -11,7 +11,8 @@ export type HandlerResult = {
   message: string;
 };
 
-export const handler = async (bucketName: string, bucketRegion: string, finalDateOverride?: string): Promise<void> => {
+export const handler = async (bucketName: string, finalDateOverride?: string): Promise<void> => {
+  console.log(`Bucket name: ${bucketName}`);
   const client = createClient({
     url: SUBGRAPH_URL,
     fetch,
