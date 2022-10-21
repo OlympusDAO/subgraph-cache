@@ -3,16 +3,17 @@ import * as pulumi from "@pulumi/pulumi";
 
 import { handler } from "./src/index";
 
-const GCP_REGION = "us-central1";
 const BUCKET_NAME_PREFIX = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
+const functionName = "token-holders-transactions";
+
+const pulumiConfig = new pulumi.Config();
 
 /**
- * Define required resources
+ * Record storage: GCS bucket
  */
-
 // Create a bucket to store the cached results
 const storageBucket = new gcp.storage.Bucket(BUCKET_NAME_PREFIX, {
-  location: GCP_REGION,
+  location: "US", // Get this from the provider instead?
   uniformBucketLevelAccess: true,
   versioning: { enabled: false },
 });
@@ -20,19 +21,31 @@ const storageBucket = new gcp.storage.Bucket(BUCKET_NAME_PREFIX, {
 // Export the DNS name of the bucket
 export const storageBucketUrl = storageBucket.url;
 
+/**
+ * Execution: Google Cloud Functions
+ */
 // Create a function
-const pulumiConfig = new pulumi.Config();
-
-const functionName = "token-holders-transactions";
 const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(functionName, {
   runtime: "nodejs14",
-  region: GCP_REGION,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   callback: async (req: Express.Request, res: Express.Response) => {
+    console.log("Received callback. Initiating handler.");
     await handler(functionName, storageBucket.name.get(), pulumiConfig.get("finalDate"));
   },
 });
 
 export const functionUrl = tokenHolderFunction.httpsTriggerUrl;
 
-// TODO set up scheduling
+/**
+ * Scheduling: Cloud Scheduler
+ */
+const schedulerJob = new gcp.cloudscheduler.Job(functionName, {
+  schedule: "0 * * * *", // Start of every hour
+  timeZone: "UTC",
+  httpTarget: {
+    httpMethod: "GET",
+    uri: functionUrl,
+  },
+});
+
+export const schedulerJobName = schedulerJob.name;
