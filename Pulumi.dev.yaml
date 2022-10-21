@@ -1,2 +1,3 @@
 config:
   gcp:project: utility-descent-365911
+  subgraph-cache:finalDate: "2022-01-01"

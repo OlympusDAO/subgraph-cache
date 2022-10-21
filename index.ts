@@ -1,7 +1,7 @@
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 
-import { handler } from "./src";
+import { handler } from "./src/index";
 
 const GCP_REGION = "us-central1";
 const BUCKET_NAME = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
@@ -21,12 +21,14 @@ const storageBucket = new gcp.storage.Bucket(BUCKET_NAME, {
 export const storageBucketName = storageBucket.url;
 
 // Create a function
+const pulumiConfig = new pulumi.Config();
+
 const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction("token-holders", {
   runtime: "nodejs14",
   region: GCP_REGION,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  callback: (req: Express.Request, res: Express.Response) => {
-    handler();
+  callback: async (req: Express.Request, res: Express.Response) => {
+    await handler(BUCKET_NAME, GCP_REGION, pulumiConfig.get("finalDate"));
   },
 });
 
