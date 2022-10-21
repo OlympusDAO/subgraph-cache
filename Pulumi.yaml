@@ -1,0 +1,3 @@
+name: subgraph-cache
+description: Caches records from subgraphs in Google Cloud Storage
+runtime: nodejs
