@@ -27,6 +27,7 @@ export const storageBucketUrl = storageBucket.url;
 // Create a function
 const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(functionName, {
   runtime: "nodejs14",
+  timeout: 540,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   callback: async (req: Express.Request, res: Express.Response) => {
     console.log("Received callback. Initiating handler.");
