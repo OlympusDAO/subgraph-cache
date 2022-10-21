@@ -23,12 +23,13 @@ export const storageBucketUrl = storageBucket.url;
 // Create a function
 const pulumiConfig = new pulumi.Config();
 
-const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction("token-holders", {
+const functionName = "token-holders-transactions";
+const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(functionName, {
   runtime: "nodejs14",
   region: GCP_REGION,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   callback: async (req: Express.Request, res: Express.Response) => {
-    await handler(storageBucket.name.get(), pulumiConfig.get("finalDate"));
+    await handler(functionName, storageBucket.name.get(), pulumiConfig.get("finalDate"));
   },
 });
 
