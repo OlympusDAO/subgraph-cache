@@ -5,7 +5,7 @@ import { recordsFileExists, writeRecords } from "./helpers/recordFs";
 import { getGraphQLRecords, getLatestTransactionDate } from "./subgraph";
 
 export const getLatestFetchedRecordsDate = async (
-  functionName: string,
+  storagePrefix: string,
   bucketName: string,
   earliestDate: Date,
   finalDate: Date,
@@ -16,7 +16,7 @@ export const getLatestFetchedRecordsDate = async (
   // Work from finalDate backwards, which should be quicker than earliestDate -> finalDate
   while (currentDate >= earliestDate) {
     // If a file exists, return one day earlier (in case we did not get all records from the day)
-    if (await recordsFileExists(functionName, bucketName, currentDate)) {
+    if (await recordsFileExists(storagePrefix, bucketName, currentDate)) {
       return new Date(currentDate.getTime() - timeDelta);
     }
 
@@ -52,7 +52,7 @@ export const getFinalDate = async (subgraphClient: Client): Promise<Date> => {
  */
 export const getRecords = async (
   client: Client,
-  functionName: string,
+  storagePrefix: string,
   bucketName: string,
   startDate: Date,
   finalDate: Date,
@@ -66,7 +66,7 @@ export const getRecords = async (
     const records: TokenHolderTransaction[] = await getGraphQLRecords(client, currentDate);
 
     // Write to file
-    await writeRecords(functionName, bucketName, records, currentDate);
+    await writeRecords(storagePrefix, bucketName, records, currentDate);
 
     // Increment for the next loop
     currentDate = new Date(currentDate.getTime() + timeDelta);

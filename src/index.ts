@@ -11,7 +11,7 @@ export type HandlerResult = {
   message: string;
 };
 
-export const handler = async (functionName: string, bucketName: string, finalDateOverride?: string): Promise<void> => {
+export const handler = async (storagePrefix: string, bucketName: string, finalDateOverride?: string): Promise<void> => {
   console.log(`Bucket name: ${bucketName}`);
   const client = createClient({
     url: SUBGRAPH_URL,
@@ -20,10 +20,10 @@ export const handler = async (functionName: string, bucketName: string, finalDat
 
   const earliestDate: Date = await getEarliestTransactionDateStart(client);
   const finalDate: Date = finalDateOverride ? new Date(finalDateOverride) : await getFinalDate(client);
-  const transactionsDate: Date = await getLatestFetchedRecordsDate(functionName, bucketName, earliestDate, finalDate);
+  const transactionsDate: Date = await getLatestFetchedRecordsDate(storagePrefix, bucketName, earliestDate, finalDate);
   console.log(`Subgraph start date is ${earliestDate.toISOString()}`);
   console.log(`Subgraph final date is ${finalDate.toISOString()}`);
   console.log(`Transactions will be fetched from ${transactionsDate.toISOString()}`);
 
-  await getRecords(client, functionName, bucketName, transactionsDate, finalDate);
+  await getRecords(client, storagePrefix, bucketName, transactionsDate, finalDate);
 };

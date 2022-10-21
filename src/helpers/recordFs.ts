@@ -11,12 +11,12 @@ import { getISO8601DateString } from "./date";
  * The date is prefixed with `dt=` so that if the records are being used
  * with a BigQuery external table, they will be automatically partitioned.
  *
- * @param functionName
+ * @param storagePrefix
  * @param date
  * @returns
  */
-const getRecordsFilePath = (functionName: string, date: Date): string => {
-  return `${functionName}/dt=${getISO8601DateString(date)}/records.jsonl`;
+const getRecordsFilePath = (storagePrefix: string, date: Date): string => {
+  return `${storagePrefix}/dt=${getISO8601DateString(date)}/records.jsonl`;
 };
 
 /**
@@ -30,11 +30,11 @@ const getRecordsFilePath = (functionName: string, date: Date): string => {
  * @returns
  */
 export const readRecords = async (
-  functionName: string,
+  storagePrefix: string,
   bucketName: string,
   date: Date,
 ): Promise<TokenHolderTransaction[]> => {
-  const filePath = getRecordsFilePath(functionName, date);
+  const filePath = getRecordsFilePath(storagePrefix, date);
   const file = getFile(bucketName, filePath);
   if (!(await file.exists())[0]) {
     return [];
@@ -51,12 +51,12 @@ export const readRecords = async (
  * to abstract the storage layer.
  */
 export const writeRecords = async (
-  functionName: string,
+  storagePrefix: string,
   bucketName: string,
   records: TokenHolderTransaction[],
   date: Date,
 ): Promise<void> => {
-  const fileName = getRecordsFilePath(functionName, date);
+  const fileName = getRecordsFilePath(storagePrefix, date);
 
   await putFile(bucketName, fileName, JSONL.stringify(records));
 };
@@ -64,7 +64,7 @@ export const writeRecords = async (
 /**
  * Determines if the records file for the given date exists.
  */
-export const recordsFileExists = async (functionName: string, bucketName: string, date: Date): Promise<boolean> => {
-  const filePath = getRecordsFilePath(functionName, date);
+export const recordsFileExists = async (storagePrefix: string, bucketName: string, date: Date): Promise<boolean> => {
+  const filePath = getRecordsFilePath(storagePrefix, date);
   return await fileExists(bucketName, filePath);
 };

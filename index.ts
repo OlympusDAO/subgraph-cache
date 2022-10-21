@@ -4,7 +4,8 @@ import * as pulumi from "@pulumi/pulumi";
 import { handler } from "./src/index";
 
 const BUCKET_NAME_PREFIX = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
-const functionName = `token-holders-transactions-${pulumi.getStack()}`;
+const FUNCTION_PREFIX = `token-holders-transactions`;
+const functionName = `${FUNCTION_PREFIX}-${pulumi.getStack()}`;
 
 const pulumiConfig = new pulumi.Config();
 
@@ -32,7 +33,7 @@ const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(function
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   callback: async (req: Express.Request, res: Express.Response) => {
     console.log("Received callback. Initiating handler.");
-    await handler(functionName, storageBucket.name.get(), pulumiConfig.get("finalDate"));
+    await handler(FUNCTION_PREFIX, storageBucket.name.get(), pulumiConfig.get("finalDate"));
   },
 });
 
