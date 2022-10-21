@@ -4,7 +4,7 @@ import * as pulumi from "@pulumi/pulumi";
 import { handler } from "./src/index";
 
 const BUCKET_NAME_PREFIX = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
-const functionName = "token-holders-transactions";
+const functionName = `token-holders-transactions-${pulumi.getStack()}`;
 
 const pulumiConfig = new pulumi.Config();
 
