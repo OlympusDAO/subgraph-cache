@@ -71,4 +71,6 @@ export const getRecords = async (
     // Increment for the next loop
     currentDate = new Date(currentDate.getTime() + timeDelta);
   }
+
+  console.info(`Fetching complete`);
 };
