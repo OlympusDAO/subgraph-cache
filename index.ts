@@ -52,3 +52,33 @@ const schedulerJob = new gcp.cloudscheduler.Job(functionName, {
 });
 
 export const schedulerJobName = schedulerJob.name;
+
+/**
+ * Create a BigQuery external table
+ */
+const bigQueryDataset = new gcp.bigquery.Dataset(BUCKET_NAME_PREFIX, {
+  datasetId: BUCKET_NAME_PREFIX.replace(/-/g, "_"), // - is unsupported
+});
+
+export const bigQueryDatasetId = bigQueryDataset.datasetId;
+
+// storageBucketUrl is not known until deploy-time, so we use a pulumi-provided function to utilise it
+// Source: https://www.pulumi.com/docs/intro/concepts/inputs-outputs/#apply
+const sourceUriPrefix = storageBucketUrl.apply(url => `${url}/${FUNCTION_PREFIX}/`);
+const sourceUri = storageBucketUrl.apply(url => `${url}/${FUNCTION_PREFIX}/*`);
+
+const bigQueryTable = new gcp.bigquery.Table(FUNCTION_PREFIX, {
+  datasetId: bigQueryDatasetId,
+  tableId: FUNCTION_PREFIX,
+  externalDataConfiguration: {
+    sourceFormat: "NEWLINE_DELIMITED_JSON",
+    sourceUris: [sourceUri],
+    hivePartitioningOptions: {
+      mode: "AUTO",
+      sourceUriPrefix: sourceUriPrefix,
+    },
+    autodetect: true,
+  },
+});
+
+export const bigQueryTableId = bigQueryTable.tableId;
