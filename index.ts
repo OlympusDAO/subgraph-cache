@@ -1,5 +1,6 @@
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
+import { readFileSync } from "fs";
 
 import { handler } from "./src/index";
 
@@ -67,9 +68,13 @@ export const bigQueryDatasetId = bigQueryDataset.datasetId;
 const sourceUriPrefix = storageBucketUrl.apply(url => `${url}/${FUNCTION_PREFIX}/`);
 const sourceUri = storageBucketUrl.apply(url => `${url}/${FUNCTION_PREFIX}/*`);
 
+// For the moment, we generate a BigQuery schema file and store it locally
+const bigQuerySchemaJson = readFileSync("bigquery_schema.json").toString("utf-8");
+
 const bigQueryTable = new gcp.bigquery.Table(FUNCTION_PREFIX, {
   datasetId: bigQueryDatasetId,
   tableId: FUNCTION_PREFIX,
+  deletionProtection: true,
   externalDataConfiguration: {
     sourceFormat: "NEWLINE_DELIMITED_JSON",
     sourceUris: [sourceUri],
@@ -77,7 +82,8 @@ const bigQueryTable = new gcp.bigquery.Table(FUNCTION_PREFIX, {
       mode: "AUTO",
       sourceUriPrefix: sourceUriPrefix,
     },
-    autodetect: true,
+    autodetect: false,
+    schema: bigQuerySchemaJson,
   },
 });
 

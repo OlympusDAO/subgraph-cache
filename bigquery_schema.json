@@ -1,0 +1,137 @@
+[
+    {
+        "name": "__typename",
+        "mode": "NULLABLE",
+        "type": "STRING",
+        "fields": []
+    },
+    {
+        "name": "transactionLogIndex",
+        "mode": "NULLABLE",
+        "type": "INTEGER",
+        "fields": []
+    },
+    {
+        "name": "transaction",
+        "mode": "NULLABLE",
+        "type": "STRING",
+        "fields": []
+    },
+    {
+        "name": "id",
+        "mode": "NULLABLE",
+        "type": "STRING",
+        "fields": []
+    },
+    {
+        "name": "timestamp",
+        "mode": "NULLABLE",
+        "type": "INTEGER",
+        "fields": []
+    },
+    {
+        "name": "previousBalance",
+        "mode": "NULLABLE",
+        "type": "NUMERIC",
+        "fields": []
+    },
+    {
+        "name": "holder",
+        "mode": "NULLABLE",
+        "type": "RECORD",
+        "fields": [
+            {
+                "name": "__typename",
+                "mode": "NULLABLE",
+                "type": "STRING",
+                "fields": []
+            },
+            {
+                "name": "holder",
+                "mode": "NULLABLE",
+                "type": "STRING",
+                "fields": []
+            },
+            {
+                "name": "token",
+                "mode": "NULLABLE",
+                "type": "RECORD",
+                "fields": [
+                    {
+                        "name": "__typename",
+                        "mode": "NULLABLE",
+                        "type": "STRING",
+                        "fields": []
+                    },
+                    {
+                        "name": "name",
+                        "mode": "NULLABLE",
+                        "type": "STRING",
+                        "fields": []
+                    },
+                    {
+                        "name": "id",
+                        "mode": "NULLABLE",
+                        "type": "STRING",
+                        "fields": []
+                    },
+                    {
+                        "name": "blockchain",
+                        "mode": "NULLABLE",
+                        "type": "STRING",
+                        "fields": []
+                    },
+                    {
+                        "name": "address",
+                        "mode": "NULLABLE",
+                        "type": "STRING",
+                        "fields": []
+                    }
+                ]
+            },
+            {
+                "name": "balance",
+                "mode": "NULLABLE",
+                "type": "NUMERIC",
+                "fields": []
+            },
+            {
+                "name": "id",
+                "mode": "NULLABLE",
+                "type": "STRING",
+                "fields": []
+            }
+        ]
+    },
+    {
+        "name": "block",
+        "mode": "NULLABLE",
+        "type": "INTEGER",
+        "fields": []
+    },
+    {
+        "name": "type",
+        "mode": "NULLABLE",
+        "type": "STRING",
+        "fields": []
+    },
+    {
+        "name": "value",
+        "mode": "NULLABLE",
+        "type": "NUMERIC",
+        "fields": []
+    },
+    {
+        "name": "date",
+        "mode": "NULLABLE",
+        "type": "TIMESTAMP",
+        "description": "bq-datetime",
+        "fields": []
+    },
+    {
+        "name": "balance",
+        "mode": "NULLABLE",
+        "type": "NUMERIC",
+        "fields": []
+    }
+]

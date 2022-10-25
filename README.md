@@ -25,3 +25,4 @@ The Pulumi tool is used to manage the orchestration of resources in Google Cloud
 ## Improvements
 
 - Generalise to support caching of _any_ subgraph by specifying a query in a configuration file
+- Dynamically generate the BigQuery schema for each table using `graphql-codegen`, an introspection GraphQL query or the Typescript types. A few attempts were made to implement this, but they were abandoned.
