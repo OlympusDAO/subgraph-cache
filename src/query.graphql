@@ -4,9 +4,33 @@ query EarliestTransaction {
   }
 }
 
+fragment Transaction on TokenHolderTransaction {
+  id
+  balance
+  block
+  date
+  holder {
+    id
+    balance
+    holder
+    token {
+      address
+      blockchain
+      id
+      name
+    }
+  }
+  previousBalance
+  timestamp
+  transaction
+  transactionLogIndex
+  type
+  value
+}
+
 query LatestTransaction {
   tokenHolderTransactions(orderBy: timestamp, orderDirection: desc, first: 1) {
-    date
+    ...Transaction
   }
 }
 
@@ -18,28 +42,6 @@ query Transactions($count: Int, $skip: Int, $startDate: String, $finishDate: Str
     skip: $skip
     where: { date_gte: $startDate, date_lt: $finishDate }
   ) {
-    id
-    balance
-    block
-    date
-    holder {
-      id
-      balance
-      holder
-      id
-      token {
-        address
-        blockchain
-        id
-        name
-      }
-    }
-    id
-    previousBalance
-    timestamp
-    transaction
-    transactionLogIndex
-    type
-    value
+    ...Transaction
   }
 }
