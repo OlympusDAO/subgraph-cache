@@ -55,6 +55,17 @@ const schedulerJob = new gcp.cloudscheduler.Job(functionName, {
 export const schedulerJobName = schedulerJob.name;
 
 /**
+ * Create a dummy file in the storage bucket.
+ *
+ * We do this, otherwise the Hive partitioning will complain of no files being present.
+ */
+const dummyObject = new gcp.storage.BucketObject("dummy", {
+  bucket: storageBucket.name,
+  content: "{}", // Empty file
+  name: `${FUNCTION_PREFIX}/dt=2021-01-01/dummy.jsonl`,
+});
+
+/**
  * Create a BigQuery external table
  */
 const bigQueryDataset = new gcp.bigquery.Dataset(BUCKET_NAME_PREFIX, {
@@ -71,20 +82,24 @@ const sourceUri = storageBucketUrl.apply(url => `${url}/${FUNCTION_PREFIX}/*`);
 // For the moment, we generate a BigQuery schema file and store it locally
 const bigQuerySchemaJson = readFileSync("bigquery_schema.json").toString("utf-8");
 
-const bigQueryTable = new gcp.bigquery.Table(FUNCTION_PREFIX, {
-  datasetId: bigQueryDatasetId,
-  tableId: FUNCTION_PREFIX,
-  deletionProtection: false,
-  externalDataConfiguration: {
-    sourceFormat: "NEWLINE_DELIMITED_JSON",
-    sourceUris: [sourceUri],
-    hivePartitioningOptions: {
-      mode: "AUTO",
-      sourceUriPrefix: sourceUriPrefix,
+const bigQueryTable = new gcp.bigquery.Table(
+  FUNCTION_PREFIX,
+  {
+    datasetId: bigQueryDatasetId,
+    tableId: FUNCTION_PREFIX,
+    deletionProtection: false,
+    externalDataConfiguration: {
+      sourceFormat: "NEWLINE_DELIMITED_JSON",
+      sourceUris: [sourceUri],
+      hivePartitioningOptions: {
+        mode: "AUTO",
+        sourceUriPrefix: sourceUriPrefix,
+      },
+      autodetect: false,
+      schema: bigQuerySchemaJson,
     },
-    autodetect: false,
-    schema: bigQuerySchemaJson,
   },
-});
+  { dependsOn: dummyObject },
+);
 
 export const bigQueryTableId = bigQueryTable.tableId;
