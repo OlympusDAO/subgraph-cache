@@ -497,51 +497,11 @@ export type EarliestTransactionQuery = {
   tokenHolderTransactions: Array<{ __typename?: "TokenHolderTransaction"; date: string }>;
 };
 
-export type TransactionFragment = {
-  __typename?: "TokenHolderTransaction";
-  id: string;
-  balance: number;
-  block: number;
-  date: string;
-  previousBalance: number;
-  timestamp: string;
-  transaction: Uint8Array;
-  transactionLogIndex: number;
-  type: TransactionType;
-  value: number;
-  holder: {
-    __typename?: "TokenHolder";
-    id: string;
-    balance: number;
-    holder: Uint8Array;
-    token: { __typename?: "Token"; address: Uint8Array; blockchain: string; id: string; name: string };
-  };
-};
-
 export type LatestTransactionQueryVariables = Exact<{ [key: string]: never }>;
 
 export type LatestTransactionQuery = {
   __typename?: "Query";
-  tokenHolderTransactions: Array<{
-    __typename?: "TokenHolderTransaction";
-    id: string;
-    balance: number;
-    block: number;
-    date: string;
-    previousBalance: number;
-    timestamp: string;
-    transaction: Uint8Array;
-    transactionLogIndex: number;
-    type: TransactionType;
-    value: number;
-    holder: {
-      __typename?: "TokenHolder";
-      id: string;
-      balance: number;
-      holder: Uint8Array;
-      token: { __typename?: "Token"; address: Uint8Array; blockchain: string; id: string; name: string };
-    };
-  }>;
+  tokenHolderTransactions: Array<{ __typename?: "TokenHolderTransaction"; date: string }>;
 };
 
 export type TransactionsQueryVariables = Exact<{
@@ -575,56 +535,6 @@ export type TransactionsQuery = {
   }>;
 };
 
-export const TransactionFragmentDoc = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "Transaction" },
-      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "TokenHolderTransaction" } },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          { kind: "Field", name: { kind: "Name", value: "id" } },
-          { kind: "Field", name: { kind: "Name", value: "balance" } },
-          { kind: "Field", name: { kind: "Name", value: "block" } },
-          { kind: "Field", name: { kind: "Name", value: "date" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "holder" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "balance" } },
-                { kind: "Field", name: { kind: "Name", value: "holder" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "token" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "address" } },
-                      { kind: "Field", name: { kind: "Name", value: "blockchain" } },
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          { kind: "Field", name: { kind: "Name", value: "previousBalance" } },
-          { kind: "Field", name: { kind: "Name", value: "timestamp" } },
-          { kind: "Field", name: { kind: "Name", value: "transaction" } },
-          { kind: "Field", name: { kind: "Name", value: "transactionLogIndex" } },
-          { kind: "Field", name: { kind: "Name", value: "type" } },
-          { kind: "Field", name: { kind: "Name", value: "value" } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<TransactionFragment, unknown>;
 export const EarliestTransactionDocument = {
   kind: "Document",
   definitions: [
@@ -689,13 +599,12 @@ export const LatestTransactionDocument = {
             ],
             selectionSet: {
               kind: "SelectionSet",
-              selections: [{ kind: "FragmentSpread", name: { kind: "Name", value: "Transaction" } }],
+              selections: [{ kind: "Field", name: { kind: "Name", value: "date" } }],
             },
           },
         ],
       },
     },
-    ...TransactionFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<LatestTransactionQuery, LatestTransactionQueryVariables>;
 export const TransactionsDocument = {
@@ -776,12 +685,47 @@ export const TransactionsDocument = {
             ],
             selectionSet: {
               kind: "SelectionSet",
-              selections: [{ kind: "FragmentSpread", name: { kind: "Name", value: "Transaction" } }],
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "balance" } },
+                { kind: "Field", name: { kind: "Name", value: "block" } },
+                { kind: "Field", name: { kind: "Name", value: "date" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "holder" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "balance" } },
+                      { kind: "Field", name: { kind: "Name", value: "holder" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "token" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            { kind: "Field", name: { kind: "Name", value: "address" } },
+                            { kind: "Field", name: { kind: "Name", value: "blockchain" } },
+                            { kind: "Field", name: { kind: "Name", value: "id" } },
+                            { kind: "Field", name: { kind: "Name", value: "name" } },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: "Field", name: { kind: "Name", value: "previousBalance" } },
+                { kind: "Field", name: { kind: "Name", value: "timestamp" } },
+                { kind: "Field", name: { kind: "Name", value: "transaction" } },
+                { kind: "Field", name: { kind: "Name", value: "transactionLogIndex" } },
+                { kind: "Field", name: { kind: "Name", value: "type" } },
+                { kind: "Field", name: { kind: "Name", value: "value" } },
+              ],
             },
           },
         ],
       },
     },
-    ...TransactionFragmentDoc.definitions,
   ],
 } as unknown as DocumentNode<TransactionsQuery, TransactionsQueryVariables>;
