@@ -6,11 +6,6 @@ import { getEarliestTransactionDateStart } from "./subgraph";
 
 const SUBGRAPH_URL = "https://api.studio.thegraph.com/query/28103/token-holders/0.0.40";
 
-export type HandlerResult = {
-  status: number;
-  message: string;
-};
-
 export const handler = async (storagePrefix: string, bucketName: string, finalDateOverride?: string): Promise<void> => {
   console.log(`Bucket name: ${bucketName}`);
   const client = createClient({
