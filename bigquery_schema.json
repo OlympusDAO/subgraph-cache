@@ -32,7 +32,7 @@
     {
         "name": "previousBalance",
         "mode": "NULLABLE",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "fields": []
     },
     {
@@ -92,7 +92,7 @@
             {
                 "name": "balance",
                 "mode": "NULLABLE",
-                "type": "NUMERIC",
+                "type": "BIGNUMERIC",
                 "fields": []
             },
             {
@@ -118,7 +118,7 @@
     {
         "name": "value",
         "mode": "NULLABLE",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "fields": []
     },
     {
@@ -131,7 +131,7 @@
     {
         "name": "balance",
         "mode": "NULLABLE",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "fields": []
     }
 ]

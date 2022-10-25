@@ -74,7 +74,7 @@ const bigQuerySchemaJson = readFileSync("bigquery_schema.json").toString("utf-8"
 const bigQueryTable = new gcp.bigquery.Table(FUNCTION_PREFIX, {
   datasetId: bigQueryDatasetId,
   tableId: FUNCTION_PREFIX,
-  deletionProtection: true,
+  deletionProtection: false,
   externalDataConfiguration: {
     sourceFormat: "NEWLINE_DELIMITED_JSON",
     sourceUris: [sourceUri],
