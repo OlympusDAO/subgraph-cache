@@ -24,17 +24,32 @@ const storageBucket = new gcp.storage.Bucket(BUCKET_NAME_PREFIX, {
 export const storageBucketUrl = storageBucket.url;
 
 /**
+ * PubSub topic
+ */
+const pubSubTopic = new gcp.pubsub.Topic(functionName);
+
+export const pubSubTopicName = pubSubTopic.name;
+
+/**
  * Execution: Google Cloud Functions
  */
+const functionTimeoutSeconds = 60;
+
 // Create a function
 const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(functionName, {
   runtime: "nodejs14",
-  timeout: 540,
+  timeout: functionTimeoutSeconds,
   availableMemoryMb: 1024,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  callback: async (req: Express.Request, res: Express.Response) => {
+  callback: async (req, res) => {
     console.log("Received callback. Initiating handler.");
-    await handler(FUNCTION_PREFIX, storageBucket.name.get(), pulumiConfig.get("finalDate"));
+    await handler(
+      FUNCTION_PREFIX,
+      storageBucket.name.get(),
+      pubSubTopicName.get(),
+      functionTimeoutSeconds,
+      pulumiConfig.get("finalDate"),
+    );
   },
 });
 

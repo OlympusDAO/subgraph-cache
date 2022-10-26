@@ -1,5 +1,6 @@
 import { Client } from "@urql/core";
 
+import { IShouldTerminate } from "./constants";
 import { TokenHolderTransaction } from "./graphql/generated";
 import { recordsFileExists, writeRecords } from "./helpers/recordFs";
 import { getGraphQLRecords, getLatestTransactionDate } from "./subgraph";
@@ -13,6 +14,7 @@ export const getLatestFetchedRecordsDate = async (
   const timeDelta = 24 * 60 * 60 * 1000; // 1 day
   let currentDate = finalDate;
 
+  // TODO use bucket.getFiles instead? Might be quicker
   // Work from finalDate backwards, which should be quicker than earliestDate -> finalDate
   while (currentDate >= earliestDate) {
     // If a file exists, return one day earlier (in case we did not get all records from the day)
@@ -56,6 +58,7 @@ export const getRecords = async (
   bucketName: string,
   startDate: Date,
   finalDate: Date,
+  shouldTerminate: IShouldTerminate,
 ): Promise<void> => {
   console.info(`\n\nFetching records`);
   const timeDelta: number = 24 * 60 * 60 * 1000; // 1 day
@@ -67,6 +70,11 @@ export const getRecords = async (
 
     // Write to file
     await writeRecords(storagePrefix, bucketName, records, currentDate);
+
+    // Check the execution time remaining and exit
+    if (shouldTerminate()) {
+      break;
+    }
 
     // Increment for the next loop
     currentDate = new Date(currentDate.getTime() + timeDelta);
