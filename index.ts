@@ -50,6 +50,8 @@ const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(function
       functionTimeoutSeconds,
       pulumiConfig.get("finalDate"),
     );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (<any>res).send("OK");
   },
 });
 
