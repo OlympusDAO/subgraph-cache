@@ -50,8 +50,9 @@ const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(function
       functionTimeoutSeconds,
       pulumiConfig.get("finalDate"),
     );
+    // It's not documented in the Pulumi documentation, but the function will timeout if `.end()` is missing.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (<any>res).send("OK");
+    (<any>res).send("OK").end();
   },
 });
 
