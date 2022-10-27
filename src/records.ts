@@ -59,7 +59,7 @@ export const getRecords = async (
   startDate: Date,
   finalDate: Date,
   shouldTerminate: IShouldTerminate,
-): Promise<void> => {
+): Promise<Date> => {
   console.info(`\n\nFetching records`);
   const timeDelta: number = 24 * 60 * 60 * 1000; // 1 day
   let currentDate: Date = startDate;
@@ -81,4 +81,5 @@ export const getRecords = async (
   }
 
   console.info(`Fetching complete`);
+  return currentDate;
 };

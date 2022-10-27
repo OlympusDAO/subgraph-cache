@@ -31,6 +31,23 @@ const pubSubTopic = new gcp.pubsub.Topic(functionName);
 export const pubSubTopicName = pubSubTopic.name;
 
 /**
+ * Create a subscription to the PubSub topic defined above. This is so that the function can track up to which date it has cached, and can continue from there.
+ *
+ * This is configured as a pull subscription, as the Cloud Function will check these messages upon its normally-scheduled run.
+ * Why not push? If there is any error (e.g. a timeout), it tends to create an ever-increasing number of messages,
+ * which spawn functions.
+ */
+const expirationSeconds = 24 * 60 * 60;
+const pubSubSubscription = new gcp.pubsub.Subscription(functionName, {
+  topic: pubSubTopicName,
+  retainAckedMessages: false,
+  expirationPolicy: { ttl: `${expirationSeconds}s` },
+  messageRetentionDuration: `${expirationSeconds}s`,
+});
+
+export const pubSubSubscriptionName = pubSubSubscription.name;
+
+/**
  * Execution: Google Cloud Functions
  */
 const functionTimeoutSeconds = 540;
@@ -46,6 +63,7 @@ const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(function
       storageBucket.name.get(),
       pubSubTopicName.get(),
       functionTimeoutSeconds,
+      pubSubSubscription.id.get(),
       pulumiConfig.get("finalDate"),
     );
     // It's not documented in the Pulumi documentation, but the function will timeout if `.end()` is missing.
