@@ -6,7 +6,7 @@ import { handler } from "./src/index";
 
 const BUCKET_NAME_PREFIX = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
 const FUNCTION_PREFIX = `token-holders-transactions`;
-const functionName = `${FUNCTION_PREFIX}-${pulumi.getStack()}`;
+const FUNCTION_NAME = `${FUNCTION_PREFIX}-${pulumi.getStack()}`;
 
 const pulumiConfig = new pulumi.Config();
 
@@ -26,7 +26,7 @@ export const storageBucketUrl = storageBucket.url;
 /**
  * PubSub topic
  */
-const pubSubTopic = new gcp.pubsub.Topic(functionName);
+const pubSubTopic = new gcp.pubsub.Topic(FUNCTION_NAME);
 
 export const pubSubTopicName = pubSubTopic.name;
 
@@ -38,7 +38,7 @@ export const pubSubTopicName = pubSubTopic.name;
  * which spawn functions.
  */
 const expirationSeconds = 24 * 60 * 60;
-const pubSubSubscription = new gcp.pubsub.Subscription(functionName, {
+const pubSubSubscription = new gcp.pubsub.Subscription(FUNCTION_NAME, {
   topic: pubSubTopicName,
   retainAckedMessages: false,
   expirationPolicy: { ttl: `${expirationSeconds}s` },
@@ -51,7 +51,7 @@ export const pubSubSubscriptionName = pubSubSubscription.name;
  * Execution: Google Cloud Functions
  */
 const functionTimeoutSeconds = 540;
-const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(functionName, {
+const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(FUNCTION_NAME, {
   runtime: "nodejs14",
   timeout: functionTimeoutSeconds,
   availableMemoryMb: 1024,
@@ -73,11 +73,12 @@ const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(function
 });
 
 export const functionUrl = tokenHolderFunction.httpsTriggerUrl;
+export const functionName = tokenHolderFunction.function.name;
 
 /**
  * Scheduling: Cloud Scheduler
  */
-const schedulerJob = new gcp.cloudscheduler.Job(functionName, {
+const schedulerJob = new gcp.cloudscheduler.Job(FUNCTION_NAME, {
   schedule: "0 * * * *", // Start of every hour
   timeZone: "UTC",
   httpTarget: {
@@ -137,3 +138,36 @@ const bigQueryTable = new gcp.bigquery.Table(
 );
 
 export const bigQueryTableId = bigQueryTable.tableId;
+
+/**
+ * Create an Alert Policy
+ */
+new gcp.monitoring.AlertPolicy(FUNCTION_NAME, {
+  displayName: FUNCTION_NAME,
+  conditions: [
+    {
+      displayName: "Function Status Not OK",
+      conditionThreshold: {
+        filter: `resource.type = "cloud_function" AND resource.labels.function_name = "${functionName}" AND metric.type = "cloudfunctions.googleapis.com/function/execution_count" AND metric.labels.status != "ok"`,
+        aggregations: [
+          {
+            alignmentPeriod: "300s",
+            crossSeriesReducer: "REDUCE_NONE",
+            perSeriesAligner: "ALIGN_SUM",
+          },
+        ],
+        comparison: "COMPARISON_GT",
+        duration: "0s",
+        trigger: {
+          count: 1,
+        },
+      },
+    },
+  ],
+  alertStrategy: {
+    autoClose: "604800s",
+  },
+  combiner: "OR",
+  enabled: true,
+  notificationChannels: ["projects/utility-descent-365911/notificationChannels/13547536167280065674"], // Pre-defined, Discord webhook
+});
