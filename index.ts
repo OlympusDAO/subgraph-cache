@@ -33,9 +33,7 @@ export const pubSubTopicName = pubSubTopic.name;
 /**
  * Execution: Google Cloud Functions
  */
-const functionTimeoutSeconds = 60;
-
-// Create a function
+const functionTimeoutSeconds = 540;
 const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(functionName, {
   runtime: "nodejs14",
   timeout: functionTimeoutSeconds,
