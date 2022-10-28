@@ -23,10 +23,21 @@ This project has a few components:
   - Before exit, the function sends a message on the specified PubSub Topic. This includes both the start date and the finish date for the fetching.
 - Google Cloud Scheduler Job to trigger the function in GCF.
 - BigQuery table exposing the data stored in the GCS bucket.
-- Alert policies to inform about failures and extraneous executions in Discord.
+- Alert policies to inform about failures and extraneous executions in Discord/email.
 - Monitoring dashboard for key metrics: function executions and status, GCS network activity
 
 The Pulumi tool is used to manage the orchestration of resources in Google Cloud Platform, and has `dev` and `prod` stacks (environments).
+
+## Discord Integration
+
+GCP monitoring does not have a direct integration with Discord, and it seemed like overkill to write a GCP -> Discord webhook integration.
+
+Instead, a [scenario](https://us1.make.com/126792/scenarios/446857/edit) is defined in Make (formerly Integromat) that does the following:
+
+- Watches an email address supplied by the custom mailhook
+- Send a HTTP post request to the Discord webhook
+
+This results in a small message being sent into the alerts channel.
 
 ## Caveats
 
