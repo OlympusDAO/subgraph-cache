@@ -23,7 +23,8 @@ This project has a few components:
   - Before exit, the function sends a message on the specified PubSub Topic. This includes both the start date and the finish date for the fetching.
 - Google Cloud Scheduler Job to trigger the function in GCF.
 - BigQuery table exposing the data stored in the GCS bucket.
-- Alert policy to inform about failures in Discord
+- Alert policies to inform about failures and extraneous executions in Discord.
+- Monitoring dashboard for key metrics: function executions and status, GCS network activity
 
 The Pulumi tool is used to manage the orchestration of resources in Google Cloud Platform, and has `dev` and `prod` stacks (environments).
 
