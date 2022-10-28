@@ -3,7 +3,7 @@ import fetch from "cross-fetch";
 
 import { getISO8601DateString } from "./helpers/date";
 import { getLatestFinishDate, sendPubSubMessage } from "./helpers/pubsub";
-import { getFinalDate, getLatestFetchedRecordsDate, getRecords } from "./records";
+import { getFinalDate, getRecords, getRecordsFetchStartDate } from "./records";
 import { getEarliestTransactionDateStart } from "./subgraph";
 
 const SUBGRAPH_URL = "https://api.studio.thegraph.com/query/28103/token-holders/0.0.40";
@@ -41,12 +41,7 @@ export const handler = async (
   // Final date in the subgraph
   const subgraphFinalDate: Date = finalDateOverride ? new Date(finalDateOverride) : await getFinalDate(client);
   // Date up to which records have been cached
-  const fetchedUpToDate: Date = await getLatestFetchedRecordsDate(
-    storagePrefix,
-    bucketName,
-    subgraphEarliestDate,
-    subgraphFinalDate,
-  );
+  const recordsFetchedUpToDate: Date | null = await getRecordsFetchStartDate(storagePrefix, bucketName);
 
   const getFetchStartDate = async (): Promise<Date> => {
     // Check for PubSub messages
@@ -61,13 +56,18 @@ export const handler = async (
       return pubSubFinishDate;
     }
 
-    // Otherwise commence from the last cached date
-    console.log(`getFetchStartDate: Using latest cached records date: ${getISO8601DateString(fetchedUpToDate)}`);
-    return fetchedUpToDate;
-  };
+    // If records exist, continue from where we left off
+    if (recordsFetchedUpToDate) {
+      console.log(
+        `getFetchStartDate: Using latest cached records date: ${getISO8601DateString(recordsFetchedUpToDate)}`,
+      );
+      return recordsFetchedUpToDate;
+    }
 
-  console.log(`Subgraph start date is ${subgraphEarliestDate.toISOString()}`);
-  console.log(`Subgraph final date is ${subgraphFinalDate.toISOString()}`);
+    // Otherwise proceed from the start of the subgraph
+    console.log(`getFetchStartDate: Using subgraph start date: ${getISO8601DateString(subgraphEarliestDate)}`);
+    return subgraphEarliestDate;
+  };
 
   const startDate = await getFetchStartDate();
   console.log(`Transactions will be fetched from ${startDate.toISOString()}`);
@@ -85,5 +85,5 @@ export const handler = async (
   /**
    * Publish the start and finish dates for what was fetched.
    */
-  await sendPubSubMessage(pubSubTopic, fetchedUpToDate, fetchedUpTo);
+  await sendPubSubMessage(pubSubTopic, startDate, fetchedUpTo);
 };

@@ -2,31 +2,18 @@ import { Client } from "@urql/core";
 
 import { IShouldTerminate } from "./constants";
 import { TokenHolderTransaction } from "./graphql/generated";
-import { recordsFileExists, writeRecords } from "./helpers/recordFs";
+import { getLatestRecordsDate, writeRecords } from "./helpers/recordFs";
 import { getGraphQLRecords, getLatestTransactionDate } from "./subgraph";
 
-export const getLatestFetchedRecordsDate = async (
-  storagePrefix: string,
-  bucketName: string,
-  earliestDate: Date,
-  finalDate: Date,
-): Promise<Date> => {
-  const timeDelta = 24 * 60 * 60 * 1000; // 1 day
-  let currentDate = finalDate;
-
-  // TODO use bucket.getFiles instead? Might be quicker
-  // Work from finalDate backwards, which should be quicker than earliestDate -> finalDate
-  while (currentDate >= earliestDate) {
-    // If a file exists, return one day earlier (in case we did not get all records from the day)
-    if (await recordsFileExists(storagePrefix, bucketName, currentDate)) {
-      return new Date(currentDate.getTime() - timeDelta);
-    }
-
-    // Decrement
-    currentDate = new Date(currentDate.getTime() - timeDelta);
+export const getRecordsFetchStartDate = async (storagePrefix: string, bucketName: string): Promise<Date | null> => {
+  const latestRecordsDate: Date | null = await getLatestRecordsDate(bucketName, storagePrefix);
+  if (!latestRecordsDate) {
+    return null;
   }
 
-  return earliestDate;
+  // If a file exists, return one day earlier (in case we did not get all records from the day)
+  const timeDelta = 24 * 60 * 60 * 1000; // 1 day
+  return new Date(latestRecordsDate.getTime() - timeDelta);
 };
 
 /**
