@@ -271,7 +271,7 @@ new gcp.monitoring.AlertPolicy(ALERT_POLICY_GCS_NETWORK, {
  * Create a dashboard for monitoring activity
  */
 const DASHBOARD_NAME = `${FUNCTION_NAME}`;
-const dashboard = new gcp.monitoring.Dashboard(
+new gcp.monitoring.Dashboard(
   DASHBOARD_NAME,
   {
     dashboardJson: pulumi.interpolate`
@@ -404,4 +404,4 @@ const dashboard = new gcp.monitoring.Dashboard(
   },
   { dependsOn: [storageBucket, tokenHolderFunction] },
 );
-export const dashboardId = dashboard.id;
+export const dashboardName = DASHBOARD_NAME;
