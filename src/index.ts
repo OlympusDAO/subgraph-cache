@@ -87,3 +87,14 @@ export const handler = async (
    */
   await sendPubSubMessage(pubSubTopic, startDate, fetchedUpTo);
 };
+
+// Run locally using `yarn execute`. Inputs may need to be changed if re-deployments occur.
+if (require.main === module) {
+  handler(
+    "token-holders-transactions",
+    "olympusdao-subgraph-cache-dev-47c613e",
+    "token-holders-transactions-dev-1b8d6c3",
+    60,
+    "projects/utility-descent-365911/subscriptions/token-holders-transactions-dev-a036652",
+  );
+}
