@@ -2,7 +2,7 @@ import { createClient } from "@urql/core";
 import fetch from "cross-fetch";
 import { readFileSync } from "fs";
 
-import { GENERATED_DIR, SUBGRAPH_DIR } from "./constants";
+import { GENERATED_DIR } from "./constants";
 import { addDays, getISO8601DateString } from "./helpers/date";
 import { getLatestFinishDate, sendPubSubMessage } from "./helpers/pubsub";
 import { getRecords, getRecordsFetchStartDate } from "./records";
@@ -103,11 +103,17 @@ export const handler = async (
   await sendPubSubMessage(pubSubTopic, startDate, fetchedUpTo);
 };
 
-// Run locally using `yarn execute`. Inputs may need to be changed if re-deployments occur.
+// Run locally using `yarn execute`
 if (require.main === module) {
-  const subgraphConfig = JSON.parse(readFileSync(`${SUBGRAPH_DIR}/token-holder-transactions.json`).toString("utf-8"));
+  if (process.argv.length !== 3) {
+    throw new Error(`Expected 1 argument, but received: ${process.argv.slice(2)}`);
+  }
+
+  const subgraphConfigFile = process.argv[2];
+  const subgraphConfig = JSON.parse(readFileSync(subgraphConfigFile).toString("utf-8"));
   const jsonSchemaString = readFileSync(`${GENERATED_DIR}/${subgraphConfig.object}.jsonschema`).toString("utf-8");
 
+  // The random alphanumeric strings will need to be changed if there is a re-deployment
   handler(
     subgraphConfig.url,
     subgraphConfig.object,
