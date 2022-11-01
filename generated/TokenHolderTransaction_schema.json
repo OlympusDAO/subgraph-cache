@@ -1,5 +1,38 @@
-{
-  "schema": {
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "balance",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "block",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "date",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "type",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "holder",
+    "type": "RECORD",
+    "mode": "NULLABLE",
     "fields": [
       {
         "name": "__typename",
@@ -17,22 +50,12 @@
         "mode": "NULLABLE"
       },
       {
-        "name": "block",
-        "type": "NUMERIC",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "date",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "type",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
         "name": "holder",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "token",
         "type": "RECORD",
         "mode": "NULLABLE",
         "fields": [
@@ -47,74 +70,47 @@
             "mode": "NULLABLE"
           },
           {
-            "name": "balance",
-            "type": "NUMERIC",
-            "mode": "NULLABLE"
-          },
-          {
-            "name": "holder",
+            "name": "address",
             "type": "STRING",
             "mode": "NULLABLE"
           },
           {
-            "name": "token",
-            "type": "RECORD",
-            "mode": "NULLABLE",
-            "fields": [
-              {
-                "name": "__typename",
-                "type": "STRING",
-                "mode": "NULLABLE"
-              },
-              {
-                "name": "id",
-                "type": "STRING",
-                "mode": "NULLABLE"
-              },
-              {
-                "name": "address",
-                "type": "STRING",
-                "mode": "NULLABLE"
-              },
-              {
-                "name": "blockchain",
-                "type": "STRING",
-                "mode": "NULLABLE"
-              },
-              {
-                "name": "name",
-                "type": "STRING",
-                "mode": "NULLABLE"
-              }
-            ]
+            "name": "blockchain",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          },
+          {
+            "name": "name",
+            "type": "STRING",
+            "mode": "NULLABLE"
           }
         ]
-      },
-      {
-        "name": "previousBalance",
-        "type": "NUMERIC",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "timestamp",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "transaction",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "transactionLogIndex",
-        "type": "NUMERIC",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "value",
-        "type": "NUMERIC",
-        "mode": "NULLABLE"
       }
     ]
+  },
+  {
+    "name": "previousBalance",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "timestamp",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "transaction",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "transactionLogIndex",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "value",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
   }
-}
+]

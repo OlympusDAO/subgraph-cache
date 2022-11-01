@@ -7,5 +7,5 @@ export const getBigQuerySchema = (schema: $RefParser.JSONSchema): string => {
   // Convert to BigQuery schema: https://github.com/thedumbterminal/jsonschema-bigquery
   const bigQuerySchema = jsonSchemaBigQuery.run(schema);
 
-  return JSON.stringify(bigQuerySchema, null, 2);
+  return JSON.stringify(bigQuerySchema.schema.fields, null, 2);
 };
