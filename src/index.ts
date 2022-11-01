@@ -121,8 +121,8 @@ if (require.main === module) {
     jsonSchemaString,
     subgraphConfig.object,
     "olympusdao-subgraph-cache-dev-47c613e",
-    `${subgraphConfig.object}-dev-1b8d6c3`,
+    `${subgraphConfig.object}-dev-d3a17c1`,
     60,
-    `projects/utility-descent-365911/subscriptions/${subgraphConfig.object}-dev-a036652`,
+    `projects/utility-descent-365911/subscriptions/${subgraphConfig.object}-dev-ae9d6cb`,
   );
 }
