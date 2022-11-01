@@ -15,6 +15,7 @@ import * as TJS from "typescript-json-schema";
  * @returns
  */
 export const generateJSONSchema = async (type: string, typesFilename: string): Promise<$RefParser.JSONSchema> => {
+  console.log(`Generating JSONSchema for object ${type}`);
   // Convert to JSONSchema
   const jsonSchemaProgram = TJS.getProgramFromFiles([resolve(typesFilename)], {
     strictNullChecks: true,

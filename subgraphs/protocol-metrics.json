@@ -1,5 +1,16 @@
 {
     "url": "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics",
     "object": "ProtocolMetric",
-    "dateField": "date"
+    "dateField": "date",
+    "typeOverrides": {
+        "currentAPY": "BIGNUMERIC",
+        "gOhmPrice": "BIGNUMERIC",
+        "gOhmTotalSupply": "BIGNUMERIC",
+        "nextDistributedOhm": "BIGNUMERIC",
+        "nextEpochRebase": "BIGNUMERIC",
+        "ohmPrice": "BIGNUMERIC",
+        "ohmTotalSupply": "BIGNUMERIC",
+        "sOhmCirculatingSupply": "BIGNUMERIC",
+        "totalValueLocked": "BIGNUMERIC"
+    }
 }

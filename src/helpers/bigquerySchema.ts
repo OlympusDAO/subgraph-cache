@@ -3,9 +3,31 @@ import $RefParser = require("@apidevtools/json-schema-ref-parser");
 // @ts-ignore
 import * as jsonSchemaBigQuery from "jsonschema-bigquery";
 
-export const getBigQuerySchema = (schema: $RefParser.JSONSchema): string => {
+const setTypeOverrides = (fields: any[], typeOverrides: Record<string, string>): void => {
+  fields.forEach((fieldDefinition: { fields: any[]; name: string; type: string }) => {
+    if (fieldDefinition.type == "RECORD") {
+      setTypeOverrides(fieldDefinition.fields, typeOverrides);
+      return;
+    }
+
+    const overridedType = typeOverrides[fieldDefinition.name];
+    if (!overridedType) return;
+
+    fieldDefinition.type = overridedType;
+  });
+};
+
+export const getBigQuerySchema = (schema: $RefParser.JSONSchema, typeOverrides?: Record<string, string>): string => {
+  console.log(`Converting schema to BigQuery format`);
   // Convert to BigQuery schema: https://github.com/thedumbterminal/jsonschema-bigquery
   const bigQuerySchema = jsonSchemaBigQuery.run(schema);
+  const schemaFields = bigQuerySchema.schema.fields;
 
-  return JSON.stringify(bigQuerySchema.schema.fields, null, 2);
+  if (typeOverrides) {
+    console.log(`Passed type overrides: ${JSON.stringify(typeOverrides)}`);
+
+    setTypeOverrides(schemaFields, typeOverrides);
+  }
+
+  return JSON.stringify(schemaFields, null, 2);
 };

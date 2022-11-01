@@ -11,7 +11,7 @@
   },
   {
     "name": "balance",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
   {
@@ -46,7 +46,7 @@
       },
       {
         "name": "balance",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "mode": "NULLABLE"
       },
       {
@@ -90,7 +90,7 @@
   },
   {
     "name": "previousBalance",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
   {
@@ -110,7 +110,7 @@
   },
   {
     "name": "value",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   }
 ]

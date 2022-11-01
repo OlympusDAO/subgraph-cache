@@ -16,7 +16,7 @@
   },
   {
     "name": "currentAPY",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
   {
@@ -31,37 +31,37 @@
   },
   {
     "name": "gOhmPrice",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
   {
     "name": "gOhmTotalSupply",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
   {
     "name": "nextDistributedOhm",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
   {
     "name": "nextEpochRebase",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
   {
     "name": "ohmPrice",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
   {
     "name": "ohmTotalSupply",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
   {
     "name": "sOhmCirculatingSupply",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
   {
@@ -71,7 +71,7 @@
   },
   {
     "name": "totalValueLocked",
-    "type": "NUMERIC",
+    "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   }
 ]

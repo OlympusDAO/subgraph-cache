@@ -39,6 +39,7 @@ export const generateSchema = (url: string): GraphQLSchema => {
 };
 
 export const generateTypes = async (url: string, filename: string): Promise<void> => {
+  console.log(`Generating Typescript types for subgraph at ${url}`);
   const schema = generateSchema(url);
   const codegenConfig = {
     documents: [],

@@ -14,7 +14,7 @@ const writeSchema = async (configFilePath: string): Promise<void> => {
   const schema = await generateJSONSchema(config.object, typesFilepath);
   writeFile(`${GENERATED_DIR}/${config.object}.jsonschema`, JSON.stringify(schema, null, 2));
 
-  const bqSchema = await getBigQuerySchema(schema);
+  const bqSchema = await getBigQuerySchema(schema, config.typeOverrides);
   writeFile(`${GENERATED_DIR}/${config.object}_schema.json`, bqSchema);
 };
 
