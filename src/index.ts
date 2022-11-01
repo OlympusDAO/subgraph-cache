@@ -1,6 +1,7 @@
 import { createClient } from "@urql/core";
 import fetch from "cross-fetch";
 
+import { getBigQuerySchema } from "./helpers/bigquerySchema";
 import { generateJSONSchema } from "./helpers/subgraphSchema";
 
 const SUBGRAPH_URL = "https://api.studio.thegraph.com/query/28103/token-holders/0.0.40";
@@ -33,11 +34,11 @@ export const handler = async (
     fetch,
   });
 
-  generateJSONSchema(SUBGRAPH_URL, "TokenHolderTransaction", "./src/graphql/generated.ts");
+  const schema = await generateJSONSchema(SUBGRAPH_URL, "TokenHolderTransaction", "./src/graphql/generated.ts");
 
   // console.log(`query = ${generateQuery(SUBGRAPH_URL, "TokenHolderTransaction")}`);
 
-  // getBigQuerySchema("./src/graphql/generated.ts");
+  console.log(`bq = ${await getBigQuerySchema(schema)}`);
 
   return;
 
