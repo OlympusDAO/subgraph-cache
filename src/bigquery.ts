@@ -1,16 +1,20 @@
+import { SubgraphConfig } from "./constants";
 import { getBigQuerySchema } from "./helpers/bigquerySchema";
 import { writeFile } from "./helpers/fs";
 import { generateJSONSchema } from "./helpers/jsonSchema";
+import { getSubgraphConfig } from "./helpers/subgraphConfig";
 import { generateTypes } from "./helpers/subgraphSchema";
 
-const writeBigQuerySchema = async (object: string): Promise<void> => {
-  const typesFilepath = `./tmp/${object}_types.ts`;
-  await generateTypes("https://api.studio.thegraph.com/query/28103/token-holders/0.0.40/", typesFilepath);
+const writeBigQuerySchema = async (configFilePath: string): Promise<void> => {
+  const config: SubgraphConfig = getSubgraphConfig(configFilePath);
 
-  const schema = await generateJSONSchema(object, typesFilepath);
+  const typesFilepath = `./tmp/${config.object}_types.ts`;
+  await generateTypes(config.url, typesFilepath);
+
+  const schema = await generateJSONSchema(config.object, typesFilepath);
 
   const bqSchema = await getBigQuerySchema(schema);
-  writeFile(`./tmp/${object}_schema.json`, bqSchema);
+  writeFile(`./tmp/${config.object}_schema.json`, bqSchema);
 };
 
 // Runs via CLI

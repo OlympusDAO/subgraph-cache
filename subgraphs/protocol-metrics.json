@@ -1,0 +1,5 @@
+{
+    "url": "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics",
+    "object": "ProtocolMetric",
+    "dateField": "date"
+}
