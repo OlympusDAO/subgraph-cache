@@ -1,6 +1,7 @@
 import { createClient } from "@urql/core";
 import fetch from "cross-fetch";
 
+import { getBigQuerySchema } from "./helpers/bigquerySchema";
 import { generateQuery } from "./helpers/subgraphSchema";
 
 const SUBGRAPH_URL = "https://api.studio.thegraph.com/query/28103/token-holders/0.0.40";
@@ -34,6 +35,9 @@ export const handler = async (
   });
 
   console.log(`query = ${generateQuery(SUBGRAPH_URL, "TokenHolderTransaction")}`);
+
+  getBigQuerySchema("./src/graphql/generated.ts");
+
   return;
 
   // // Get the earliest date in the subgraph

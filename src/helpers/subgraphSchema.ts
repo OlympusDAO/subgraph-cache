@@ -14,8 +14,18 @@ import {
 
 import { toLowerCaseFirstCharacter } from "./string";
 
-// https://www.apollographql.com/blog/backend/schema-design/three-ways-to-represent-your-graphql-schema/
+// export const generateTypes = (url: string):
 
+/**
+ * Generates a GraphQLSchema object from the subgraph URL.
+ *
+ * It was difficult to understand how to convert between the different formats
+ * (introspection results, GraphQLSchema, SDL), and this post was useful:
+ * https://www.apollographql.com/blog/backend/schema-design/three-ways-to-represent-your-graphql-schema/
+ *
+ * @param url subgraph URL
+ * @returns GraphQLSchema object
+ */
 const generateSchema = (url: string): GraphQLSchema => {
   const schema = loadSchemaSync(url, {
     loaders: [new UrlLoader()],
@@ -65,7 +75,6 @@ const hasField = (type: GraphQLObjectType, field: string): boolean => {
  * @returns
  */
 const generateQueryFields = (url: string, type: string, fieldName?: string): string => {
-  console.log(`url = ${url}, type = ${type}, field = ${fieldName}`);
   const SCALAR_TYPES: string[] = ["String", "BigDecimal", "BigInt", "Bytes", "ID"];
 
   const objectType = getTypeFromSchema(url, type);

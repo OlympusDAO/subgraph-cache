@@ -13,7 +13,7 @@ export type Scalars = {
   Float: number;
   BigDecimal: number;
   BigInt: number;
-  Bytes: Uint8Array;
+  Bytes: string;
 };
 
 export type BlockChangedFilter = {
@@ -521,7 +521,7 @@ export type TransactionsQuery = {
     date: string;
     previousBalance: number;
     timestamp: string;
-    transaction: Uint8Array;
+    transaction: string;
     transactionLogIndex: number;
     type: TransactionType;
     value: number;
@@ -529,8 +529,8 @@ export type TransactionsQuery = {
       __typename?: "TokenHolder";
       id: string;
       balance: number;
-      holder: Uint8Array;
-      token: { __typename?: "Token"; address: Uint8Array; blockchain: string; id: string; name: string };
+      holder: string;
+      token: { __typename?: "Token"; address: string; blockchain: string; id: string; name: string };
     };
   }>;
 };
