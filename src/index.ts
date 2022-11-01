@@ -1,14 +1,18 @@
 import { createClient } from "@urql/core";
 import fetch from "cross-fetch";
+import { readFileSync } from "fs";
 
-import { getISO8601DateString } from "./helpers/date";
+import { GENERATED_DIR, SUBGRAPH_DIR } from "./constants";
+import { addDays, getISO8601DateString } from "./helpers/date";
 import { getLatestFinishDate, sendPubSubMessage } from "./helpers/pubsub";
-import { getFinalDate, getRecords, getRecordsFetchStartDate } from "./records";
-import { getEarliestTransactionDateStart } from "./subgraph";
-
-const SUBGRAPH_URL = "https://api.studio.thegraph.com/query/28103/token-holders/0.0.40";
+import { getRecords, getRecordsFetchStartDate } from "./records";
+import { getEarliestTransactionDate, getLatestTransactionDate } from "./subgraph";
 
 export const handler = async (
+  subgraphUrl: string,
+  subgraphObject: string,
+  subgraphDateField: string,
+  jsonSchemaString: string,
   storagePrefix: string,
   bucketName: string,
   pubSubTopic: string,
@@ -30,16 +34,24 @@ export const handler = async (
     return false;
   };
 
+  const jsonSchema = JSON.parse(jsonSchemaString);
+
   console.log(`Bucket name: ${bucketName}`);
   const client = createClient({
-    url: SUBGRAPH_URL,
+    url: subgraphUrl,
     fetch,
   });
 
   // Get the earliest date in the subgraph
-  const subgraphEarliestDate: Date = await getEarliestTransactionDateStart(client);
+  const subgraphEarliestDate: Date = addDays(
+    await getEarliestTransactionDate(client, jsonSchema, subgraphObject, subgraphDateField),
+    0,
+    true,
+  ); // Start of the same day
   // Final date in the subgraph
-  const subgraphFinalDate: Date = finalDateOverride ? new Date(finalDateOverride) : await getFinalDate(client);
+  const subgraphFinalDate: Date = finalDateOverride
+    ? new Date(finalDateOverride)
+    : addDays(await getLatestTransactionDate(client, jsonSchema, subgraphObject, subgraphDateField), 1, true); // Midnight of the next day
   // Date up to which records have been cached
   const recordsFetchedUpToDate: Date | null = await getRecordsFetchStartDate(storagePrefix, bucketName);
 
@@ -75,6 +87,9 @@ export const handler = async (
   // Get and write records
   const fetchedUpTo: Date = await getRecords(
     client,
+    jsonSchema,
+    subgraphObject,
+    subgraphDateField,
     storagePrefix,
     bucketName,
     startDate,
@@ -90,11 +105,18 @@ export const handler = async (
 
 // Run locally using `yarn execute`. Inputs may need to be changed if re-deployments occur.
 if (require.main === module) {
+  const subgraphConfig = JSON.parse(readFileSync(`${SUBGRAPH_DIR}/token-holder-transactions.json`).toString("utf-8"));
+  const jsonSchemaString = readFileSync(`${GENERATED_DIR}/${subgraphConfig.object}.jsonschema`).toString("utf-8");
+
   handler(
-    "token-holders-transactions",
+    subgraphConfig.url,
+    subgraphConfig.object,
+    subgraphConfig.dateField,
+    jsonSchemaString,
+    subgraphConfig.object,
     "olympusdao-subgraph-cache-dev-47c613e",
-    "token-holders-transactions-dev-1b8d6c3",
+    `${subgraphConfig.object}-dev-1b8d6c3`,
     60,
-    "projects/utility-descent-365911/subscriptions/token-holders-transactions-dev-a036652",
+    `projects/utility-descent-365911/subscriptions/${subgraphConfig.object}-dev-a036652`,
   );
 }

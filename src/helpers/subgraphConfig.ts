@@ -1,7 +1,7 @@
 import { assert } from "console";
-import { readFileSync } from "fs";
+import { readdirSync, readFileSync } from "fs";
 
-import { SubgraphConfig } from "../constants";
+import { SUBGRAPH_DIR, SubgraphConfig } from "../constants";
 
 export const getSubgraphConfig = (filepath: string): SubgraphConfig => {
   const jsonObject = JSON.parse(readFileSync(filepath).toString("utf-8")) as SubgraphConfig;
@@ -10,4 +10,10 @@ export const getSubgraphConfig = (filepath: string): SubgraphConfig => {
   assert(jsonObject.url, "url must be set");
   assert(jsonObject.object, "object must be set");
   return jsonObject;
+};
+
+export const getSubgraphConfigFiles = (): string[] => {
+  return readdirSync(SUBGRAPH_DIR, { withFileTypes: true })
+    .filter(file => file.isFile() && file.name.includes(".json"))
+    .map(file => `${SUBGRAPH_DIR}/${file.name}`);
 };

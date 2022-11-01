@@ -12,7 +12,7 @@ import { toLowerCaseFirstCharacter } from "./string";
  * @param fieldName for referenced entities, the type is different to the field name, so it is specified here
  * @returns
  */
-const generateQueryFields = (schema: $RefParser.JSONSchema, type: string, fieldName: string): string => {
+const generateQueryFields = (schema: $RefParser.JSONSchema, fieldName: string, skipFieldName: boolean): string => {
   const SCALAR_TYPES: string[] = ["string", "number"];
 
   if (schema.type == "object") {
@@ -28,16 +28,14 @@ const generateQueryFields = (schema: $RefParser.JSONSchema, type: string, fieldN
      *   subFieldName2
      * }
      */
-    let objectQuery = `${fieldName} {\n`;
+    let objectQuery = `${skipFieldName ? "" : fieldName} {\n`;
 
     objectQuery += Object.entries(schema.properties).reduce((previousString, [fieldName, fieldDefinition]) => {
       if (fieldName == "__typename") return previousString;
 
       // If a scalar type, append the field name to the previous value, otherwise recurse
       const isScalar = SCALAR_TYPES.includes(fieldDefinition.type);
-      return `${previousString}${
-        isScalar ? fieldName : generateQueryFields(fieldDefinition, fieldDefinition.type, fieldName)
-      }\n`;
+      return `${previousString}${isScalar ? fieldName : generateQueryFields(fieldDefinition, fieldName, false)}\n`;
     }, "");
 
     objectQuery += `}`;
@@ -46,6 +44,10 @@ const generateQueryFields = (schema: $RefParser.JSONSchema, type: string, fieldN
 
   // Otherwise just return the field name
   return `${fieldName}\n`;
+};
+
+export const getObjectQueryName = (object: string): string => {
+  return toLowerCaseFirstCharacter(object) + "s";
 };
 
 /**
@@ -57,9 +59,33 @@ const generateQueryFields = (schema: $RefParser.JSONSchema, type: string, fieldN
  * @returns SDL query represented as a string
  * @throws if the entity cannot be found
  */
-export const generateQuery = (schema: $RefParser.JSONSchema, type: string): string => {
+export const generateQuery = (
+  schema: $RefParser.JSONSchema,
+  type: string,
+  recordCount: number,
+  skip: number,
+  dateField: string,
+  orderDirection: "asc" | "desc",
+  date_gte?: string,
+  date_lt?: string,
+): string => {
+  const objectName = getObjectQueryName(type);
+
   const query = `query {
-    ${generateQueryFields(schema, type, toLowerCaseFirstCharacter(type) + "s")}
+    ${objectName}(
+      first: ${recordCount}
+      skip: ${skip}
+      orderBy: ${dateField}
+      orderDirection: ${orderDirection}
+      ${
+        date_gte || date_lt
+          ? `where: {
+          ${date_gte ? `${dateField}_gte: "${date_gte}" ` : ""}
+          ${date_lt ? `${dateField}_lt: "${date_lt}" ` : ""}
+        }`
+          : ""
+      }
+    ) ${generateQueryFields(schema, objectName, true)}
   }`;
   return query;
 };

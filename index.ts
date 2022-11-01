@@ -1,8 +1,9 @@
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
-import { readdirSync, readFileSync } from "fs";
+import { readFileSync } from "fs";
 
-import { getSubgraphConfig } from "./src/helpers/subgraphConfig";
+import { GENERATED_DIR } from "./src/constants";
+import { getSubgraphConfig, getSubgraphConfigFiles } from "./src/helpers/subgraphConfig";
 import { handler } from "./src/index";
 
 const BUCKET_NAME_PREFIX = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
@@ -32,13 +33,8 @@ const bigQueryDataset = new gcp.bigquery.Dataset(BUCKET_NAME_PREFIX, {
 
 export const bigQueryDatasetId = bigQueryDataset.datasetId;
 
-// Get the configuration files
-const SUBGRAPH_DIR = "./subgraphs";
-const configFiles: string[] = readdirSync(SUBGRAPH_DIR, { withFileTypes: true })
-  .filter(file => file.isFile() && file.name.includes(".json"))
-  .map(file => `${SUBGRAPH_DIR}/${file.name}`);
-
 // Iterate over each config file and publish the required resources
+const configFiles: string[] = getSubgraphConfigFiles();
 configFiles.forEach(configFile => {
   const subgraphConfig = getSubgraphConfig(configFile);
   const FUNCTION_PREFIX = subgraphConfig.object;
@@ -68,6 +64,9 @@ configFiles.forEach(configFile => {
 
   module.exports[`${FUNCTION_PREFIX}-pubSubSubscriptionName`] = pubSubSubscription.name;
 
+  // Grab the JSON schema
+  const jsonSchemaString = readFileSync(`${GENERATED_DIR}/${subgraphConfig.object}.jsonschema`).toString("utf-8");
+
   /**
    * Execution: Google Cloud Functions
    */
@@ -80,6 +79,10 @@ configFiles.forEach(configFile => {
     callback: async (req, res) => {
       console.log("Received callback. Initiating handler.");
       await handler(
+        subgraphConfig.url,
+        subgraphConfig.object,
+        subgraphConfig.dateField,
+        jsonSchemaString,
         FUNCTION_PREFIX,
         storageBucketName.get(),
         pubSubTopic.name.get(),
@@ -128,7 +131,7 @@ configFiles.forEach(configFile => {
   const sourceUri = storageBucketUrl.apply(url => `${url}/${FUNCTION_PREFIX}/*`);
 
   // For the moment, we generate a BigQuery schema file and store it locally
-  const bigQuerySchemaJson = readFileSync(`./tmp/${subgraphConfig.object}_schema.json`).toString("utf-8");
+  const bigQuerySchemaJson = readFileSync(`${GENERATED_DIR}/${subgraphConfig.object}_schema.json`).toString("utf-8");
 
   const bigQueryTable = new gcp.bigquery.Table(
     FUNCTION_PREFIX,

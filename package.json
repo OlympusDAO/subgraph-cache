@@ -3,8 +3,7 @@
     "main": "index.ts",
     "scripts": {
         "test": "jest",
-        "codegen": "graphql-codegen",
-        "codegen:bq": "ts-node src/bigquery.ts",
+        "codegen": "ts-node src/codegen.ts",
         "execute": "ts-node src/index.ts",
         "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
         "lint:fix": "prettier --write ./src/ & yarn lint --fix"

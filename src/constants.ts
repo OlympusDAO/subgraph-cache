@@ -7,3 +7,6 @@ export type SubgraphConfig = {
   object: string;
   dateField: string;
 };
+
+export const SUBGRAPH_DIR = "./subgraphs";
+export const GENERATED_DIR = "./generated";
