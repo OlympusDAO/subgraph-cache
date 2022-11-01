@@ -1,3 +1,5 @@
+import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { dirname } from "path";
 import path = require("path");
 
 export const extractPartitionKey = (filePath: string): string => {
@@ -7,4 +9,12 @@ export const extractPartitionKey = (filePath: string): string => {
 
   // Split into ["token-balances/dt=", "2021-01-01"]
   return directoryPath.split("dt=")[1];
+};
+
+export const writeFile = (filePath: string, content: string): void => {
+  if (!existsSync(dirname(filePath))) {
+    mkdirSync(dirname(filePath));
+  }
+
+  writeFileSync(filePath, content);
 };

@@ -1,9 +1,10 @@
 import { createClient } from "@urql/core";
 import fetch from "cross-fetch";
 
-import { getBigQuerySchema } from "./helpers/bigquerySchema";
-import { generateJSONSchema } from "./helpers/jsonSchema";
-import { generateQuery } from "./helpers/subgraphQuery";
+import { getISO8601DateString } from "./helpers/date";
+import { getLatestFinishDate, sendPubSubMessage } from "./helpers/pubsub";
+import { getFinalDate, getRecords, getRecordsFetchStartDate } from "./records";
+import { getEarliestTransactionDateStart } from "./subgraph";
 
 const SUBGRAPH_URL = "https://api.studio.thegraph.com/query/28103/token-holders/0.0.40";
 
@@ -35,64 +36,56 @@ export const handler = async (
     fetch,
   });
 
-  const schema = await generateJSONSchema("TokenHolderTransaction", "./src/graphql/generated.ts");
+  // Get the earliest date in the subgraph
+  const subgraphEarliestDate: Date = await getEarliestTransactionDateStart(client);
+  // Final date in the subgraph
+  const subgraphFinalDate: Date = finalDateOverride ? new Date(finalDateOverride) : await getFinalDate(client);
+  // Date up to which records have been cached
+  const recordsFetchedUpToDate: Date | null = await getRecordsFetchStartDate(storagePrefix, bucketName);
 
-  console.log(`query = ${generateQuery(schema, "TokenHolderTransaction")}`);
+  const getFetchStartDate = async (): Promise<Date> => {
+    // Check for PubSub messages
+    const pubSubFinishDate: Date | null = await getLatestFinishDate(pubSubSubscriptionId);
 
-  console.log(`bq = ${await getBigQuerySchema(schema)}`);
+    // If there is a finishDate in the PubSub messages, then we proceed from there
+    // This is because there may have been a refresh of records
+    if (pubSubFinishDate) {
+      console.log(
+        `getFetchStartDate: Using finish date from PubSub message queue: ${getISO8601DateString(pubSubFinishDate)}`,
+      );
+      return pubSubFinishDate;
+    }
 
-  return;
+    // If records exist, continue from where we left off
+    if (recordsFetchedUpToDate) {
+      console.log(
+        `getFetchStartDate: Using latest cached records date: ${getISO8601DateString(recordsFetchedUpToDate)}`,
+      );
+      return recordsFetchedUpToDate;
+    }
 
-  // // Get the earliest date in the subgraph
-  // const subgraphEarliestDate: Date = await getEarliestTransactionDateStart(client);
-  // // Final date in the subgraph
-  // const subgraphFinalDate: Date = finalDateOverride ? new Date(finalDateOverride) : await getFinalDate(client);
-  // // Date up to which records have been cached
-  // const recordsFetchedUpToDate: Date | null = await getRecordsFetchStartDate(storagePrefix, bucketName);
+    // Otherwise proceed from the start of the subgraph
+    console.log(`getFetchStartDate: Using subgraph start date: ${getISO8601DateString(subgraphEarliestDate)}`);
+    return subgraphEarliestDate;
+  };
 
-  // const getFetchStartDate = async (): Promise<Date> => {
-  //   // Check for PubSub messages
-  //   const pubSubFinishDate: Date | null = await getLatestFinishDate(pubSubSubscriptionId);
+  const startDate = await getFetchStartDate();
+  console.log(`Transactions will be fetched from ${startDate.toISOString()}`);
 
-  //   // If there is a finishDate in the PubSub messages, then we proceed from there
-  //   // This is because there may have been a refresh of records
-  //   if (pubSubFinishDate) {
-  //     console.log(
-  //       `getFetchStartDate: Using finish date from PubSub message queue: ${getISO8601DateString(pubSubFinishDate)}`,
-  //     );
-  //     return pubSubFinishDate;
-  //   }
+  // Get and write records
+  const fetchedUpTo: Date = await getRecords(
+    client,
+    storagePrefix,
+    bucketName,
+    startDate,
+    subgraphFinalDate,
+    shouldTerminate,
+  );
 
-  //   // If records exist, continue from where we left off
-  //   if (recordsFetchedUpToDate) {
-  //     console.log(
-  //       `getFetchStartDate: Using latest cached records date: ${getISO8601DateString(recordsFetchedUpToDate)}`,
-  //     );
-  //     return recordsFetchedUpToDate;
-  //   }
-
-  //   // Otherwise proceed from the start of the subgraph
-  //   console.log(`getFetchStartDate: Using subgraph start date: ${getISO8601DateString(subgraphEarliestDate)}`);
-  //   return subgraphEarliestDate;
-  // };
-
-  // const startDate = await getFetchStartDate();
-  // console.log(`Transactions will be fetched from ${startDate.toISOString()}`);
-
-  // // Get and write records
-  // const fetchedUpTo: Date = await getRecords(
-  //   client,
-  //   storagePrefix,
-  //   bucketName,
-  //   startDate,
-  //   subgraphFinalDate,
-  //   shouldTerminate,
-  // );
-
-  // /**
-  //  * Publish the start and finish dates for what was fetched.
-  //  */
-  // await sendPubSubMessage(pubSubTopic, startDate, fetchedUpTo);
+  /**
+   * Publish the start and finish dates for what was fetched.
+   */
+  await sendPubSubMessage(pubSubTopic, startDate, fetchedUpTo);
 };
 
 // Run locally using `yarn execute`. Inputs may need to be changed if re-deployments occur.
