@@ -11,10 +11,6 @@ import {
   isEnumType,
   isObjectType,
 } from "graphql";
-import $RefParser = require("@apidevtools/json-schema-ref-parser");
-import { writeFileSync } from "fs";
-import { resolve } from "path";
-import * as TJS from "typescript-json-schema";
 
 import { toLowerCaseFirstCharacter } from "./string";
 
@@ -40,25 +36,6 @@ const generateSchema = (url: string): GraphQLSchema => {
 
   const introspectionData = introspection.data as unknown as IntrospectionQuery;
   return buildClientSchema(introspectionData);
-};
-
-export const generateJSONSchema = async (
-  url: string,
-  type: string,
-  typesFilename: string,
-): Promise<$RefParser.JSONSchema> => {
-  // Convert to JSONSchema
-  const jsonSchemaProgram = TJS.getProgramFromFiles([resolve(typesFilename)], {
-    strictNullChecks: true,
-  });
-  const jsonSchema = TJS.generateSchema(jsonSchemaProgram, type);
-  const schemaFile = "./tmp/schema.jsonschema";
-  writeFileSync(schemaFile, JSON.stringify(jsonSchema, null, 2));
-
-  // We need to de-reference types in the JSONSchema
-  const derefSchema = await $RefParser.dereference(schemaFile);
-  console.log(`new schema = ${JSON.stringify(derefSchema, null, 2)}`);
-  return derefSchema;
 };
 
 const getTypeFromSchema = (url: string, type: string): GraphQLObjectType | GraphQLEnumType => {
