@@ -3,7 +3,7 @@ import $RefParser = require("@apidevtools/json-schema-ref-parser");
 // @ts-ignore
 import * as jsonSchemaBigQuery from "jsonschema-bigquery";
 
-export const getBigQuerySchema = async (schema: $RefParser.JSONSchema): Promise<string> => {
+export const getBigQuerySchema = (schema: $RefParser.JSONSchema): string => {
   // Convert to BigQuery schema: https://github.com/thedumbterminal/jsonschema-bigquery
   const bigQuerySchema = jsonSchemaBigQuery.run(schema);
 
