@@ -1,7 +1,6 @@
 import { File } from "@google-cloud/storage";
 import JSONL from "jsonl-parse-stringify";
 
-import { TokenHolderTransaction } from "../graphql/generated";
 import { fileExists, getFile, listFiles, putFile } from "./bucket";
 import { getISO8601DateString } from "./date";
 import { extractPartitionKey } from "./fs";
@@ -31,18 +30,14 @@ const getRecordsFilePath = (storagePrefix: string, date: Date): string => {
  * @param date
  * @returns
  */
-export const readRecords = async (
-  storagePrefix: string,
-  bucketName: string,
-  date: Date,
-): Promise<TokenHolderTransaction[]> => {
+export const readRecords = async (storagePrefix: string, bucketName: string, date: Date): Promise<any[]> => {
   const filePath = getRecordsFilePath(storagePrefix, date);
   const file: File = await getFile(bucketName, filePath);
   if (!(await file.exists())[0]) {
     return [];
   }
 
-  return JSONL.parse((await file.download())[0].toString("utf-8")) as TokenHolderTransaction[];
+  return JSONL.parse((await file.download())[0].toString("utf-8")) as any[];
 };
 
 /**
@@ -55,7 +50,7 @@ export const readRecords = async (
 export const writeRecords = async (
   storagePrefix: string,
   bucketName: string,
-  records: TokenHolderTransaction[],
+  records: any[],
   date: Date,
 ): Promise<void> => {
   const fileName = getRecordsFilePath(storagePrefix, date);

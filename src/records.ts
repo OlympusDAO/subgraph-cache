@@ -2,7 +2,6 @@ import { Client } from "@urql/core";
 import $RefParser = require("@apidevtools/json-schema-ref-parser");
 
 import { IShouldTerminate } from "./constants";
-import { TokenHolderTransaction } from "./graphql/generated";
 import { addDays } from "./helpers/date";
 import { getLatestRecordsDate, writeRecords } from "./helpers/recordFs";
 import { getGraphQLRecords } from "./subgraph";
@@ -41,7 +40,7 @@ export const getRecords = async (
 
   // We loop over each day, fetch records and write those to disk
   while (currentDate < finalDate) {
-    const records: TokenHolderTransaction[] = await getGraphQLRecords(client, schema, object, dateField, currentDate);
+    const records: any[] = await getGraphQLRecords(client, schema, object, dateField, currentDate);
 
     // Write to file
     await writeRecords(storagePrefix, bucketName, records, currentDate);

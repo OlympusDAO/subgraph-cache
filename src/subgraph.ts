@@ -1,7 +1,6 @@
 import { Client } from "@urql/core";
 import $RefParser = require("@apidevtools/json-schema-ref-parser");
 
-import { TokenHolderTransaction } from "./graphql/generated";
 import { getISO8601DateString } from "./helpers/date";
 import { generateQuery, getObjectQueryName } from "./helpers/subgraphQuery";
 
@@ -46,7 +45,8 @@ const fetchGraphQLRecords = async (
     );
   }
 
-  const records = queryResults.data.tokenHolderTransactions as TokenHolderTransaction[];
+  const normalisedObjectName = getObjectQueryName(object);
+  const records = queryResults.data[normalisedObjectName] as any[];
   console.debug(`Received ${records.length} records`);
   // If we haven't hit the page limit...
   if (records.length < RECORD_COUNT) {
