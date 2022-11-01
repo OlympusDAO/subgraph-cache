@@ -48,3 +48,9 @@ This results in a small message being sent into the alerts channel.
 
 - Generalise to support caching of _any_ subgraph by specifying a query in a configuration file
 - Dynamically generate the BigQuery schema for each table using `graphql-codegen`, an introspection GraphQL query or the Typescript types. A few attempts were made to implement this, but they were abandoned.
+
+## Subgraph Configuration
+
+Add file in subgraphs/, against type
+Run `yarn codegen:bq`
+Run `pulumi up`
