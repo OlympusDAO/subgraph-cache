@@ -1,0 +1,54 @@
+{
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "enum": [
+        "ProtocolMetric"
+      ],
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "block": {
+      "type": "number"
+    },
+    "currentAPY": {
+      "type": "number"
+    },
+    "currentIndex": {
+      "type": "number"
+    },
+    "date": {
+      "type": "string"
+    },
+    "gOhmPrice": {
+      "type": "number"
+    },
+    "gOhmTotalSupply": {
+      "type": "number"
+    },
+    "nextDistributedOhm": {
+      "type": "number"
+    },
+    "nextEpochRebase": {
+      "type": "number"
+    },
+    "ohmPrice": {
+      "type": "number"
+    },
+    "ohmTotalSupply": {
+      "type": "number"
+    },
+    "sOhmCirculatingSupply": {
+      "type": "number"
+    },
+    "timestamp": {
+      "type": "number"
+    },
+    "totalValueLocked": {
+      "type": "number"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

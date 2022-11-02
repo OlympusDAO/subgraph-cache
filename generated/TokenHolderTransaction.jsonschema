@@ -1,0 +1,100 @@
+{
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "enum": [
+        "TokenHolderTransaction"
+      ],
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "balance": {
+      "type": "number"
+    },
+    "block": {
+      "type": "number"
+    },
+    "date": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "BURN",
+        "MINT",
+        "TRANSFER"
+      ],
+      "type": "string"
+    },
+    "holder": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "enum": [
+            "TokenHolder"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "balance": {
+          "type": "number"
+        },
+        "holder": {
+          "type": "string"
+        },
+        "token": {
+          "type": "object",
+          "properties": {
+            "__typename": {
+              "enum": [
+                "Token"
+              ],
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            },
+            "blockchain": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "previousBalance": {
+      "type": "number"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "transaction": {
+      "type": "string"
+    },
+    "transactionLogIndex": {
+      "type": "number"
+    },
+    "value": {
+      "type": "number"
+    }
+  },
+  "definitions": {
+    "TransactionType": {
+      "enum": [
+        "BURN",
+        "MINT",
+        "TRANSFER"
+      ],
+      "type": "string"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
