@@ -5,6 +5,7 @@
     "typeOverrides": {
         "balance": "BIGNUMERIC",
         "previousBalance": "BIGNUMERIC",
-        "value": "BIGNUMERIC"
+        "value": "BIGNUMERIC",
+        "date": "TIMESTAMP"
     }
 }

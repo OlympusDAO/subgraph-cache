@@ -11,6 +11,7 @@
         "ohmPrice": "BIGNUMERIC",
         "ohmTotalSupply": "BIGNUMERIC",
         "sOhmCirculatingSupply": "BIGNUMERIC",
-        "totalValueLocked": "BIGNUMERIC"
+        "totalValueLocked": "BIGNUMERIC",
+        "date": "DATE"
     }
 }
