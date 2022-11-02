@@ -63,7 +63,7 @@ export const generateQuery = (
   schema: $RefParser.JSONSchema,
   type: string,
   recordCount: number,
-  skip: number,
+  page: number,
   dateField: string,
   orderDirection: "asc" | "desc",
   date_gte?: string,
@@ -74,7 +74,7 @@ export const generateQuery = (
   const query = `query {
     ${objectName}(
       first: ${recordCount}
-      skip: ${skip}
+      skip: ${page * recordCount}
       orderBy: ${dateField}
       orderDirection: ${orderDirection}
       ${
