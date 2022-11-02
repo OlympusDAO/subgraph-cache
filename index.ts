@@ -98,6 +98,7 @@ configFiles.forEach(configFile => {
 
   module.exports[`${FUNCTION_PREFIX}-functionUrl`] = tokenHolderFunction.httpsTriggerUrl;
   module.exports[`${FUNCTION_PREFIX}-functionName`] = tokenHolderFunction.function.name;
+  module.exports[`${FUNCTION_PREFIX}-bucketPrefix`] = subgraphConfig.object;
 
   /**
    * Scheduling: Cloud Scheduler
