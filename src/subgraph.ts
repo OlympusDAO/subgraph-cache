@@ -41,7 +41,9 @@ const fetchGraphQLRecords = async (
   // TODO it sometimes receives no records, even though they exist
   if (!queryResults.data) {
     throw new Error(
-      `Did not receive results from GraphQL query for page ${page}, start date ${startDate.toISOString()}, finish date ${finishDate.toISOString()}`,
+      `Did not receive results from GraphQL query for page ${page}, start date ${startDate.toISOString()}, finish date ${finishDate.toISOString()}. Error: ${
+        queryResults.error
+      }`,
     );
   }
 
