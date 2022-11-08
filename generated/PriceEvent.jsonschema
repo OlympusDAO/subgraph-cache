@@ -1,0 +1,95 @@
+{
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "enum": [
+        "PriceEvent"
+      ],
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "blockchain": {
+      "type": "string"
+    },
+    "block": {
+      "type": "number"
+    },
+    "transaction": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "CushionDown",
+        "CushionUp",
+        "WallDown",
+        "WallUp"
+      ],
+      "type": "string"
+    },
+    "isHigh": {
+      "type": "boolean"
+    },
+    "timestamp": {
+      "type": "number"
+    },
+    "capacityOhm": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "price": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "priceMovingAverage": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "cushionHighPrice": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "cushionLowPrice": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "wallHighPrice": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "wallLowPrice": {
+      "type": [
+        "null",
+        "number"
+      ]
+    }
+  },
+  "definitions": {
+    "PriceEventType": {
+      "enum": [
+        "CushionDown",
+        "CushionUp",
+        "WallDown",
+        "WallUp"
+      ],
+      "type": "string"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

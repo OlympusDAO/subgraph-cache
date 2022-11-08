@@ -1,0 +1,82 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "blockchain",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "block",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "transaction",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "date",
+    "type": "DATE",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "type",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "isHigh",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "timestamp",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "capacityOhm",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "price",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "priceMovingAverage",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cushionHighPrice",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cushionLowPrice",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "wallHighPrice",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "wallLowPrice",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  }
+]

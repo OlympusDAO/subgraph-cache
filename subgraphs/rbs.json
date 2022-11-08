@@ -1,0 +1,15 @@
+{
+    "url": "https://api.thegraph.com/subgraphs/name/olympusdao/rbs",
+    "object": "PriceEvent",
+    "dateField": "date",
+    "typeOverrides": {
+        "date": "DATE",
+        "capacityOhm": "BIGNUMERIC",
+        "price": "BIGNUMERIC",
+        "priceMovingAverage": "BIGNUMERIC",
+        "cushionHighPrice": "BIGNUMERIC",
+        "cushionLowPrice": "BIGNUMERIC",
+        "wallHighPrice": "BIGNUMERIC",
+        "wallLowPrice": "BIGNUMERIC"
+    }
+}
