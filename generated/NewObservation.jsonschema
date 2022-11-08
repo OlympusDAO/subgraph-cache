@@ -1,0 +1,60 @@
+{
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "enum": [
+        "NewObservation"
+      ],
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "blockchain": {
+      "type": "string"
+    },
+    "block": {
+      "type": "number"
+    },
+    "transaction": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
+    },
+    "price": {
+      "type": "number"
+    },
+    "priceMovingAverage": {
+      "type": "number"
+    },
+    "cushionHighPrice": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "cushionLowPrice": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "wallHighPrice": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "wallLowPrice": {
+      "type": [
+        "null",
+        "number"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
