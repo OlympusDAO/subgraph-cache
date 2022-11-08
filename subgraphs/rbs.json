@@ -3,7 +3,7 @@
     "object": "PriceEvent",
     "dateField": "date",
     "typeOverrides": {
-        "date": "DATE",
+        "date": "TIMESTAMP",
         "capacityOhm": "BIGNUMERIC",
         "price": "BIGNUMERIC",
         "priceMovingAverage": "BIGNUMERIC",
