@@ -45,6 +45,9 @@ This results in a small message being sent into the alerts channel.
 
 - The [token-holder-balances](https://github.com/OlympusDAO/token-holder-balances) project has details of the resources in this project hard-coded into its configuration. Those values will need to be manually updated if the resource ids change (which is rare).
 - If a new subgraph version is deployed that changes historical data (such as a new token being indexed, or a different calcultion being used), this function will not (yet) detect those changes. To force re-fetching of the transactions, delete the `token-holders-transactions` directory in the GCS bucket. Upon the next schedule, records will be fetched automatically.
+- If specifying a BigQuery type override for a date in ISO string format (e.g. `2022-10-11T10:05.001Z`), the type to specify is `TIMESTAMP` (not `DATE`).
+- After changing any of the contents of the `subgraph/*.json` files, run `yarn codegen`.
+- BigQuery does not support replacing the schema of an existing BigQuery table. If the type overrides are changed, you will need to delete the BigQuery table manually, run `pulumi refresh`, and then run `pulumi up`.
 
 ## Subgraph Configuration
 
