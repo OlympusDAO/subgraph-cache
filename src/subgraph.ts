@@ -37,18 +37,29 @@ const fetchGraphQLRecords = async (
     finishDate.toISOString(),
   );
   const queryResults = await client.query(query, {}).toPromise();
+  let data = queryResults.data;
 
-  // TODO it sometimes receives no records, even though they exist
-  if (!queryResults.data) {
-    throw new Error(
-      `Did not receive results from GraphQL query for page ${page}, start date ${startDate.toISOString()}, finish date ${finishDate.toISOString()}. Error: ${
-        queryResults.error
-      }`,
-    );
+  /**
+   * Sometimes there is no data returned. In that case, re-fetch the query
+   * and throw an error if the same issue happens again. Otherwise use the
+   * new data.
+   */
+  if (!data) {
+    const queryResultsRetry = await client.query(query, {}).toPromise();
+
+    if (!queryResultsRetry.data) {
+      throw new Error(
+        `Did not receive results from GraphQL query for page ${page}, start date ${startDate.toISOString()}, finish date ${finishDate.toISOString()}. Error: ${
+          queryResults.error
+        }`,
+      );
+    }
+
+    data = queryResultsRetry.data;
   }
 
   const normalisedObjectName = getObjectQueryName(object);
-  const records = queryResults.data[normalisedObjectName] as any[];
+  const records = data[normalisedObjectName] as any[];
   console.debug(`Received ${records.length} records`);
   // If we haven't hit the page limit...
   if (records.length < RECORD_COUNT) {
