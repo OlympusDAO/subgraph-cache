@@ -1,8 +1,11 @@
 import { Client } from "@urql/core";
 import $RefParser = require("@apidevtools/json-schema-ref-parser");
 
+import { MaximumPageError } from "./constants";
 import { getISO8601DateString } from "./helpers/date";
 import { generateQuery, getObjectQueryName } from "./helpers/subgraphQuery";
+
+const MAXIMUM_PAGE_INDEX = 5;
 
 /**
  * Fetches GraphQL records for the given range and page
@@ -12,6 +15,7 @@ import { generateQuery, getObjectQueryName } from "./helpers/subgraphQuery";
  * @param startDate
  * @param finishDate
  * @returns
+ * @throws MaximumPageError if the maximum number of pages is exceeded
  */
 const fetchGraphQLRecords = async (
   client: Client,
@@ -22,6 +26,14 @@ const fetchGraphQLRecords = async (
   startDate: Date,
   finishDate: Date,
 ): Promise<any[]> => {
+  /**
+   * The Graph Protocol has a limit on the number of pages. If this is exceed, throw an exception and
+   * let the original function handle it.
+   */
+  if (page > MAXIMUM_PAGE_INDEX) {
+    throw new MaximumPageError();
+  }
+
   console.debug(
     `Fetching records for object ${object}, date range ${startDate.toISOString()} - ${finishDate.toISOString()} and page ${page}`,
   );
@@ -37,29 +49,20 @@ const fetchGraphQLRecords = async (
     finishDate.toISOString(),
   );
   const queryResults = await client.query(query, {}).toPromise();
-  let data = queryResults.data;
 
   /**
    * Sometimes there is no data returned (this is usually due to too many queries).
-   * In that case, re-fetch the query and throw an error if the same issue happens again.
-   * Otherwise use the new data.
    */
-  if (!data) {
-    const queryResultsRetry = await client.query(query, {}).toPromise();
-
-    if (!queryResultsRetry.data) {
-      throw new Error(
-        `Did not receive results from GraphQL query for page ${page}, start date ${startDate.toISOString()}, finish date ${finishDate.toISOString()}. Error: ${
-          queryResults.error
-        }`,
-      );
-    }
-
-    data = queryResultsRetry.data;
+  if (!queryResults.data) {
+    throw new Error(
+      `Did not receive results from GraphQL query for page ${page}, start date ${startDate.toISOString()}, finish date ${finishDate.toISOString()}. Error: ${
+        queryResults.error
+      }`,
+    );
   }
 
   const normalisedObjectName = getObjectQueryName(object);
-  const records = data[normalisedObjectName] as any[];
+  const records = queryResults.data[normalisedObjectName] as any[];
   console.debug(`Received ${records.length} records`);
   // If we haven't hit the page limit...
   if (records.length < RECORD_COUNT) {
@@ -99,19 +102,50 @@ export const getGraphQLRecords = async (
   while (queryStartDate < finalDate) {
     const queryFinishDate = new Date(queryStartDate.getTime() + timeDelta);
 
-    const queryRecords = await fetchGraphQLRecords(
-      client,
-      schema,
-      object,
-      dateField,
-      0,
-      queryStartDate,
-      queryFinishDate,
-    );
-    records.push(...queryRecords);
+    try {
+      const queryRecords = await fetchGraphQLRecords(
+        client,
+        schema,
+        object,
+        dateField,
+        0,
+        queryStartDate,
+        queryFinishDate,
+      );
+      records.push(...queryRecords);
 
-    // Increment for the next loop
-    queryStartDate = queryFinishDate;
+      // Increment for the next loop
+      queryStartDate = queryFinishDate;
+    } catch (e) {
+      // If we've hit the maximum pages per loop, try a smaller time delta
+      if (e instanceof MaximumPageError) {
+        const timeDeltaSmaller = timeDelta / 4;
+        console.log(
+          `Exceeded maximum number of pages in GraphQL query with time delta of ${timeDelta} ms. Attempting with ${timeDeltaSmaller} instead.`,
+        );
+
+        // TODO there's some code duplication here, consider what to do
+        const queryFinishDateSmaller = new Date(queryStartDate.getTime() + timeDeltaSmaller);
+
+        const queryRecords = await fetchGraphQLRecords(
+          client,
+          schema,
+          object,
+          dateField,
+          0,
+          queryStartDate,
+          queryFinishDateSmaller,
+        );
+        records.push(...queryRecords);
+
+        // Increment for the next loop
+        queryStartDate = queryFinishDateSmaller;
+      }
+      // Re-throw otherwise
+      else {
+        throw e;
+      }
+    }
   }
 
   console.info(`✅ Total of ${records.length} records for date ${getISO8601DateString(date)}`);

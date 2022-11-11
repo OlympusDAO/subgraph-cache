@@ -30,3 +30,5 @@ export type SubgraphConfig = {
 
 export const SUBGRAPH_DIR = "./subgraphs";
 export const GENERATED_DIR = "./generated";
+
+export class MaximumPageError extends Error {}
