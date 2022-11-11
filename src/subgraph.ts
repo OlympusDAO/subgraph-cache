@@ -40,9 +40,9 @@ const fetchGraphQLRecords = async (
   let data = queryResults.data;
 
   /**
-   * Sometimes there is no data returned. In that case, re-fetch the query
-   * and throw an error if the same issue happens again. Otherwise use the
-   * new data.
+   * Sometimes there is no data returned (this is usually due to too many queries).
+   * In that case, re-fetch the query and throw an error if the same issue happens again.
+   * Otherwise use the new data.
    */
   if (!data) {
     const queryResultsRetry = await client.query(query, {}).toPromise();
