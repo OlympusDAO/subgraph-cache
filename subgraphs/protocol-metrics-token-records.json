@@ -1,0 +1,12 @@
+{
+    "url": "https://api.thegraph.com/subgraphs/name/olympusdao/olympus-protocol-metrics",
+    "object": "TokenRecord",
+    "dateField": "date",
+    "typeOverrides": {
+        "rate": "BIGNUMERIC",
+        "balance": "BIGNUMERIC",
+        "multiplier": "BIGNUMERIC",
+        "value": "BIGNUMERIC",
+        "valueExcludingOhm": "BIGNUMERIC"
+    }
+}
