@@ -59,9 +59,15 @@ export const handler = async (
     // Check for PubSub messages
     const pubSubFinishDate: Date | null = await getLatestFinishDate(pubSubSubscriptionId);
 
-    // If there is a finishDate in the PubSub messages, then we proceed from there
-    // This is because there may have been a refresh of records
-    if (pubSubFinishDate) {
+    /**
+     * If there is a finishDate in the PubSub messages, then we proceed from there
+     * This is because there may have been a refresh of records
+     *
+     * We skip this if:
+     * - Records have not been fetched up to the pubSubFinishDate
+     * - No records exist
+     */
+    if (pubSubFinishDate && recordsFetchedUpToDate && recordsFetchedUpToDate >= pubSubFinishDate) {
       console.log(
         `getFetchStartDate: Using finish date from PubSub message queue: ${getISO8601DateString(pubSubFinishDate)}`,
       );
@@ -81,7 +87,8 @@ export const handler = async (
     return subgraphEarliestDate;
   };
 
-  const startDate = await getFetchStartDate();
+  // Move one day prior to the start date, to catch any missing records
+  const startDate = addDays(await getFetchStartDate(), -1, true);
   console.log(`Transactions will be fetched from ${startDate.toISOString()}`);
 
   // Get and write records

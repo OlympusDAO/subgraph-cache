@@ -12,8 +12,8 @@ export const getRecordsFetchStartDate = async (storagePrefix: string, bucketName
     return null;
   }
 
-  // If a file exists, return one day earlier (in case we did not get all records from the day)
-  return addDays(latestRecordsDate, -1, true);
+  // Shift to midnight
+  return addDays(latestRecordsDate, 0, true);
 };
 
 /**
