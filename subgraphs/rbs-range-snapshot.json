@@ -1,10 +1,9 @@
 {
     "url": "https://api.thegraph.com/subgraphs/name/olympusdao/rbs",
-    "object": "NewObservation",
+    "object": "RangeSnapshot",
     "dateField": "date",
     "typeOverrides": {
         "date": "TIMESTAMP",
-        "transaction": "STRING",
         "ohmPrice": "BIGNUMERIC",
         "ohmMovingAveragePrice": "BIGNUMERIC",
         "highCapacityOhm": "BIGNUMERIC",

@@ -37,47 +37,124 @@
     "timestamp": {
       "type": "number"
     },
-    "capacityOhm": {
-      "type": [
-        "null",
-        "number"
-      ]
-    },
-    "price": {
-      "type": [
-        "null",
-        "number"
-      ]
-    },
-    "priceMovingAverage": {
-      "type": [
-        "null",
-        "number"
-      ]
-    },
-    "cushionHighPrice": {
-      "type": [
-        "null",
-        "number"
-      ]
-    },
-    "cushionLowPrice": {
-      "type": [
-        "null",
-        "number"
-      ]
-    },
-    "wallHighPrice": {
-      "type": [
-        "null",
-        "number"
-      ]
-    },
-    "wallLowPrice": {
-      "type": [
-        "null",
-        "number"
-      ]
+    "snapshot": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "enum": [
+            "RangeSnapshot"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "blockchain": {
+          "type": "string"
+        },
+        "block": {
+          "type": "number"
+        },
+        "date": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number"
+        },
+        "ohmPrice": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "ohmMovingAveragePrice": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "thresholdFactor": {
+          "type": "number"
+        },
+        "cushionSpread": {
+          "type": "number"
+        },
+        "wallSpread": {
+          "type": "number"
+        },
+        "highActive": {
+          "type": "boolean"
+        },
+        "lowActive": {
+          "type": "boolean"
+        },
+        "highLastActiveTimestamp": {
+          "type": "number"
+        },
+        "lowLastActiveTimestamp": {
+          "type": "number"
+        },
+        "highCapacityOhm": {
+          "type": "number"
+        },
+        "lowCapacityReserve": {
+          "type": "number"
+        },
+        "highCushionPrice": {
+          "type": "number"
+        },
+        "lowCushionPrice": {
+          "type": "number"
+        },
+        "highMarketId": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "lowMarketId": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "highWallPrice": {
+          "type": "number"
+        },
+        "lowWallPrice": {
+          "type": "number"
+        },
+        "treasuryReserveAddress": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "treasuryReserveBalance": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "treasuryDebtBalance": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "operatorReserveFactor": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "operatorCushionFactor": {
+          "type": [
+            "null",
+            "number"
+          ]
+        }
+      }
     }
   },
   "definitions": {

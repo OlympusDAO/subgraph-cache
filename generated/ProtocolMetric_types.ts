@@ -260,6 +260,90 @@ export enum OrderDirection {
   Desc = 'desc'
 }
 
+export type PriceSnapshot = {
+  __typename?: 'PriceSnapshot';
+  id: Scalars['ID'];
+  block: Scalars['BigInt'];
+  timestamp: Scalars['BigInt'];
+  date: Scalars['String'];
+  priceOhm: Scalars['BigDecimal'];
+  priceGOhm: Scalars['BigDecimal'];
+};
+
+export type PriceSnapshot_Filter = {
+  id?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  block?: InputMaybe<Scalars['BigInt']>;
+  block_not?: InputMaybe<Scalars['BigInt']>;
+  block_gt?: InputMaybe<Scalars['BigInt']>;
+  block_lt?: InputMaybe<Scalars['BigInt']>;
+  block_gte?: InputMaybe<Scalars['BigInt']>;
+  block_lte?: InputMaybe<Scalars['BigInt']>;
+  block_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  block_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  timestamp?: InputMaybe<Scalars['BigInt']>;
+  timestamp_not?: InputMaybe<Scalars['BigInt']>;
+  timestamp_gt?: InputMaybe<Scalars['BigInt']>;
+  timestamp_lt?: InputMaybe<Scalars['BigInt']>;
+  timestamp_gte?: InputMaybe<Scalars['BigInt']>;
+  timestamp_lte?: InputMaybe<Scalars['BigInt']>;
+  timestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  date?: InputMaybe<Scalars['String']>;
+  date_not?: InputMaybe<Scalars['String']>;
+  date_gt?: InputMaybe<Scalars['String']>;
+  date_lt?: InputMaybe<Scalars['String']>;
+  date_gte?: InputMaybe<Scalars['String']>;
+  date_lte?: InputMaybe<Scalars['String']>;
+  date_in?: InputMaybe<Array<Scalars['String']>>;
+  date_not_in?: InputMaybe<Array<Scalars['String']>>;
+  date_contains?: InputMaybe<Scalars['String']>;
+  date_contains_nocase?: InputMaybe<Scalars['String']>;
+  date_not_contains?: InputMaybe<Scalars['String']>;
+  date_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  date_starts_with?: InputMaybe<Scalars['String']>;
+  date_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  date_not_starts_with?: InputMaybe<Scalars['String']>;
+  date_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  date_ends_with?: InputMaybe<Scalars['String']>;
+  date_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  date_not_ends_with?: InputMaybe<Scalars['String']>;
+  date_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  priceOhm?: InputMaybe<Scalars['BigDecimal']>;
+  priceOhm_not?: InputMaybe<Scalars['BigDecimal']>;
+  priceOhm_gt?: InputMaybe<Scalars['BigDecimal']>;
+  priceOhm_lt?: InputMaybe<Scalars['BigDecimal']>;
+  priceOhm_gte?: InputMaybe<Scalars['BigDecimal']>;
+  priceOhm_lte?: InputMaybe<Scalars['BigDecimal']>;
+  priceOhm_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  priceOhm_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  priceGOhm?: InputMaybe<Scalars['BigDecimal']>;
+  priceGOhm_not?: InputMaybe<Scalars['BigDecimal']>;
+  priceGOhm_gt?: InputMaybe<Scalars['BigDecimal']>;
+  priceGOhm_lt?: InputMaybe<Scalars['BigDecimal']>;
+  priceGOhm_gte?: InputMaybe<Scalars['BigDecimal']>;
+  priceGOhm_lte?: InputMaybe<Scalars['BigDecimal']>;
+  priceGOhm_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  priceGOhm_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+};
+
+export enum PriceSnapshot_OrderBy {
+  Id = 'id',
+  Block = 'block',
+  Timestamp = 'timestamp',
+  Date = 'date',
+  PriceOhm = 'priceOhm',
+  PriceGOhm = 'priceGOhm'
+}
+
 export type ProtocolMetric = {
   __typename?: 'ProtocolMetric';
   id: Scalars['ID'];
@@ -442,6 +526,8 @@ export type Query = {
   tokenRecords: Array<TokenRecord>;
   tokenSupply?: Maybe<TokenSupply>;
   tokenSupplies: Array<TokenSupply>;
+  priceSnapshot?: Maybe<PriceSnapshot>;
+  priceSnapshots: Array<PriceSnapshot>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
 };
@@ -591,6 +677,24 @@ export type QueryTokenSuppliesArgs = {
 };
 
 
+export type QueryPriceSnapshotArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryPriceSnapshotsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PriceSnapshot_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<PriceSnapshot_Filter>;
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type Query_MetaArgs = {
   block?: InputMaybe<Block_Height>;
 };
@@ -707,6 +811,8 @@ export type Subscription = {
   tokenRecords: Array<TokenRecord>;
   tokenSupply?: Maybe<TokenSupply>;
   tokenSupplies: Array<TokenSupply>;
+  priceSnapshot?: Maybe<PriceSnapshot>;
+  priceSnapshots: Array<PriceSnapshot>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
 };
@@ -851,6 +957,24 @@ export type SubscriptionTokenSuppliesArgs = {
   orderBy?: InputMaybe<TokenSupply_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   where?: InputMaybe<TokenSupply_Filter>;
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionPriceSnapshotArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionPriceSnapshotsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PriceSnapshot_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<PriceSnapshot_Filter>;
   block?: InputMaybe<Block_Height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };

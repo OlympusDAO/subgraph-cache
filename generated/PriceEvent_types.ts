@@ -127,12 +127,7 @@ export type NewObservation = {
   transaction: Scalars['Bytes'];
   date: Scalars['String'];
   timestamp: Scalars['BigInt'];
-  price: Scalars['BigDecimal'];
-  priceMovingAverage: Scalars['BigDecimal'];
-  cushionHighPrice?: Maybe<Scalars['BigDecimal']>;
-  cushionLowPrice?: Maybe<Scalars['BigDecimal']>;
-  wallHighPrice?: Maybe<Scalars['BigDecimal']>;
-  wallLowPrice?: Maybe<Scalars['BigDecimal']>;
+  snapshot: RangeSnapshot;
 };
 
 export type NewObservation_Filter = {
@@ -206,54 +201,27 @@ export type NewObservation_Filter = {
   timestamp_lte?: InputMaybe<Scalars['BigInt']>;
   timestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  price?: InputMaybe<Scalars['BigDecimal']>;
-  price_not?: InputMaybe<Scalars['BigDecimal']>;
-  price_gt?: InputMaybe<Scalars['BigDecimal']>;
-  price_lt?: InputMaybe<Scalars['BigDecimal']>;
-  price_gte?: InputMaybe<Scalars['BigDecimal']>;
-  price_lte?: InputMaybe<Scalars['BigDecimal']>;
-  price_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  price_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  priceMovingAverage?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_not?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_gt?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_lt?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_gte?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_lte?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  priceMovingAverage_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionHighPrice?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionHighPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionLowPrice?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionLowPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallHighPrice?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallHighPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallLowPrice?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallLowPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  snapshot?: InputMaybe<Scalars['String']>;
+  snapshot_not?: InputMaybe<Scalars['String']>;
+  snapshot_gt?: InputMaybe<Scalars['String']>;
+  snapshot_lt?: InputMaybe<Scalars['String']>;
+  snapshot_gte?: InputMaybe<Scalars['String']>;
+  snapshot_lte?: InputMaybe<Scalars['String']>;
+  snapshot_in?: InputMaybe<Array<Scalars['String']>>;
+  snapshot_not_in?: InputMaybe<Array<Scalars['String']>>;
+  snapshot_contains?: InputMaybe<Scalars['String']>;
+  snapshot_contains_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_not_contains?: InputMaybe<Scalars['String']>;
+  snapshot_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_starts_with?: InputMaybe<Scalars['String']>;
+  snapshot_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_not_starts_with?: InputMaybe<Scalars['String']>;
+  snapshot_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_ends_with?: InputMaybe<Scalars['String']>;
+  snapshot_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_not_ends_with?: InputMaybe<Scalars['String']>;
+  snapshot_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_?: InputMaybe<RangeSnapshot_Filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
 };
@@ -265,12 +233,7 @@ export enum NewObservation_OrderBy {
   Transaction = 'transaction',
   Date = 'date',
   Timestamp = 'timestamp',
-  Price = 'price',
-  PriceMovingAverage = 'priceMovingAverage',
-  CushionHighPrice = 'cushionHighPrice',
-  CushionLowPrice = 'cushionLowPrice',
-  WallHighPrice = 'wallHighPrice',
-  WallLowPrice = 'wallLowPrice'
+  Snapshot = 'snapshot'
 }
 
 export type ObservationFrequencyChanged = {
@@ -383,13 +346,7 @@ export type PriceEvent = {
   type: PriceEventType;
   isHigh: Scalars['Boolean'];
   timestamp: Scalars['BigInt'];
-  capacityOhm?: Maybe<Scalars['BigDecimal']>;
-  price?: Maybe<Scalars['BigDecimal']>;
-  priceMovingAverage?: Maybe<Scalars['BigDecimal']>;
-  cushionHighPrice?: Maybe<Scalars['BigDecimal']>;
-  cushionLowPrice?: Maybe<Scalars['BigDecimal']>;
-  wallHighPrice?: Maybe<Scalars['BigDecimal']>;
-  wallLowPrice?: Maybe<Scalars['BigDecimal']>;
+  snapshot: RangeSnapshot;
 };
 
 export enum PriceEventType {
@@ -478,62 +435,27 @@ export type PriceEvent_Filter = {
   timestamp_lte?: InputMaybe<Scalars['BigInt']>;
   timestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
   timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-  capacityOhm?: InputMaybe<Scalars['BigDecimal']>;
-  capacityOhm_not?: InputMaybe<Scalars['BigDecimal']>;
-  capacityOhm_gt?: InputMaybe<Scalars['BigDecimal']>;
-  capacityOhm_lt?: InputMaybe<Scalars['BigDecimal']>;
-  capacityOhm_gte?: InputMaybe<Scalars['BigDecimal']>;
-  capacityOhm_lte?: InputMaybe<Scalars['BigDecimal']>;
-  capacityOhm_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  capacityOhm_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  price?: InputMaybe<Scalars['BigDecimal']>;
-  price_not?: InputMaybe<Scalars['BigDecimal']>;
-  price_gt?: InputMaybe<Scalars['BigDecimal']>;
-  price_lt?: InputMaybe<Scalars['BigDecimal']>;
-  price_gte?: InputMaybe<Scalars['BigDecimal']>;
-  price_lte?: InputMaybe<Scalars['BigDecimal']>;
-  price_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  price_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  priceMovingAverage?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_not?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_gt?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_lt?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_gte?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_lte?: InputMaybe<Scalars['BigDecimal']>;
-  priceMovingAverage_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  priceMovingAverage_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionHighPrice?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionHighPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionLowPrice?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionLowPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallHighPrice?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallHighPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallLowPrice?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallLowPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  snapshot?: InputMaybe<Scalars['String']>;
+  snapshot_not?: InputMaybe<Scalars['String']>;
+  snapshot_gt?: InputMaybe<Scalars['String']>;
+  snapshot_lt?: InputMaybe<Scalars['String']>;
+  snapshot_gte?: InputMaybe<Scalars['String']>;
+  snapshot_lte?: InputMaybe<Scalars['String']>;
+  snapshot_in?: InputMaybe<Array<Scalars['String']>>;
+  snapshot_not_in?: InputMaybe<Array<Scalars['String']>>;
+  snapshot_contains?: InputMaybe<Scalars['String']>;
+  snapshot_contains_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_not_contains?: InputMaybe<Scalars['String']>;
+  snapshot_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_starts_with?: InputMaybe<Scalars['String']>;
+  snapshot_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_not_starts_with?: InputMaybe<Scalars['String']>;
+  snapshot_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_ends_with?: InputMaybe<Scalars['String']>;
+  snapshot_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_not_ends_with?: InputMaybe<Scalars['String']>;
+  snapshot_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_?: InputMaybe<RangeSnapshot_Filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
 };
@@ -547,13 +469,7 @@ export enum PriceEvent_OrderBy {
   Type = 'type',
   IsHigh = 'isHigh',
   Timestamp = 'timestamp',
-  CapacityOhm = 'capacityOhm',
-  Price = 'price',
-  PriceMovingAverage = 'priceMovingAverage',
-  CushionHighPrice = 'cushionHighPrice',
-  CushionLowPrice = 'cushionLowPrice',
-  WallHighPrice = 'wallHighPrice',
-  WallLowPrice = 'wallLowPrice'
+  Snapshot = 'snapshot'
 }
 
 export type PricesChangedEvent = {
@@ -563,10 +479,7 @@ export type PricesChangedEvent = {
   block: Scalars['BigInt'];
   transaction: Scalars['Bytes'];
   date: Scalars['String'];
-  cushionHighPrice: Scalars['BigDecimal'];
-  cushionLowPrice: Scalars['BigDecimal'];
-  wallHighPrice: Scalars['BigDecimal'];
-  wallLowPrice: Scalars['BigDecimal'];
+  snapshot: RangeSnapshot;
 };
 
 export type PricesChangedEvent_Filter = {
@@ -632,38 +545,27 @@ export type PricesChangedEvent_Filter = {
   date_ends_with_nocase?: InputMaybe<Scalars['String']>;
   date_not_ends_with?: InputMaybe<Scalars['String']>;
   date_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  cushionHighPrice?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionHighPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionHighPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionLowPrice?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  cushionLowPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  cushionLowPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallHighPrice?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  wallHighPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallHighPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallLowPrice?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_not?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
-  wallLowPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  wallLowPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  snapshot?: InputMaybe<Scalars['String']>;
+  snapshot_not?: InputMaybe<Scalars['String']>;
+  snapshot_gt?: InputMaybe<Scalars['String']>;
+  snapshot_lt?: InputMaybe<Scalars['String']>;
+  snapshot_gte?: InputMaybe<Scalars['String']>;
+  snapshot_lte?: InputMaybe<Scalars['String']>;
+  snapshot_in?: InputMaybe<Array<Scalars['String']>>;
+  snapshot_not_in?: InputMaybe<Array<Scalars['String']>>;
+  snapshot_contains?: InputMaybe<Scalars['String']>;
+  snapshot_contains_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_not_contains?: InputMaybe<Scalars['String']>;
+  snapshot_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_starts_with?: InputMaybe<Scalars['String']>;
+  snapshot_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_not_starts_with?: InputMaybe<Scalars['String']>;
+  snapshot_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_ends_with?: InputMaybe<Scalars['String']>;
+  snapshot_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_not_ends_with?: InputMaybe<Scalars['String']>;
+  snapshot_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  snapshot_?: InputMaybe<RangeSnapshot_Filter>;
   /** Filter for the block changed event. */
   _change_block?: InputMaybe<BlockChangedFilter>;
 };
@@ -674,14 +576,13 @@ export enum PricesChangedEvent_OrderBy {
   Block = 'block',
   Transaction = 'transaction',
   Date = 'date',
-  CushionHighPrice = 'cushionHighPrice',
-  CushionLowPrice = 'cushionLowPrice',
-  WallHighPrice = 'wallHighPrice',
-  WallLowPrice = 'wallLowPrice'
+  Snapshot = 'snapshot'
 }
 
 export type Query = {
   __typename?: 'Query';
+  rangeSnapshot?: Maybe<RangeSnapshot>;
+  rangeSnapshots: Array<RangeSnapshot>;
   priceEvent?: Maybe<PriceEvent>;
   priceEvents: Array<PriceEvent>;
   pricesChangedEvent?: Maybe<PricesChangedEvent>;
@@ -700,6 +601,24 @@ export type Query = {
   updateThresholdsChangeds: Array<UpdateThresholdsChanged>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
+};
+
+
+export type QueryRangeSnapshotArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryRangeSnapshotsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<RangeSnapshot_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<RangeSnapshot_Filter>;
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
@@ -851,6 +770,302 @@ export type Query_MetaArgs = {
   block?: InputMaybe<Block_Height>;
 };
 
+export type RangeSnapshot = {
+  __typename?: 'RangeSnapshot';
+  id: Scalars['ID'];
+  blockchain: Scalars['String'];
+  block: Scalars['BigInt'];
+  date: Scalars['String'];
+  timestamp: Scalars['BigInt'];
+  ohmPrice?: Maybe<Scalars['BigDecimal']>;
+  ohmMovingAveragePrice?: Maybe<Scalars['BigDecimal']>;
+  thresholdFactor: Scalars['BigDecimal'];
+  cushionSpread: Scalars['BigDecimal'];
+  wallSpread: Scalars['BigDecimal'];
+  highActive: Scalars['Boolean'];
+  lowActive: Scalars['Boolean'];
+  highLastActiveTimestamp: Scalars['BigInt'];
+  lowLastActiveTimestamp: Scalars['BigInt'];
+  highCapacityOhm: Scalars['BigDecimal'];
+  lowCapacityReserve: Scalars['BigDecimal'];
+  highCushionPrice: Scalars['BigDecimal'];
+  lowCushionPrice: Scalars['BigDecimal'];
+  highMarketId?: Maybe<Scalars['BigInt']>;
+  lowMarketId?: Maybe<Scalars['BigInt']>;
+  highWallPrice: Scalars['BigDecimal'];
+  lowWallPrice: Scalars['BigDecimal'];
+  treasuryReserveAddress?: Maybe<Scalars['Bytes']>;
+  treasuryReserveBalance?: Maybe<Scalars['BigDecimal']>;
+  treasuryDebtBalance?: Maybe<Scalars['BigDecimal']>;
+  operatorReserveFactor?: Maybe<Scalars['BigDecimal']>;
+  operatorCushionFactor?: Maybe<Scalars['BigDecimal']>;
+};
+
+export type RangeSnapshot_Filter = {
+  id?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  blockchain?: InputMaybe<Scalars['String']>;
+  blockchain_not?: InputMaybe<Scalars['String']>;
+  blockchain_gt?: InputMaybe<Scalars['String']>;
+  blockchain_lt?: InputMaybe<Scalars['String']>;
+  blockchain_gte?: InputMaybe<Scalars['String']>;
+  blockchain_lte?: InputMaybe<Scalars['String']>;
+  blockchain_in?: InputMaybe<Array<Scalars['String']>>;
+  blockchain_not_in?: InputMaybe<Array<Scalars['String']>>;
+  blockchain_contains?: InputMaybe<Scalars['String']>;
+  blockchain_contains_nocase?: InputMaybe<Scalars['String']>;
+  blockchain_not_contains?: InputMaybe<Scalars['String']>;
+  blockchain_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  blockchain_starts_with?: InputMaybe<Scalars['String']>;
+  blockchain_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  blockchain_not_starts_with?: InputMaybe<Scalars['String']>;
+  blockchain_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  blockchain_ends_with?: InputMaybe<Scalars['String']>;
+  blockchain_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  blockchain_not_ends_with?: InputMaybe<Scalars['String']>;
+  blockchain_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  block?: InputMaybe<Scalars['BigInt']>;
+  block_not?: InputMaybe<Scalars['BigInt']>;
+  block_gt?: InputMaybe<Scalars['BigInt']>;
+  block_lt?: InputMaybe<Scalars['BigInt']>;
+  block_gte?: InputMaybe<Scalars['BigInt']>;
+  block_lte?: InputMaybe<Scalars['BigInt']>;
+  block_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  block_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  date?: InputMaybe<Scalars['String']>;
+  date_not?: InputMaybe<Scalars['String']>;
+  date_gt?: InputMaybe<Scalars['String']>;
+  date_lt?: InputMaybe<Scalars['String']>;
+  date_gte?: InputMaybe<Scalars['String']>;
+  date_lte?: InputMaybe<Scalars['String']>;
+  date_in?: InputMaybe<Array<Scalars['String']>>;
+  date_not_in?: InputMaybe<Array<Scalars['String']>>;
+  date_contains?: InputMaybe<Scalars['String']>;
+  date_contains_nocase?: InputMaybe<Scalars['String']>;
+  date_not_contains?: InputMaybe<Scalars['String']>;
+  date_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  date_starts_with?: InputMaybe<Scalars['String']>;
+  date_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  date_not_starts_with?: InputMaybe<Scalars['String']>;
+  date_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  date_ends_with?: InputMaybe<Scalars['String']>;
+  date_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  date_not_ends_with?: InputMaybe<Scalars['String']>;
+  date_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  timestamp?: InputMaybe<Scalars['BigInt']>;
+  timestamp_not?: InputMaybe<Scalars['BigInt']>;
+  timestamp_gt?: InputMaybe<Scalars['BigInt']>;
+  timestamp_lt?: InputMaybe<Scalars['BigInt']>;
+  timestamp_gte?: InputMaybe<Scalars['BigInt']>;
+  timestamp_lte?: InputMaybe<Scalars['BigInt']>;
+  timestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  ohmPrice?: InputMaybe<Scalars['BigDecimal']>;
+  ohmPrice_not?: InputMaybe<Scalars['BigDecimal']>;
+  ohmPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
+  ohmPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
+  ohmPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
+  ohmPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
+  ohmPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  ohmPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  ohmMovingAveragePrice?: InputMaybe<Scalars['BigDecimal']>;
+  ohmMovingAveragePrice_not?: InputMaybe<Scalars['BigDecimal']>;
+  ohmMovingAveragePrice_gt?: InputMaybe<Scalars['BigDecimal']>;
+  ohmMovingAveragePrice_lt?: InputMaybe<Scalars['BigDecimal']>;
+  ohmMovingAveragePrice_gte?: InputMaybe<Scalars['BigDecimal']>;
+  ohmMovingAveragePrice_lte?: InputMaybe<Scalars['BigDecimal']>;
+  ohmMovingAveragePrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  ohmMovingAveragePrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  thresholdFactor?: InputMaybe<Scalars['BigDecimal']>;
+  thresholdFactor_not?: InputMaybe<Scalars['BigDecimal']>;
+  thresholdFactor_gt?: InputMaybe<Scalars['BigDecimal']>;
+  thresholdFactor_lt?: InputMaybe<Scalars['BigDecimal']>;
+  thresholdFactor_gte?: InputMaybe<Scalars['BigDecimal']>;
+  thresholdFactor_lte?: InputMaybe<Scalars['BigDecimal']>;
+  thresholdFactor_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  thresholdFactor_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  cushionSpread?: InputMaybe<Scalars['BigDecimal']>;
+  cushionSpread_not?: InputMaybe<Scalars['BigDecimal']>;
+  cushionSpread_gt?: InputMaybe<Scalars['BigDecimal']>;
+  cushionSpread_lt?: InputMaybe<Scalars['BigDecimal']>;
+  cushionSpread_gte?: InputMaybe<Scalars['BigDecimal']>;
+  cushionSpread_lte?: InputMaybe<Scalars['BigDecimal']>;
+  cushionSpread_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  cushionSpread_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  wallSpread?: InputMaybe<Scalars['BigDecimal']>;
+  wallSpread_not?: InputMaybe<Scalars['BigDecimal']>;
+  wallSpread_gt?: InputMaybe<Scalars['BigDecimal']>;
+  wallSpread_lt?: InputMaybe<Scalars['BigDecimal']>;
+  wallSpread_gte?: InputMaybe<Scalars['BigDecimal']>;
+  wallSpread_lte?: InputMaybe<Scalars['BigDecimal']>;
+  wallSpread_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  wallSpread_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  highActive?: InputMaybe<Scalars['Boolean']>;
+  highActive_not?: InputMaybe<Scalars['Boolean']>;
+  highActive_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  highActive_not_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  lowActive?: InputMaybe<Scalars['Boolean']>;
+  lowActive_not?: InputMaybe<Scalars['Boolean']>;
+  lowActive_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  lowActive_not_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  highLastActiveTimestamp?: InputMaybe<Scalars['BigInt']>;
+  highLastActiveTimestamp_not?: InputMaybe<Scalars['BigInt']>;
+  highLastActiveTimestamp_gt?: InputMaybe<Scalars['BigInt']>;
+  highLastActiveTimestamp_lt?: InputMaybe<Scalars['BigInt']>;
+  highLastActiveTimestamp_gte?: InputMaybe<Scalars['BigInt']>;
+  highLastActiveTimestamp_lte?: InputMaybe<Scalars['BigInt']>;
+  highLastActiveTimestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  highLastActiveTimestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lowLastActiveTimestamp?: InputMaybe<Scalars['BigInt']>;
+  lowLastActiveTimestamp_not?: InputMaybe<Scalars['BigInt']>;
+  lowLastActiveTimestamp_gt?: InputMaybe<Scalars['BigInt']>;
+  lowLastActiveTimestamp_lt?: InputMaybe<Scalars['BigInt']>;
+  lowLastActiveTimestamp_gte?: InputMaybe<Scalars['BigInt']>;
+  lowLastActiveTimestamp_lte?: InputMaybe<Scalars['BigInt']>;
+  lowLastActiveTimestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lowLastActiveTimestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  highCapacityOhm?: InputMaybe<Scalars['BigDecimal']>;
+  highCapacityOhm_not?: InputMaybe<Scalars['BigDecimal']>;
+  highCapacityOhm_gt?: InputMaybe<Scalars['BigDecimal']>;
+  highCapacityOhm_lt?: InputMaybe<Scalars['BigDecimal']>;
+  highCapacityOhm_gte?: InputMaybe<Scalars['BigDecimal']>;
+  highCapacityOhm_lte?: InputMaybe<Scalars['BigDecimal']>;
+  highCapacityOhm_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  highCapacityOhm_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  lowCapacityReserve?: InputMaybe<Scalars['BigDecimal']>;
+  lowCapacityReserve_not?: InputMaybe<Scalars['BigDecimal']>;
+  lowCapacityReserve_gt?: InputMaybe<Scalars['BigDecimal']>;
+  lowCapacityReserve_lt?: InputMaybe<Scalars['BigDecimal']>;
+  lowCapacityReserve_gte?: InputMaybe<Scalars['BigDecimal']>;
+  lowCapacityReserve_lte?: InputMaybe<Scalars['BigDecimal']>;
+  lowCapacityReserve_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  lowCapacityReserve_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  highCushionPrice?: InputMaybe<Scalars['BigDecimal']>;
+  highCushionPrice_not?: InputMaybe<Scalars['BigDecimal']>;
+  highCushionPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
+  highCushionPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
+  highCushionPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
+  highCushionPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
+  highCushionPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  highCushionPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  lowCushionPrice?: InputMaybe<Scalars['BigDecimal']>;
+  lowCushionPrice_not?: InputMaybe<Scalars['BigDecimal']>;
+  lowCushionPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
+  lowCushionPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
+  lowCushionPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
+  lowCushionPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
+  lowCushionPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  lowCushionPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  highMarketId?: InputMaybe<Scalars['BigInt']>;
+  highMarketId_not?: InputMaybe<Scalars['BigInt']>;
+  highMarketId_gt?: InputMaybe<Scalars['BigInt']>;
+  highMarketId_lt?: InputMaybe<Scalars['BigInt']>;
+  highMarketId_gte?: InputMaybe<Scalars['BigInt']>;
+  highMarketId_lte?: InputMaybe<Scalars['BigInt']>;
+  highMarketId_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  highMarketId_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lowMarketId?: InputMaybe<Scalars['BigInt']>;
+  lowMarketId_not?: InputMaybe<Scalars['BigInt']>;
+  lowMarketId_gt?: InputMaybe<Scalars['BigInt']>;
+  lowMarketId_lt?: InputMaybe<Scalars['BigInt']>;
+  lowMarketId_gte?: InputMaybe<Scalars['BigInt']>;
+  lowMarketId_lte?: InputMaybe<Scalars['BigInt']>;
+  lowMarketId_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  lowMarketId_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  highWallPrice?: InputMaybe<Scalars['BigDecimal']>;
+  highWallPrice_not?: InputMaybe<Scalars['BigDecimal']>;
+  highWallPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
+  highWallPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
+  highWallPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
+  highWallPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
+  highWallPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  highWallPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  lowWallPrice?: InputMaybe<Scalars['BigDecimal']>;
+  lowWallPrice_not?: InputMaybe<Scalars['BigDecimal']>;
+  lowWallPrice_gt?: InputMaybe<Scalars['BigDecimal']>;
+  lowWallPrice_lt?: InputMaybe<Scalars['BigDecimal']>;
+  lowWallPrice_gte?: InputMaybe<Scalars['BigDecimal']>;
+  lowWallPrice_lte?: InputMaybe<Scalars['BigDecimal']>;
+  lowWallPrice_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  lowWallPrice_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  treasuryReserveAddress?: InputMaybe<Scalars['Bytes']>;
+  treasuryReserveAddress_not?: InputMaybe<Scalars['Bytes']>;
+  treasuryReserveAddress_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  treasuryReserveAddress_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  treasuryReserveAddress_contains?: InputMaybe<Scalars['Bytes']>;
+  treasuryReserveAddress_not_contains?: InputMaybe<Scalars['Bytes']>;
+  treasuryReserveBalance?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryReserveBalance_not?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryReserveBalance_gt?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryReserveBalance_lt?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryReserveBalance_gte?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryReserveBalance_lte?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryReserveBalance_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  treasuryReserveBalance_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  treasuryDebtBalance?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryDebtBalance_not?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryDebtBalance_gt?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryDebtBalance_lt?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryDebtBalance_gte?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryDebtBalance_lte?: InputMaybe<Scalars['BigDecimal']>;
+  treasuryDebtBalance_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  treasuryDebtBalance_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  operatorReserveFactor?: InputMaybe<Scalars['BigDecimal']>;
+  operatorReserveFactor_not?: InputMaybe<Scalars['BigDecimal']>;
+  operatorReserveFactor_gt?: InputMaybe<Scalars['BigDecimal']>;
+  operatorReserveFactor_lt?: InputMaybe<Scalars['BigDecimal']>;
+  operatorReserveFactor_gte?: InputMaybe<Scalars['BigDecimal']>;
+  operatorReserveFactor_lte?: InputMaybe<Scalars['BigDecimal']>;
+  operatorReserveFactor_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  operatorReserveFactor_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  operatorCushionFactor?: InputMaybe<Scalars['BigDecimal']>;
+  operatorCushionFactor_not?: InputMaybe<Scalars['BigDecimal']>;
+  operatorCushionFactor_gt?: InputMaybe<Scalars['BigDecimal']>;
+  operatorCushionFactor_lt?: InputMaybe<Scalars['BigDecimal']>;
+  operatorCushionFactor_gte?: InputMaybe<Scalars['BigDecimal']>;
+  operatorCushionFactor_lte?: InputMaybe<Scalars['BigDecimal']>;
+  operatorCushionFactor_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  operatorCushionFactor_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+};
+
+export enum RangeSnapshot_OrderBy {
+  Id = 'id',
+  Blockchain = 'blockchain',
+  Block = 'block',
+  Date = 'date',
+  Timestamp = 'timestamp',
+  OhmPrice = 'ohmPrice',
+  OhmMovingAveragePrice = 'ohmMovingAveragePrice',
+  ThresholdFactor = 'thresholdFactor',
+  CushionSpread = 'cushionSpread',
+  WallSpread = 'wallSpread',
+  HighActive = 'highActive',
+  LowActive = 'lowActive',
+  HighLastActiveTimestamp = 'highLastActiveTimestamp',
+  LowLastActiveTimestamp = 'lowLastActiveTimestamp',
+  HighCapacityOhm = 'highCapacityOhm',
+  LowCapacityReserve = 'lowCapacityReserve',
+  HighCushionPrice = 'highCushionPrice',
+  LowCushionPrice = 'lowCushionPrice',
+  HighMarketId = 'highMarketId',
+  LowMarketId = 'lowMarketId',
+  HighWallPrice = 'highWallPrice',
+  LowWallPrice = 'lowWallPrice',
+  TreasuryReserveAddress = 'treasuryReserveAddress',
+  TreasuryReserveBalance = 'treasuryReserveBalance',
+  TreasuryDebtBalance = 'treasuryDebtBalance',
+  OperatorReserveFactor = 'operatorReserveFactor',
+  OperatorCushionFactor = 'operatorCushionFactor'
+}
+
 export type SpreadsChangedEvent = {
   __typename?: 'SpreadsChangedEvent';
   id: Scalars['ID'];
@@ -957,6 +1172,8 @@ export enum SpreadsChangedEvent_OrderBy {
 
 export type Subscription = {
   __typename?: 'Subscription';
+  rangeSnapshot?: Maybe<RangeSnapshot>;
+  rangeSnapshots: Array<RangeSnapshot>;
   priceEvent?: Maybe<PriceEvent>;
   priceEvents: Array<PriceEvent>;
   pricesChangedEvent?: Maybe<PricesChangedEvent>;
@@ -975,6 +1192,24 @@ export type Subscription = {
   updateThresholdsChangeds: Array<UpdateThresholdsChanged>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
+};
+
+
+export type SubscriptionRangeSnapshotArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionRangeSnapshotsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<RangeSnapshot_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<RangeSnapshot_Filter>;
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
