@@ -146,8 +146,9 @@ export const getEarliestTransactionDate = async (
   const queryResults = await client.query(query, {}).toPromise();
 
   const normalisedObjectName = getObjectQueryName(object);
+  // TODO consider how to handle no results
   if (!queryResults.data || queryResults.data[normalisedObjectName].length === 0) {
-    throw new Error(`Did not receive results from GraphQL query for earliest transaction`);
+    throw new Error(`Did not receive results from GraphQL query for earliest transaction. Query: ${query}`);
   }
 
   return new Date(queryResults.data[normalisedObjectName][0][dateField]);
