@@ -4,17 +4,17 @@
     "dateField": "date",
     "typeOverrides": {
         "date": "TIMESTAMP",
-        "transaction": "STRING",
-        "ohmPrice": "BIGNUMERIC",
-        "ohmMovingAveragePrice": "BIGNUMERIC",
         "highCapacityOhm": "BIGNUMERIC",
-        "lowCapacityReserve": "BIGNUMERIC",
         "highCushionPrice": "BIGNUMERIC",
-        "lowCushionPrice": "BIGNUMERIC",
         "highWallPrice": "BIGNUMERIC",
+        "lowCapacityReserve": "BIGNUMERIC",
+        "lowCushionPrice": "BIGNUMERIC",
         "lowWallPrice": "BIGNUMERIC",
+        "ohmMovingAveragePrice": "BIGNUMERIC",
+        "ohmPrice": "BIGNUMERIC",
+        "transaction": "STRING",
+        "treasuryDebtBalance": "BIGNUMERIC",
         "treasuryReserveAddress": "STRING",
-        "treasuryReserveBalance": "BIGNUMERIC",
-        "treasuryDebtBalance": "BIGNUMERIC"
+        "treasuryReserveBalance": "BIGNUMERIC"
     }
 }

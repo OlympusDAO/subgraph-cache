@@ -4,14 +4,22 @@
     "dateField": "date",
     "typeOverrides": {
         "currentAPY": "BIGNUMERIC",
+        "date": "DATE",
         "gOhmPrice": "BIGNUMERIC",
+        "gOhmSyntheticSupply": "BIGNUMERIC",
         "gOhmTotalSupply": "BIGNUMERIC",
+        "marketCap": "BIGNUMERIC",
         "nextDistributedOhm": "BIGNUMERIC",
         "nextEpochRebase": "BIGNUMERIC",
+        "ohmCirculatingSupply": "BIGNUMERIC",
+        "ohmFloatingSupply": "BIGNUMERIC",
         "ohmPrice": "BIGNUMERIC",
         "ohmTotalSupply": "BIGNUMERIC",
         "sOhmCirculatingSupply": "BIGNUMERIC",
         "totalValueLocked": "BIGNUMERIC",
-        "date": "DATE"
+        "treasuryLiquidBacking": "BIGNUMERIC",
+        "treasuryLiquidBackingPerGOhmSynthetic": "BIGNUMERIC",
+        "treasuryLiquidBackingPerOhmFloating": "BIGNUMERIC",
+        "treasuryMarketValue": "BIGNUMERIC"
     }
 }
