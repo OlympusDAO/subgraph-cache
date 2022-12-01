@@ -25,14 +25,38 @@
     "gOhmPrice": {
       "type": "number"
     },
+    "gOhmSyntheticSupply": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
     "gOhmTotalSupply": {
       "type": "number"
+    },
+    "marketCap": {
+      "type": [
+        "null",
+        "number"
+      ]
     },
     "nextDistributedOhm": {
       "type": "number"
     },
     "nextEpochRebase": {
       "type": "number"
+    },
+    "ohmCirculatingSupply": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "ohmFloatingSupply": {
+      "type": [
+        "null",
+        "number"
+      ]
     },
     "ohmPrice": {
       "type": "number"
@@ -48,6 +72,30 @@
     },
     "totalValueLocked": {
       "type": "number"
+    },
+    "treasuryLiquidBacking": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "treasuryLiquidBackingPerGOhmSynthetic": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "treasuryLiquidBackingPerOhmFloating": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "treasuryMarketValue": {
+      "type": [
+        "null",
+        "number"
+      ]
     }
   },
   "$schema": "http://json-schema.org/draft-07/schema#"

@@ -35,7 +35,17 @@
     "mode": "NULLABLE"
   },
   {
+    "name": "gOhmSyntheticSupply",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
     "name": "gOhmTotalSupply",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "marketCap",
     "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
@@ -46,6 +56,16 @@
   },
   {
     "name": "nextEpochRebase",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ohmCirculatingSupply",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "ohmFloatingSupply",
     "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   },
@@ -71,6 +91,26 @@
   },
   {
     "name": "totalValueLocked",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "treasuryLiquidBacking",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "treasuryLiquidBackingPerGOhmSynthetic",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "treasuryLiquidBackingPerOhmFloating",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "treasuryMarketValue",
     "type": "BIGNUMERIC",
     "mode": "NULLABLE"
   }
