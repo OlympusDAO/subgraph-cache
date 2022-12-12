@@ -1,0 +1,22 @@
+{
+    "url": "https://api.thegraph.com/subgraphs/name/olympusdao/bonds",
+    "object": "MarketClosedEvent",
+    "dateField": "date",
+    "typeOverrides": {
+        "date": "TIMESTAMP",
+        "bondContract": "STRING",
+        "owner": "STRING",
+        "payoutToken": "STRING",
+        "quoteToken": "STRING",
+        "vesting": "BIGNUMERIC",
+        "durationMilliseconds": "BIGNUMERIC",
+        "durationActualMilliseconds": "BIGNUMERIC",
+        "capacityInPayoutToken": "BIGNUMERIC",
+        "totalDebtInPayoutToken": "BIGNUMERIC",
+        "maxPayoutInPayoutToken": "BIGNUMERIC",
+        "initialPriceInPayoutToken": "BIGNUMERIC",
+        "minPriceInQuoteToken": "BIGNUMERIC",
+        "soldInPayoutToken": "BIGNUMERIC",
+        "purchasedInQuoteToken": "BIGNUMERIC"
+    }
+}

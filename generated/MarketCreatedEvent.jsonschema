@@ -1,0 +1,142 @@
+{
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "enum": [
+        "MarketCreatedEvent"
+      ],
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "marketId": {
+      "type": "number"
+    },
+    "bondContract": {
+      "type": "string"
+    },
+    "bondType": {
+      "enum": [
+        "FixedExpiry",
+        "FixedTerm"
+      ],
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
+    },
+    "block": {
+      "type": "number"
+    },
+    "market": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "enum": [
+            "Market"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "marketId": {
+          "type": "number"
+        },
+        "bondContract": {
+          "type": "string"
+        },
+        "bondType": {
+          "enum": [
+            "FixedExpiry",
+            "FixedTerm"
+          ],
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "payoutToken": {
+          "type": "string"
+        },
+        "quoteToken": {
+          "type": "string"
+        },
+        "vesting": {
+          "type": "number"
+        },
+        "durationMilliseconds": {
+          "type": "number"
+        },
+        "durationActualMilliseconds": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "capacityInPayoutToken": {
+          "type": "number"
+        },
+        "totalDebtInPayoutToken": {
+          "type": "number"
+        },
+        "maxPayoutInPayoutToken": {
+          "type": "number"
+        },
+        "initialPriceInQuoteToken": {
+          "type": "number"
+        },
+        "minPriceInQuoteToken": {
+          "type": "number"
+        },
+        "soldInPayoutToken": {
+          "type": "number"
+        },
+        "purchasedInQuoteToken": {
+          "type": "number"
+        },
+        "createdBlock": {
+          "type": "number"
+        },
+        "createdDate": {
+          "type": "string"
+        },
+        "createdTimestamp": {
+          "type": "number"
+        },
+        "closedBlock": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "closedDate": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "closedTimestamp": {
+          "type": [
+            "null",
+            "number"
+          ]
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BondType": {
+      "enum": [
+        "FixedExpiry",
+        "FixedTerm"
+      ],
+      "type": "string"
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
