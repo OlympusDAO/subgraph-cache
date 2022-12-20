@@ -1,0 +1,17 @@
+{
+    "url": "https://api.thegraph.com/subgraphs/name/bond-protocol/bond-protocol-mainnet",
+    "object": "BondPurchase",
+    "dateField": "timestamp",
+    "typeOverrides": {
+        "amount": "BIGNUMERIC",
+        "payout": "BIGNUMERIC",
+        "purchasePrice": "BIGNUMERIC",
+        "postPurchasePrice": "BIGNUMERIC"
+    },
+    "ignoredFields": [
+        "definitions.BondPurchase.properties.ownerTokenTbv",
+        "definitions.Token.properties.lpPair",
+        "definitions.Token.properties.balancerPool",
+        "definitions.OwnerTokenTbv"
+    ]
+}
