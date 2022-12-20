@@ -14,7 +14,7 @@
         "capacityInPayoutToken": "BIGNUMERIC",
         "totalDebtInPayoutToken": "BIGNUMERIC",
         "maxPayoutInPayoutToken": "BIGNUMERIC",
-        "initialPriceInPayoutToken": "BIGNUMERIC",
+        "initialPriceInQuoteToken": "BIGNUMERIC",
         "minPriceInQuoteToken": "BIGNUMERIC",
         "soldInPayoutToken": "BIGNUMERIC",
         "purchasedInQuoteToken": "BIGNUMERIC"

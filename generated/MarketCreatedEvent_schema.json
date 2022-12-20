@@ -116,7 +116,7 @@
       },
       {
         "name": "initialPriceInQuoteToken",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "mode": "NULLABLE"
       },
       {
