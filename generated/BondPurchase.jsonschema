@@ -1,0 +1,206 @@
+{
+  "definitions": {
+    "Token": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "enum": [
+            "Token"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "network": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "decimals": {
+          "type": "number"
+        },
+        "symbol": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "typeName": {
+          "type": "string"
+        },
+        "lpPair": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Pair"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "balancerPool": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "__typename": {
+                  "enum": [
+                    "BalancerPool"
+                  ],
+                  "type": "string"
+                },
+                "id": {
+                  "type": "string"
+                },
+                "vaultAddress": {
+                  "type": "string"
+                },
+                "poolId": {
+                  "type": "string"
+                },
+                "constituentTokens": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Token"
+                  }
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Pair": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "enum": [
+            "Pair"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "token0": {
+          "$ref": "#/definitions/Token"
+        },
+        "token1": {
+          "$ref": "#/definitions/Token"
+        }
+      }
+    },
+    "BondPurchase": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "enum": [
+            "BondPurchase"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "marketId": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "payout": {
+          "type": "number"
+        },
+        "recipient": {
+          "type": "string"
+        },
+        "referrer": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number"
+        },
+        "teller": {
+          "type": "string"
+        },
+        "auctioneer": {
+          "type": "string"
+        },
+        "payoutToken": {
+          "$ref": "#/definitions/Token"
+        },
+        "quoteToken": {
+          "$ref": "#/definitions/Token"
+        },
+        "network": {
+          "type": "string"
+        },
+        "purchasePrice": {
+          "type": "number"
+        },
+        "postPurchasePrice": {
+          "type": "number"
+        },
+        "ownerTokenTbv": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OwnerTokenTbv"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "OwnerTokenTbv": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "enum": [
+            "OwnerTokenTbv"
+          ],
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "network": {
+          "type": "string"
+        },
+        "tbv": {
+          "type": "number"
+        },
+        "bondPurchases": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BondPurchase"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#"
+}
