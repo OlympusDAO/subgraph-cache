@@ -25,6 +25,172 @@ export type Block_Height = {
   number_gte?: InputMaybe<Scalars['Int']>;
 };
 
+export type BondPurchase = {
+  __typename?: 'BondPurchase';
+  id: Scalars['ID'];
+  date: Scalars['String'];
+  block: Scalars['BigInt'];
+  timestamp: Scalars['BigInt'];
+  transaction: Scalars['Bytes'];
+  contract: Scalars['Bytes'];
+  marketId: Scalars['BigInt'];
+  referrer: Scalars['Bytes'];
+  amountInQuoteToken: Scalars['BigDecimal'];
+  payoutInPayoutToken: Scalars['BigDecimal'];
+  payoutToken: Scalars['Bytes'];
+  quoteToken: Scalars['Bytes'];
+  expiryTimestamp: Scalars['BigInt'];
+  expiryDate: Scalars['String'];
+};
+
+export type BondPurchase_Filter = {
+  id?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  date?: InputMaybe<Scalars['String']>;
+  date_not?: InputMaybe<Scalars['String']>;
+  date_gt?: InputMaybe<Scalars['String']>;
+  date_lt?: InputMaybe<Scalars['String']>;
+  date_gte?: InputMaybe<Scalars['String']>;
+  date_lte?: InputMaybe<Scalars['String']>;
+  date_in?: InputMaybe<Array<Scalars['String']>>;
+  date_not_in?: InputMaybe<Array<Scalars['String']>>;
+  date_contains?: InputMaybe<Scalars['String']>;
+  date_contains_nocase?: InputMaybe<Scalars['String']>;
+  date_not_contains?: InputMaybe<Scalars['String']>;
+  date_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  date_starts_with?: InputMaybe<Scalars['String']>;
+  date_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  date_not_starts_with?: InputMaybe<Scalars['String']>;
+  date_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  date_ends_with?: InputMaybe<Scalars['String']>;
+  date_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  date_not_ends_with?: InputMaybe<Scalars['String']>;
+  date_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  block?: InputMaybe<Scalars['BigInt']>;
+  block_not?: InputMaybe<Scalars['BigInt']>;
+  block_gt?: InputMaybe<Scalars['BigInt']>;
+  block_lt?: InputMaybe<Scalars['BigInt']>;
+  block_gte?: InputMaybe<Scalars['BigInt']>;
+  block_lte?: InputMaybe<Scalars['BigInt']>;
+  block_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  block_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  timestamp?: InputMaybe<Scalars['BigInt']>;
+  timestamp_not?: InputMaybe<Scalars['BigInt']>;
+  timestamp_gt?: InputMaybe<Scalars['BigInt']>;
+  timestamp_lt?: InputMaybe<Scalars['BigInt']>;
+  timestamp_gte?: InputMaybe<Scalars['BigInt']>;
+  timestamp_lte?: InputMaybe<Scalars['BigInt']>;
+  timestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  transaction?: InputMaybe<Scalars['Bytes']>;
+  transaction_not?: InputMaybe<Scalars['Bytes']>;
+  transaction_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  transaction_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  transaction_contains?: InputMaybe<Scalars['Bytes']>;
+  transaction_not_contains?: InputMaybe<Scalars['Bytes']>;
+  contract?: InputMaybe<Scalars['Bytes']>;
+  contract_not?: InputMaybe<Scalars['Bytes']>;
+  contract_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  contract_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  contract_contains?: InputMaybe<Scalars['Bytes']>;
+  contract_not_contains?: InputMaybe<Scalars['Bytes']>;
+  marketId?: InputMaybe<Scalars['BigInt']>;
+  marketId_not?: InputMaybe<Scalars['BigInt']>;
+  marketId_gt?: InputMaybe<Scalars['BigInt']>;
+  marketId_lt?: InputMaybe<Scalars['BigInt']>;
+  marketId_gte?: InputMaybe<Scalars['BigInt']>;
+  marketId_lte?: InputMaybe<Scalars['BigInt']>;
+  marketId_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  marketId_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  referrer?: InputMaybe<Scalars['Bytes']>;
+  referrer_not?: InputMaybe<Scalars['Bytes']>;
+  referrer_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  referrer_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  referrer_contains?: InputMaybe<Scalars['Bytes']>;
+  referrer_not_contains?: InputMaybe<Scalars['Bytes']>;
+  amountInQuoteToken?: InputMaybe<Scalars['BigDecimal']>;
+  amountInQuoteToken_not?: InputMaybe<Scalars['BigDecimal']>;
+  amountInQuoteToken_gt?: InputMaybe<Scalars['BigDecimal']>;
+  amountInQuoteToken_lt?: InputMaybe<Scalars['BigDecimal']>;
+  amountInQuoteToken_gte?: InputMaybe<Scalars['BigDecimal']>;
+  amountInQuoteToken_lte?: InputMaybe<Scalars['BigDecimal']>;
+  amountInQuoteToken_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  amountInQuoteToken_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  payoutInPayoutToken?: InputMaybe<Scalars['BigDecimal']>;
+  payoutInPayoutToken_not?: InputMaybe<Scalars['BigDecimal']>;
+  payoutInPayoutToken_gt?: InputMaybe<Scalars['BigDecimal']>;
+  payoutInPayoutToken_lt?: InputMaybe<Scalars['BigDecimal']>;
+  payoutInPayoutToken_gte?: InputMaybe<Scalars['BigDecimal']>;
+  payoutInPayoutToken_lte?: InputMaybe<Scalars['BigDecimal']>;
+  payoutInPayoutToken_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  payoutInPayoutToken_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  payoutToken?: InputMaybe<Scalars['Bytes']>;
+  payoutToken_not?: InputMaybe<Scalars['Bytes']>;
+  payoutToken_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  payoutToken_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  payoutToken_contains?: InputMaybe<Scalars['Bytes']>;
+  payoutToken_not_contains?: InputMaybe<Scalars['Bytes']>;
+  quoteToken?: InputMaybe<Scalars['Bytes']>;
+  quoteToken_not?: InputMaybe<Scalars['Bytes']>;
+  quoteToken_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  quoteToken_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  quoteToken_contains?: InputMaybe<Scalars['Bytes']>;
+  quoteToken_not_contains?: InputMaybe<Scalars['Bytes']>;
+  expiryTimestamp?: InputMaybe<Scalars['BigInt']>;
+  expiryTimestamp_not?: InputMaybe<Scalars['BigInt']>;
+  expiryTimestamp_gt?: InputMaybe<Scalars['BigInt']>;
+  expiryTimestamp_lt?: InputMaybe<Scalars['BigInt']>;
+  expiryTimestamp_gte?: InputMaybe<Scalars['BigInt']>;
+  expiryTimestamp_lte?: InputMaybe<Scalars['BigInt']>;
+  expiryTimestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  expiryTimestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  expiryDate?: InputMaybe<Scalars['String']>;
+  expiryDate_not?: InputMaybe<Scalars['String']>;
+  expiryDate_gt?: InputMaybe<Scalars['String']>;
+  expiryDate_lt?: InputMaybe<Scalars['String']>;
+  expiryDate_gte?: InputMaybe<Scalars['String']>;
+  expiryDate_lte?: InputMaybe<Scalars['String']>;
+  expiryDate_in?: InputMaybe<Array<Scalars['String']>>;
+  expiryDate_not_in?: InputMaybe<Array<Scalars['String']>>;
+  expiryDate_contains?: InputMaybe<Scalars['String']>;
+  expiryDate_contains_nocase?: InputMaybe<Scalars['String']>;
+  expiryDate_not_contains?: InputMaybe<Scalars['String']>;
+  expiryDate_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  expiryDate_starts_with?: InputMaybe<Scalars['String']>;
+  expiryDate_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  expiryDate_not_starts_with?: InputMaybe<Scalars['String']>;
+  expiryDate_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  expiryDate_ends_with?: InputMaybe<Scalars['String']>;
+  expiryDate_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  expiryDate_not_ends_with?: InputMaybe<Scalars['String']>;
+  expiryDate_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+};
+
+export enum BondPurchase_OrderBy {
+  Id = 'id',
+  Date = 'date',
+  Block = 'block',
+  Timestamp = 'timestamp',
+  Transaction = 'transaction',
+  Contract = 'contract',
+  MarketId = 'marketId',
+  Referrer = 'referrer',
+  AmountInQuoteToken = 'amountInQuoteToken',
+  PayoutInPayoutToken = 'payoutInPayoutToken',
+  PayoutToken = 'payoutToken',
+  QuoteToken = 'quoteToken',
+  ExpiryTimestamp = 'expiryTimestamp',
+  ExpiryDate = 'expiryDate'
+}
+
 export enum BondType {
   FixedTerm = 'FixedTerm',
   FixedExpiry = 'FixedExpiry'
@@ -520,6 +686,8 @@ export type Query = {
   marketCreatedEvents: Array<MarketCreatedEvent>;
   marketClosedEvent?: Maybe<MarketClosedEvent>;
   marketClosedEvents: Array<MarketClosedEvent>;
+  bondPurchase?: Maybe<BondPurchase>;
+  bondPurchases: Array<BondPurchase>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
 };
@@ -579,6 +747,24 @@ export type QueryMarketClosedEventsArgs = {
 };
 
 
+export type QueryBondPurchaseArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryBondPurchasesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<BondPurchase_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<BondPurchase_Filter>;
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
 export type Query_MetaArgs = {
   block?: InputMaybe<Block_Height>;
 };
@@ -591,6 +777,8 @@ export type Subscription = {
   marketCreatedEvents: Array<MarketCreatedEvent>;
   marketClosedEvent?: Maybe<MarketClosedEvent>;
   marketClosedEvents: Array<MarketClosedEvent>;
+  bondPurchase?: Maybe<BondPurchase>;
+  bondPurchases: Array<BondPurchase>;
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
 };
@@ -645,6 +833,24 @@ export type SubscriptionMarketClosedEventsArgs = {
   orderBy?: InputMaybe<MarketClosedEvent_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   where?: InputMaybe<MarketClosedEvent_Filter>;
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionBondPurchaseArgs = {
+  id: Scalars['ID'];
+  block?: InputMaybe<Block_Height>;
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionBondPurchasesArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<BondPurchase_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  where?: InputMaybe<BondPurchase_Filter>;
   block?: InputMaybe<Block_Height>;
   subgraphError?: _SubgraphErrorPolicy_;
 };

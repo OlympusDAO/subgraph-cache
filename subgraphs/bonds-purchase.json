@@ -1,0 +1,16 @@
+{
+    "url": "https://api.thegraph.com/subgraphs/name/olympusdao/bonds",
+    "object": "BondPurchase",
+    "dateField": "date",
+    "typeOverrides": {
+        "transaction": "STRING",
+        "date": "TIMESTAMP",
+        "contract": "STRING",
+        "referrer": "STRING",
+        "amountInQuoteToken": "BIGNUMERIC",
+        "payoutInPayoutToken": "BIGNUMERIC",
+        "payoutToken": "STRING",
+        "quoteToken": "STRING",
+        "expiryDate": "TIMESTAMP"
+    }
+}

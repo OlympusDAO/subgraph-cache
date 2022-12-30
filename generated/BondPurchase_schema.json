@@ -1,0 +1,77 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "date",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "block",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "timestamp",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "transaction",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "contract",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "marketId",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "referrer",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "amountInQuoteToken",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "payoutInPayoutToken",
+    "type": "BIGNUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "payoutToken",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "quoteToken",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "expiryTimestamp",
+    "type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "expiryDate",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE"
+  }
+]
