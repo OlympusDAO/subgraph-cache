@@ -25,6 +25,13 @@
     "contract": {
       "type": "string"
     },
+    "type": {
+      "enum": [
+        "FixedExpiry",
+        "FixedTerm"
+      ],
+      "type": "string"
+    },
     "marketId": {
       "type": "number"
     },
@@ -47,6 +54,15 @@
       "type": "number"
     },
     "expiryDate": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "BondType": {
+      "enum": [
+        "FixedExpiry",
+        "FixedTerm"
+      ],
       "type": "string"
     }
   },

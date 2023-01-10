@@ -33,6 +33,7 @@ export type BondPurchase = {
   timestamp: Scalars['BigInt'];
   transaction: Scalars['Bytes'];
   contract: Scalars['Bytes'];
+  type: BondType;
   marketId: Scalars['BigInt'];
   referrer: Scalars['Bytes'];
   amountInQuoteToken: Scalars['BigDecimal'];
@@ -100,6 +101,10 @@ export type BondPurchase_Filter = {
   contract_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   contract_contains?: InputMaybe<Scalars['Bytes']>;
   contract_not_contains?: InputMaybe<Scalars['Bytes']>;
+  type?: InputMaybe<BondType>;
+  type_not?: InputMaybe<BondType>;
+  type_in?: InputMaybe<Array<BondType>>;
+  type_not_in?: InputMaybe<Array<BondType>>;
   marketId?: InputMaybe<Scalars['BigInt']>;
   marketId_not?: InputMaybe<Scalars['BigInt']>;
   marketId_gt?: InputMaybe<Scalars['BigInt']>;
@@ -181,6 +186,7 @@ export enum BondPurchase_OrderBy {
   Timestamp = 'timestamp',
   Transaction = 'transaction',
   Contract = 'contract',
+  Type = 'type',
   MarketId = 'marketId',
   Referrer = 'referrer',
   AmountInQuoteToken = 'amountInQuoteToken',
