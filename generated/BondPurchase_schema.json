@@ -35,6 +35,11 @@
     "mode": "NULLABLE"
   },
   {
+    "name": "type",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
     "name": "marketId",
     "type": "NUMERIC",
     "mode": "NULLABLE"
