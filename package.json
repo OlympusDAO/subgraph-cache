@@ -3,7 +3,7 @@
     "main": "index.ts",
     "scripts": {
         "test": "jest",
-        "codegen": "ts-node src/codegen.ts",
+        "codegen": "ts-node src/codegen.ts && yarn lint:fix generated/",
         "execute": "ts-node src/index.ts",
         "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
         "lint:fix": "prettier --write ./src/ & yarn lint --fix"

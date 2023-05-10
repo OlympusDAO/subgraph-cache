@@ -23,6 +23,7 @@ export type SubgraphConfig = {
   url: string;
   object: string;
   dateField: string;
+  patchFile?: string;
   typeOverrides?: {
     [key: string]: string;
   };
