@@ -1,6 +1,7 @@
 {
     "url": "https://api.studio.thegraph.com/query/46563/token-holders-arbitrum/1.0.0/",
     "object": "TokenHolderTransaction",
+    "uniqueName": "TokenHolderTransaction-arbitrum",
     "dateField": "date",
     "typeOverrides": {
         "balance": "BIGNUMERIC",

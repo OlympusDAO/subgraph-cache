@@ -22,6 +22,12 @@ export const SUBGRAPH_CONFIG_TYPES: string[] = [
 export type SubgraphConfig = {
   url: string;
   object: string;
+  /**
+   * Set if there is a conflict between objects.
+   *
+   * For example, the same object in different subgraphs.
+   */
+  uniqueName?: string;
   dateField: string;
   patchFile?: string;
   typeOverrides?: {
