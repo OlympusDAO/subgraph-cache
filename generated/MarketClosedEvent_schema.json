@@ -10,11 +10,6 @@
     "mode": "NULLABLE"
   },
   {
-    "name": "marketId",
-    "type": "NUMERIC",
-    "mode": "NULLABLE"
-  },
-  {
     "name": "bondContract",
     "type": "STRING",
     "mode": "NULLABLE"

@@ -10,9 +10,6 @@
     "id": {
       "type": "string"
     },
-    "marketId": {
-      "type": "number"
-    },
     "bondContract": {
       "type": "string"
     },
