@@ -1,0 +1,12 @@
+{
+    "url": "https://api.thegraph.com/subgraphs/name/0xjem/token-holders-arbitrum",
+    "object": "TokenHolderTransaction",
+    "uniqueName": "TokenHolderTransaction-arbitrum",
+    "dateField": "date",
+    "typeOverrides": {
+        "balance": "BIGNUMERIC",
+        "previousBalance": "BIGNUMERIC",
+        "value": "BIGNUMERIC",
+        "date": "TIMESTAMP"
+    }
+}

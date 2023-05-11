@@ -2,6 +2,7 @@
     "url": "https://api.thegraph.com/subgraphs/name/olympusdao/bonds",
     "object": "MarketCreatedEvent",
     "dateField": "date",
+    "patchFile": "bonds-market-created.patch",
     "typeOverrides": {
         "date": "TIMESTAMP",
         "bondContract": "STRING",

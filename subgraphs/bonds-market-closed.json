@@ -2,6 +2,7 @@
     "url": "https://api.thegraph.com/subgraphs/name/olympusdao/bonds",
     "object": "MarketClosedEvent",
     "dateField": "date",
+    "patchFile": "bonds-market-closed.patch",
     "typeOverrides": {
         "date": "TIMESTAMP",
         "bondContract": "STRING",

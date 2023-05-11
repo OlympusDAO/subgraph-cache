@@ -37,7 +37,7 @@ export const bigQueryDatasetId = bigQueryDataset.datasetId;
 const configFiles: string[] = getSubgraphConfigFiles();
 configFiles.forEach(configFile => {
   const subgraphConfig = getSubgraphConfig(configFile);
-  const FUNCTION_PREFIX = subgraphConfig.object;
+  const FUNCTION_PREFIX = subgraphConfig.uniqueName || subgraphConfig.object;
   const FUNCTION_NAME = `${FUNCTION_PREFIX}-${pulumi.getStack()}`;
   console.log(`Processing subgraph object ${FUNCTION_PREFIX}`);
 

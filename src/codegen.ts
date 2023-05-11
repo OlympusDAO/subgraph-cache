@@ -1,3 +1,6 @@
+import { execSync } from "child_process";
+import path from "path";
+
 import { GENERATED_DIR, SubgraphConfig } from "./constants";
 import { getBigQuerySchema } from "./helpers/bigquerySchema";
 import { writeFile } from "./helpers/fs";
@@ -10,6 +13,13 @@ const writeSchema = async (configFilePath: string): Promise<void> => {
 
   const typesFilepath = `${GENERATED_DIR}/${config.object}_types.ts`;
   await generateTypes(config.url, typesFilepath);
+
+  if (config.patchFile) {
+    const configFileDir = path.parse(configFilePath).dir;
+    const patchFilePath = `${configFileDir}/${config.patchFile}`;
+    console.log(`Applying patch file ${patchFilePath}`);
+    execSync(`patch --no-backup-if-mismatch -p1 < ${patchFilePath}`);
+  }
 
   const schema = await generateJSONSchema(config.object, typesFilepath);
   writeFile(`${GENERATED_DIR}/${config.object}.jsonschema`, JSON.stringify(schema, null, 2));

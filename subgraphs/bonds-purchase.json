@@ -2,6 +2,7 @@
     "url": "https://api.thegraph.com/subgraphs/name/olympusdao/bonds",
     "object": "BondPurchase",
     "dateField": "date",
+    "patchFile": "bonds-purchase.patch",
     "typeOverrides": {
         "transaction": "STRING",
         "date": "TIMESTAMP",
