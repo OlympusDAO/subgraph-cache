@@ -13,7 +13,7 @@ export const extractPartitionKey = (filePath: string): string => {
 
 export const writeFile = (filePath: string, content: string): void => {
   if (!existsSync(dirname(filePath))) {
-    mkdirSync(dirname(filePath));
+    mkdirSync(dirname(filePath), { recursive: true });
   }
 
   writeFileSync(filePath, content);

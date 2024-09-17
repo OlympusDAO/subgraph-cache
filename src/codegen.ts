@@ -11,7 +11,8 @@ import { generateTypes } from "./helpers/subgraphSchema";
 const writeSchema = async (configFilePath: string): Promise<void> => {
   const config: SubgraphConfig = getSubgraphConfig(configFilePath);
 
-  const typesFilepath = `${GENERATED_DIR}/${config.object}_types.ts`;
+  const subgraphDir = `${GENERATED_DIR}/${config.subgraphName}/${config.deploymentId}`;
+  const typesFilepath = `${subgraphDir}/${config.object}_types.ts`;
   await generateTypes(config.url, typesFilepath);
 
   if (config.patchFile) {
@@ -22,10 +23,10 @@ const writeSchema = async (configFilePath: string): Promise<void> => {
   }
 
   const schema = await generateJSONSchema(config.object, typesFilepath);
-  writeFile(`${GENERATED_DIR}/${config.object}.jsonschema`, JSON.stringify(schema, null, 2));
+  writeFile(`${subgraphDir}/${config.object}.jsonschema`, JSON.stringify(schema, null, 2));
 
   const bqSchema = await getBigQuerySchema(schema, config.typeOverrides);
-  writeFile(`${GENERATED_DIR}/${config.object}_schema.json`, bqSchema);
+  writeFile(`${subgraphDir}/${config.object}_schema.json`, bqSchema);
 };
 
 const writeSchemas = async (): Promise<void> => {

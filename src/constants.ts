@@ -21,6 +21,7 @@ export const SUBGRAPH_CONFIG_TYPES: string[] = [
 
 export type SubgraphConfig = {
   url: string;
+  subgraphName: string;
   object: string;
   /**
    * Set if there is a conflict between objects.
@@ -33,6 +34,7 @@ export type SubgraphConfig = {
   typeOverrides?: {
     [key: string]: string;
   };
+  deploymentId: string;
 };
 
 export const SUBGRAPH_DIR = "./subgraphs";
