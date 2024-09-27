@@ -11,10 +11,10 @@
       "type": "string"
     },
     "block": {
-      "type": "number"
+      "type": "string"
     },
     "timestamp": {
-      "type": "number"
+      "type": "string"
     },
     "date": {
       "type": "string"
@@ -32,19 +32,19 @@
       "type": "string"
     },
     "rate": {
-      "type": "number"
+      "type": "string"
     },
     "balance": {
-      "type": "number"
+      "type": "string"
     },
     "multiplier": {
-      "type": "number"
+      "type": "string"
     },
     "value": {
-      "type": "number"
+      "type": "string"
     },
     "valueExcludingOhm": {
-      "type": "number"
+      "type": "string"
     },
     "category": {
       "type": "string"

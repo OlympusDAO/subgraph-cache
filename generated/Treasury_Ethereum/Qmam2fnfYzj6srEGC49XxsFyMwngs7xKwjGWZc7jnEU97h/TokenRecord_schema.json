@@ -11,12 +11,12 @@
   },
   {
     "name": "block",
-    "type": "NUMERIC",
+    "type": "STRING",
     "mode": "NULLABLE"
   },
   {
     "name": "timestamp",
-    "type": "NUMERIC",
+    "type": "STRING",
     "mode": "NULLABLE"
   },
   {

@@ -10,19 +10,19 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  BigDecimal: number;
-  BigInt: number;
+  BigDecimal: string;
+  BigInt: string;
   Bytes: string;
   /**
    * 8 bytes signed integer
    *
    */
-  Int8: any;
+  Int8: string;
   /**
    * A string representation of microseconds UNIX timestamp (16 digits)
    *
    */
-  Timestamp: any;
+  Timestamp: string;
 };
 
 export enum Aggregation_Interval {
