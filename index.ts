@@ -132,8 +132,8 @@ configFiles.forEach(configFile => {
 
   // storageBucketUrl is not known until deploy-time, so we use a pulumi-provided function to utilise it
   // Source: https://www.pulumi.com/docs/intro/concepts/inputs-outputs/#apply
-  const sourceUriPrefix = storageBucketUrl.apply(url => `${url}/${FUNCTION_PREFIX}/`);
-  const sourceUri = storageBucketUrl.apply(url => `${url}/${FUNCTION_PREFIX}/*`);
+  const sourceUriPrefix = storageBucketUrl.apply(url => `${url}/${subgraphConfig.getDirectory()}/`);
+  const sourceUri = storageBucketUrl.apply(url => `${url}/${subgraphConfig.getDirectory()}/*`);
 
   // For the moment, we generate a BigQuery schema file and store it locally
   const bigQuerySchemaJson = readFileSync(
