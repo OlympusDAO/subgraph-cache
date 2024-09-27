@@ -28,7 +28,6 @@ export const getSubgraphConfig = (filepath: string): SubgraphConfig => {
     jsonObject.object,
     jsonObject.dateField,
     jsonObject.deploymentId,
-    jsonObject.uniqueName,
     jsonObject.patchFile,
     jsonObject.typeOverrides,
   );

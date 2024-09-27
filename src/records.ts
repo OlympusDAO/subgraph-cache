@@ -9,10 +9,12 @@ import { getGraphQLRecords } from "./subgraph";
 export const getRecordsFetchStartDate = async (storagePrefix: string, bucketName: string): Promise<Date | null> => {
   const latestRecordsDate: Date | null = await getLatestRecordsDate(bucketName, storagePrefix);
   if (!latestRecordsDate) {
+    console.log(`No records found in ${storagePrefix}`);
     return null;
   }
 
   // Shift to midnight
+  console.log(`Latest records date: ${latestRecordsDate}`);
   return addDays(latestRecordsDate, 0, true);
 };
 

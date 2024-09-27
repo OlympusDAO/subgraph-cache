@@ -5,12 +5,11 @@ import { getISO8601DateString } from "./date";
 export const sendPubSubMessage = async (pubSubTopic: string, startDate: Date, finishDate: Date): Promise<void> => {
   const client = new PubSub();
   const messageContent = { startDate: getISO8601DateString(startDate), finishDate: getISO8601DateString(finishDate) };
+  console.log(`Publishing message on PubSub topic ${pubSubTopic}: ${JSON.stringify(messageContent)}`);
   const messageId = await client.topic(pubSubTopic).publishMessage({
     json: messageContent,
   });
-  console.log(
-    `Published message with id ${messageId} on PubSub topic ${pubSubTopic}: ${JSON.stringify(messageContent)}`,
-  );
+  console.log(`Published message with id ${messageId} on PubSub topic ${pubSubTopic}`);
 };
 
 export const getLatestFinishDate = async (subscriptionName: string): Promise<Date | null> => {

@@ -10,7 +10,6 @@ export class SubgraphConfig {
     public object: string,
     public dateField: string,
     public deploymentId: string,
-    public uniqueName?: string,
     public patchFile?: string,
     public typeOverrides?: { [key: string]: string },
   ) {}
@@ -29,6 +28,10 @@ export class SubgraphConfig {
     return `${this.subgraphName}/${this.deploymentId}/${this.object}`;
   }
 
+  getUniqueName(): string {
+    return `${this.subgraphName}-${this.object}`;
+  }
+
   static fromJSON(jsonObject: any): SubgraphConfig {
     if (!jsonObject.dateField) throw new Error("dateField must be set");
     if (!jsonObject.subgraphName) throw new Error("subgraphName must be set");
@@ -40,7 +43,6 @@ export class SubgraphConfig {
       jsonObject.object,
       jsonObject.dateField,
       jsonObject.deploymentId,
-      jsonObject.uniqueName,
       jsonObject.patchFile,
       jsonObject.typeOverrides,
     );

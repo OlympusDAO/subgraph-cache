@@ -37,7 +37,7 @@ export const bigQueryDatasetId = bigQueryDataset.datasetId;
 const configFiles: string[] = getSubgraphConfigFiles();
 configFiles.forEach(configFile => {
   const subgraphConfig = getSubgraphConfig(configFile);
-  const FUNCTION_PREFIX = subgraphConfig.uniqueName || `${subgraphConfig.subgraphName}-${subgraphConfig.object}`;
+  const FUNCTION_PREFIX = subgraphConfig.getUniqueName();
   const FUNCTION_NAME = `${FUNCTION_PREFIX}-${pulumi.getStack()}`;
   console.log(`Processing subgraph object ${FUNCTION_PREFIX}`);
 
@@ -46,6 +46,7 @@ configFiles.forEach(configFile => {
    */
   const pubSubTopic = new gcp.pubsub.Topic(FUNCTION_NAME);
   module.exports[`${FUNCTION_PREFIX}-pubSubTopicName`] = pubSubTopic.name;
+  module.exports[`${FUNCTION_PREFIX}-pubSubTopicId`] = pubSubTopic.id;
 
   /**
    * Create a subscription to the PubSub topic defined above. This is so that the function can track up to which date it has cached, and can continue from there.

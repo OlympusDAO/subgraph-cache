@@ -37,7 +37,6 @@ export const handler = async (
 
   const jsonSchema = JSON.parse(jsonSchemaString);
 
-  console.log(`Bucket name: ${bucketName}`);
   const client = createClient({
     url: subgraphUrl,
     fetch,
@@ -49,12 +48,17 @@ export const handler = async (
     0,
     true,
   ); // Start of the same day
+  console.log(`Subgraph earliest date: ${getISO8601DateString(subgraphEarliestDate)}`);
   // Final date in the subgraph
   const subgraphFinalDate: Date = finalDateOverride
     ? new Date(finalDateOverride)
     : addDays(await getLatestTransactionDate(client, jsonSchema, subgraphObject, subgraphDateField), 1, true); // Midnight of the next day
+  console.log(`Subgraph final date: ${getISO8601DateString(subgraphFinalDate)}`);
   // Date up to which records have been cached
   const recordsFetchedUpToDate: Date | null = await getRecordsFetchStartDate(storagePrefix, bucketName);
+  console.log(
+    `Records fetched up to date: ${recordsFetchedUpToDate ? getISO8601DateString(recordsFetchedUpToDate) : "null"}`,
+  );
 
   const getFetchStartDate = async (): Promise<Date> => {
     // Check for PubSub messages
@@ -90,7 +94,7 @@ export const handler = async (
 
   // Move one day prior to the start date, to catch any missing records
   const startDate = addDays(await getFetchStartDate(), -1, true);
-  console.log(`Transactions will be fetched from ${startDate.toISOString()}`);
+  console.log(`Transactions will be fetched from ${getISO8601DateString(startDate)}`);
 
   // Get and write records
   const fetchedUpTo: Date = await getRecords(
@@ -129,10 +133,10 @@ if (require.main === module) {
     subgraphConfig.object,
     subgraphConfig.dateField,
     jsonSchemaString,
-    subgraphConfig.object,
+    subgraphConfig.getDirectory(),
     "olympusdao-subgraph-cache-dev-47c613e",
-    `${subgraphConfig.object}-dev-d3a17c1`,
+    `projects/utility-descent-365911/topics/Treasury_Ethereum-TokenRecord-dev-52887b3`,
     60,
-    `projects/utility-descent-365911/subscriptions/${subgraphConfig.object}-dev-ae9d6cb`,
+    `projects/utility-descent-365911/subscriptions/Treasury_Ethereum-TokenRecord-dev-b92e640`,
   );
 }
