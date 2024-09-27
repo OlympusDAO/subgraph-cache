@@ -3,7 +3,7 @@ import * as pulumi from "@pulumi/pulumi";
 import { readFileSync } from "fs";
 
 import { GENERATED_DIR } from "./src/constants";
-import { getSubgraphConfig, getSubgraphConfigFiles } from "./src/helpers/subgraphConfig";
+import { getSubgraphConfig, getSubgraphConfigFiles, getSubgraphUrl } from "./src/helpers/subgraphConfig";
 import { handler } from "./src/index";
 
 const BUCKET_NAME_PREFIX = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
@@ -79,7 +79,7 @@ configFiles.forEach(configFile => {
     callback: async (req, res) => {
       console.log("Received callback. Initiating handler.");
       await handler(
-        subgraphConfig.url,
+        getSubgraphUrl(subgraphConfig),
         subgraphConfig.object,
         subgraphConfig.dateField,
         jsonSchemaString,

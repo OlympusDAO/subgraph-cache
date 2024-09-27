@@ -20,7 +20,6 @@ export const SUBGRAPH_CONFIG_TYPES: string[] = [
 ];
 
 export type SubgraphConfig = {
-  url: string;
   subgraphName: string;
   object: string;
   /**
@@ -39,3 +38,5 @@ export type SubgraphConfig = {
 
 export const SUBGRAPH_DIR = "./subgraphs";
 export const GENERATED_DIR = "./generated";
+
+export const BASE_URL = "https://gateway-arbitrum.network.thegraph.com/api/{GRAPH_PROTOCOL_API_KEY}/deployments/id";

@@ -1,5 +1,4 @@
 {
-    "url": "https://gateway-arbitrum.network.thegraph.com/api/{GRAPH_PROTOCOL_API_KEY}/deployments/id/Qmam2fnfYzj6srEGC49XxsFyMwngs7xKwjGWZc7jnEU97h",
     "subgraphName": "Treasury_Ethereum",
     "object": "TokenRecord",
     "dateField": "date",
