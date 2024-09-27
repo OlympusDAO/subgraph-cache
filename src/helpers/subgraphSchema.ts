@@ -50,9 +50,11 @@ export const generateTypes = async (url: string, filename: string): Promise<void
       {
         typescript: {
           scalars: {
-            BigDecimal: "number",
-            BigInt: "number",
+            BigDecimal: "string",
+            BigInt: "string",
             Bytes: "string",
+            Int8: "string",
+            Timestamp: "string",
           },
         },
       },
