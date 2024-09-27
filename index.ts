@@ -3,7 +3,7 @@ import * as pulumi from "@pulumi/pulumi";
 import { readFileSync } from "fs";
 
 import { GENERATED_DIR } from "./src/constants";
-import { getSubgraphConfig, getSubgraphConfigFiles, getSubgraphUrl } from "./src/helpers/subgraphConfig";
+import { getSubgraphConfig, getSubgraphConfigFiles } from "./src/helpers/subgraphConfig";
 import { handler } from "./src/index";
 
 const BUCKET_NAME_PREFIX = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
@@ -37,7 +37,7 @@ export const bigQueryDatasetId = bigQueryDataset.datasetId;
 const configFiles: string[] = getSubgraphConfigFiles();
 configFiles.forEach(configFile => {
   const subgraphConfig = getSubgraphConfig(configFile);
-  const FUNCTION_PREFIX = subgraphConfig.uniqueName || subgraphConfig.object;
+  const FUNCTION_PREFIX = subgraphConfig.uniqueName || `${subgraphConfig.subgraphName}-${subgraphConfig.object}`;
   const FUNCTION_NAME = `${FUNCTION_PREFIX}-${pulumi.getStack()}`;
   console.log(`Processing subgraph object ${FUNCTION_PREFIX}`);
 
@@ -65,7 +65,9 @@ configFiles.forEach(configFile => {
   module.exports[`${FUNCTION_PREFIX}-pubSubSubscriptionName`] = pubSubSubscription.name;
 
   // Grab the JSON schema
-  const jsonSchemaString = readFileSync(`${GENERATED_DIR}/${subgraphConfig.object}.jsonschema`).toString("utf-8");
+  const jsonSchemaString = readFileSync(
+    `${GENERATED_DIR}/${subgraphConfig.getDirectory()}/${subgraphConfig.object}.jsonschema`,
+  ).toString("utf-8");
 
   /**
    * Execution: Google Cloud Functions
@@ -79,11 +81,11 @@ configFiles.forEach(configFile => {
     callback: async (req, res) => {
       console.log("Received callback. Initiating handler.");
       await handler(
-        getSubgraphUrl(subgraphConfig),
+        subgraphConfig.getUrl(),
         subgraphConfig.object,
         subgraphConfig.dateField,
         jsonSchemaString,
-        FUNCTION_PREFIX,
+        subgraphConfig.getDirectory(),
         storageBucketName.get(),
         pubSubTopic.name.get(),
         functionTimeoutSeconds,
@@ -98,7 +100,8 @@ configFiles.forEach(configFile => {
 
   module.exports[`${FUNCTION_PREFIX}-functionUrl`] = tokenHolderFunction.httpsTriggerUrl;
   module.exports[`${FUNCTION_PREFIX}-functionName`] = tokenHolderFunction.function.name;
-  module.exports[`${FUNCTION_PREFIX}-bucketPrefix`] = subgraphConfig.object;
+  module.exports[`${FUNCTION_PREFIX}-storagePrefix`] = subgraphConfig.getDirectory();
+  module.exports[`${FUNCTION_PREFIX}-bucketName`] = storageBucketName;
 
   /**
    * Scheduling: Cloud Scheduler
@@ -132,7 +135,9 @@ configFiles.forEach(configFile => {
   const sourceUri = storageBucketUrl.apply(url => `${url}/${FUNCTION_PREFIX}/*`);
 
   // For the moment, we generate a BigQuery schema file and store it locally
-  const bigQuerySchemaJson = readFileSync(`${GENERATED_DIR}/${subgraphConfig.object}_schema.json`).toString("utf-8");
+  const bigQuerySchemaJson = readFileSync(
+    `${GENERATED_DIR}/${subgraphConfig.getDirectory()}/${subgraphConfig.object}_schema.json`,
+  ).toString("utf-8");
 
   const bigQueryTable = new gcp.bigquery.Table(
     FUNCTION_PREFIX,

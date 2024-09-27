@@ -7,6 +7,7 @@ import { addDays, getISO8601DateString } from "./helpers/date";
 import { getLatestFinishDate, sendPubSubMessage } from "./helpers/pubsub";
 import { getRecords, getRecordsFetchStartDate } from "./records";
 import { getEarliestTransactionDate, getLatestTransactionDate } from "./subgraph";
+import { SubgraphConfig } from "./types/subgraphConfig";
 
 export const handler = async (
   subgraphUrl: string,
@@ -117,12 +118,14 @@ if (require.main === module) {
   }
 
   const subgraphConfigFile = process.argv[2];
-  const subgraphConfig = JSON.parse(readFileSync(subgraphConfigFile).toString("utf-8"));
-  const jsonSchemaString = readFileSync(`${GENERATED_DIR}/${subgraphConfig.object}.jsonschema`).toString("utf-8");
+  const subgraphConfig = SubgraphConfig.fromJSON(JSON.parse(readFileSync(subgraphConfigFile).toString("utf-8")));
+  const jsonSchemaString = readFileSync(
+    `${GENERATED_DIR}/${subgraphConfig.getDirectory()}/${subgraphConfig.object}.jsonschema`,
+  ).toString("utf-8");
 
   // The random alphanumeric strings will need to be changed if there is a re-deployment
   handler(
-    subgraphConfig.url,
+    subgraphConfig.getUrl(),
     subgraphConfig.object,
     subgraphConfig.dateField,
     jsonSchemaString,

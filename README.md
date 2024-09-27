@@ -65,3 +65,4 @@ To cache a new subgraph, perform the following:
   - See the [data types](https://cloud.google.com/bigquery/docs/schemas#standard_sql_data_types)
 - Run `yarn codegen` to generate the GraphQL & BigQuery schemas, and the Typescript typings
 - Run `pulumi up` on the appropriate stack to update the resources
+- Once this is done, the function can be manually triggered by running `yarn run execute <subgraphFile>`

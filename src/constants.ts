@@ -19,23 +19,6 @@ export const SUBGRAPH_CONFIG_TYPES: string[] = [
   "JSON",
 ];
 
-export type SubgraphConfig = {
-  subgraphName: string;
-  object: string;
-  /**
-   * Set if there is a conflict between objects.
-   *
-   * For example, the same object in different subgraphs.
-   */
-  uniqueName?: string;
-  dateField: string;
-  patchFile?: string;
-  typeOverrides?: {
-    [key: string]: string;
-  };
-  deploymentId: string;
-};
-
 export const SUBGRAPH_DIR = "./subgraphs";
 export const GENERATED_DIR = "./generated";
 

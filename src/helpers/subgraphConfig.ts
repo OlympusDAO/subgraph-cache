@@ -1,9 +1,7 @@
-import dotenv from "dotenv";
 import { readdirSync, readFileSync } from "fs";
 
-import { BASE_URL, SUBGRAPH_CONFIG_TYPES, SUBGRAPH_DIR, SubgraphConfig } from "../constants";
-
-dotenv.config();
+import { SUBGRAPH_CONFIG_TYPES, SUBGRAPH_DIR } from "../constants";
+import { SubgraphConfig } from "../types/subgraphConfig";
 
 export const getSubgraphConfig = (filepath: string): SubgraphConfig => {
   const jsonObject = JSON.parse(readFileSync(filepath).toString("utf-8")) as SubgraphConfig;
@@ -25,21 +23,19 @@ export const getSubgraphConfig = (filepath: string): SubgraphConfig => {
     });
   }
 
-  return jsonObject;
+  return new SubgraphConfig(
+    jsonObject.subgraphName,
+    jsonObject.object,
+    jsonObject.dateField,
+    jsonObject.deploymentId,
+    jsonObject.uniqueName,
+    jsonObject.patchFile,
+    jsonObject.typeOverrides,
+  );
 };
 
 export const getSubgraphConfigFiles = (): string[] => {
   return readdirSync(SUBGRAPH_DIR, { withFileTypes: true })
     .filter(file => file.isFile() && file.name.includes(".json"))
     .map(file => `${SUBGRAPH_DIR}/${file.name}`);
-};
-
-export const getSubgraphUrl = (subgraphConfig: SubgraphConfig): string => {
-  // If the url has a placeholder for the Graph Protocol API key, replace it with the actual key
-  const graphProtocolApiKey = process.env.GRAPH_PROTOCOL_API_KEY;
-  if (!graphProtocolApiKey) {
-    throw new Error("GRAPH_PROTOCOL_API_KEY environment variable is not set");
-  }
-
-  return `${BASE_URL.replace("{GRAPH_PROTOCOL_API_KEY}", graphProtocolApiKey)}/${subgraphConfig.deploymentId}`;
 };
