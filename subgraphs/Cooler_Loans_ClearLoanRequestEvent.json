@@ -1,0 +1,14 @@
+{
+    "subgraphName": "Cooler_Loans",
+    "object": "ClearLoanRequestEvent",
+    "dateField": "blockTimestamp",
+    "typeOverrides": {
+        "clearinghouseDaiBalance": "BIGNUMERIC",
+        "clearinghouseSdaiBalance": "BIGNUMERIC",
+        "clearinghouseSdaiInDaiBalance": "BIGNUMERIC",
+        "treasuryDaiBalance": "BIGNUMERIC",
+        "treasurySdaiBalance": "BIGNUMERIC",
+        "treasurySdaiInDaiBalance": "BIGNUMERIC"
+    },
+    "deploymentId": "QmQoJMZT4bLLUNvf9Z15VNub6Wk1oq6VcMm34omrrVZevs"
+}

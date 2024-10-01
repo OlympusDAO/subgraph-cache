@@ -1,0 +1,9 @@
+{
+    "subgraphName": "Cooler_Loans",
+    "object": "CoolerLoanRequest",
+    "dateField": "createdTimestamp",
+    "typeOverrides": {
+        "amount": "BIGNUMERIC"
+    },
+    "deploymentId": "QmQoJMZT4bLLUNvf9Z15VNub6Wk1oq6VcMm34omrrVZevs"
+}
