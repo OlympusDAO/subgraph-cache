@@ -1,1 +1,1 @@
-export const GENERATED_FILES_DIR = "../function/src/generated";
+export const GENERATED_FILES_DIR = "function/generated";
