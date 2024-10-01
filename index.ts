@@ -2,12 +2,55 @@ import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import { readFileSync } from "fs";
 
-import { GENERATED_FILES_DIR } from "./src/constants";
 import { getSubgraphConfig, getSubgraphConfigFiles } from "./function/src/helpers/subgraphConfig";
 
-const BUCKET_NAME_PREFIX = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
+const BUCKET_NAME_PREFIX = `olympus-subgraph-cache-${pulumi.getStack()}`;
 
 const pulumiConfig = new pulumi.Config();
+
+/**
+ * Enable APIs
+ */
+// Ensure that the required APIs are enabled
+// Requires the Compute Engine API to be manually enabled
+// https://console.cloud.google.com/apis/api/compute.googleapis.com/overview
+const enabledApisCloudFunctions = new gcp.projects.Service("cloud-functions", {
+  project: gcp.config.project,
+  service: "cloudfunctions.googleapis.com",
+});
+
+const enabledApisCloudScheduler = new gcp.projects.Service("cloud-scheduler", {
+  project: gcp.config.project,
+  service: "cloudscheduler.googleapis.com",
+});
+
+const enabledApisStorage = new gcp.projects.Service("storage", {
+  project: gcp.config.project,
+  service: "storage.googleapis.com",
+});
+
+const enabledApisArtifactRegistry = new gcp.projects.Service(
+  "artifact-registry",
+  {
+    project: gcp.config.project,
+    service: "artifactregistry.googleapis.com",
+  },
+);
+
+const enabledApisCloudBuild = new gcp.projects.Service("cloud-build", {
+  project: gcp.config.project,
+  service: "cloudbuild.googleapis.com",
+});
+
+const enabledApisBigQuery = new gcp.projects.Service("bigquery", {
+  project: gcp.config.project,
+  service: "bigquery.googleapis.com",
+});
+
+const enabledApisPubSub = new gcp.projects.Service("pubsub", {
+  project: gcp.config.project,
+  service: "pubsub.googleapis.com",
+});
 
 /**
  * Record storage: GCS bucket
@@ -17,6 +60,8 @@ const storageBucket = new gcp.storage.Bucket(BUCKET_NAME_PREFIX, {
   location: "US", // Get this from the provider instead?
   uniformBucketLevelAccess: true,
   versioning: { enabled: false },
+}, {
+  dependsOn: [enabledApisStorage],
 });
 
 // Export the DNS name of the bucket
@@ -28,14 +73,26 @@ export const storageBucketName = storageBucket.name;
  */
 const bigQueryDataset = new gcp.bigquery.Dataset(BUCKET_NAME_PREFIX, {
   datasetId: BUCKET_NAME_PREFIX.replace(/-/g, "_"), // - is unsupported
+}, {
+  dependsOn: [enabledApisBigQuery],
 });
 
 export const bigQueryDatasetId = bigQueryDataset.datasetId;
+
+// Define email notification channels
+const notificationEmail = new gcp.monitoring.NotificationChannel("email", {
+  type: "email",
+  labels: {
+    email_address: pulumiConfig.requireSecret("emailAddress"),
+  },
+});
 
 // Iterate over each config file and publish the required resources
 const configFiles: string[] = getSubgraphConfigFiles();
 configFiles.forEach(configFile => {
   const subgraphConfig = getSubgraphConfig(configFile);
+  const subgraphGeneratedFiles = `function/generated/${subgraphConfig.getDirectory()}`;
+
   const FUNCTION_PREFIX = subgraphConfig.getUniqueName();
   const FUNCTION_NAME = `${FUNCTION_PREFIX}-${pulumi.getStack()}`;
   console.log(`Processing subgraph object ${FUNCTION_PREFIX}`);
@@ -45,9 +102,12 @@ configFiles.forEach(configFile => {
    */
   // Create a GCS bucket to store the assets
   const functionBucket = new gcp.storage.Bucket(
-    `${FUNCTION_PREFIX}-assets`,
+    `${FUNCTION_PREFIX.toLowerCase()}-assets`,
     {
       location: "us-central1",
+    },
+    {
+      dependsOn: [enabledApisStorage],
     },
   );
 
@@ -68,7 +128,9 @@ configFiles.forEach(configFile => {
   /**
    * PubSub topic
    */
-  const pubSubTopic = new gcp.pubsub.Topic(FUNCTION_NAME);
+  const pubSubTopic = new gcp.pubsub.Topic(FUNCTION_NAME, {}, {
+    dependsOn: [enabledApisPubSub],
+  });
   module.exports[`${FUNCTION_PREFIX}-pubSubTopicName`] = pubSubTopic.name;
   module.exports[`${FUNCTION_PREFIX}-pubSubTopicId`] = pubSubTopic.id;
 
@@ -85,13 +147,15 @@ configFiles.forEach(configFile => {
     retainAckedMessages: false,
     expirationPolicy: { ttl: `${expirationSeconds}s` },
     messageRetentionDuration: `${expirationSeconds}s`,
+  }, {
+    dependsOn: [pubSubTopic],
   });
 
   module.exports[`${FUNCTION_PREFIX}-pubSubSubscriptionName`] = pubSubSubscription.name;
 
   // Grab the JSON schema
   const jsonSchemaString = readFileSync(
-    `${GENERATED_FILES_DIR}/${subgraphConfig.getDirectory()}/${subgraphConfig.object}.jsonschema`,
+    `${subgraphGeneratedFiles}/${subgraphConfig.object}.jsonschema`,
   ).toString("utf-8");
 
   /**
@@ -117,9 +181,10 @@ configFiles.forEach(configFile => {
       FUNCTION_TIMEOUT_SECONDS: functionTimeoutSeconds,
       PUBSUB_SUBSCRIPTION_ID: pubSubSubscription.id,
       FINAL_DATE_OVERRIDE: pulumiConfig.get("finalDate"),
+      GRAPH_PROTOCOL_API_KEY: pulumiConfig.requireSecret("graphProtocolApiKey"),
     },
   }, {
-    dependsOn: [functionBucketObject, storageBucket, pubSubTopic, pubSubSubscription],
+    dependsOn: [functionBucketObject, storageBucket, pubSubTopic, pubSubSubscription, enabledApisCloudFunctions, enabledApisCloudBuild],
   });
 
   module.exports[`${FUNCTION_PREFIX}-functionUrl`] = tokenHolderFunction.httpsTriggerUrl;
@@ -141,7 +206,7 @@ configFiles.forEach(configFile => {
       },
     },
   }, {
-    dependsOn: [tokenHolderFunction],
+    dependsOn: [tokenHolderFunction, enabledApisCloudScheduler],
   });
 
   // Allow Cloud Scheduler to invoke the Cloud Function
@@ -166,21 +231,25 @@ configFiles.forEach(configFile => {
    *
    * We do this, otherwise the Hive partitioning will complain of no files being present.
    */
-  const dummyObjectName = `${FUNCTION_PREFIX}/dt=2021-01-01/dummy.jsonl`;
-  const dummyObject = new gcp.storage.BucketObject(dummyObjectName, {
+  const bigQueryDummyObjectName = `${subgraphConfig.getDirectory()}/dt=2021-01-01/dummy.jsonl`;
+  const bigQueryDummyObject = new gcp.storage.BucketObject(bigQueryDummyObjectName, {
     bucket: storageBucketName,
     content: "{}", // Empty file
-    name: dummyObjectName,
+    name: bigQueryDummyObjectName,
+  }, {
+    dependsOn: [storageBucket],
   });
+  module.exports[`${FUNCTION_PREFIX}-bigQueryDummyObjectName`] = bigQueryDummyObjectName;
 
   // storageBucketUrl is not known until deploy-time, so we use a pulumi-provided function to utilise it
   // Source: https://www.pulumi.com/docs/intro/concepts/inputs-outputs/#apply
-  const sourceUriPrefix = storageBucketUrl.apply(url => `${url}/${subgraphConfig.getDirectory()}/`);
-  const sourceUri = storageBucketUrl.apply(url => `${url}/${subgraphConfig.getDirectory()}/*`);
+  const bigQuerySourceUriPrefix = storageBucketUrl.apply(url => `${url}/${subgraphConfig.getDirectory()}/`);
+  const bigQuerySourceUri = storageBucketUrl.apply(url => `${url}/${subgraphConfig.getDirectory()}/*`);
+  module.exports[`${FUNCTION_PREFIX}-bigQuerySourceUri`] = bigQuerySourceUri;
 
   // For the moment, we generate a BigQuery schema file and store it locally
   const bigQuerySchemaJson = readFileSync(
-    `${GENERATED_FILES_DIR}/${subgraphConfig.getDirectory()}/${subgraphConfig.object}_schema.json`,
+    `${subgraphGeneratedFiles}/${subgraphConfig.object}_schema.json`,
   ).toString("utf-8");
 
   const bigQueryTable = new gcp.bigquery.Table(
@@ -191,16 +260,16 @@ configFiles.forEach(configFile => {
       deletionProtection: false,
       externalDataConfiguration: {
         sourceFormat: "NEWLINE_DELIMITED_JSON",
-        sourceUris: [sourceUri],
+        sourceUris: [bigQuerySourceUri],
         hivePartitioningOptions: {
           mode: "AUTO",
-          sourceUriPrefix: sourceUriPrefix,
+          sourceUriPrefix: bigQuerySourceUriPrefix,
         },
         autodetect: false,
         schema: bigQuerySchemaJson,
       },
     },
-    { dependsOn: dummyObject },
+    { dependsOn: [bigQueryDummyObject, bigQueryDataset, storageBucket, enabledApisBigQuery] },
   );
 
   module.exports[`${FUNCTION_PREFIX}-bigQueryTableId`] = bigQueryTable.tableId;
@@ -208,9 +277,6 @@ configFiles.forEach(configFile => {
   /**
    * Create Alert Policies
    */
-  const NOTIFICATION_CHANNEL_EMAIL_JEM = "projects/utility-descent-365911/notificationChannels/11383785782274723218";
-  const NOTIFICATION_CHANNEL_DISCORD = "projects/utility-descent-365911/notificationChannels/13547536167280065674";
-
   // Alert when functions crash
   const ALERT_POLICY_FUNCTION_ERROR = `${FUNCTION_NAME}-function-error`;
   const ALERT_POLICY_FUNCTION_ERROR_WINDOW_SECONDS = 15 * 60;
@@ -241,7 +307,9 @@ configFiles.forEach(configFile => {
     },
     combiner: "OR",
     enabled: true,
-    notificationChannels: [NOTIFICATION_CHANNEL_EMAIL_JEM, NOTIFICATION_CHANNEL_DISCORD],
+    notificationChannels: [notificationEmail.id],
+  }, {
+    dependsOn: [tokenHolderFunction, notificationEmail],
   });
 
   // Alert when there are more executions than expected (1 every hour)
@@ -275,7 +343,9 @@ configFiles.forEach(configFile => {
     },
     combiner: "OR",
     enabled: true,
-    notificationChannels: [NOTIFICATION_CHANNEL_EMAIL_JEM, NOTIFICATION_CHANNEL_DISCORD],
+    notificationChannels: [notificationEmail.id],
+  }, {
+    dependsOn: [tokenHolderFunction, notificationEmail],
   });
 
   // Alert when the GCS bucket network activity is greater than expected
@@ -329,7 +399,9 @@ configFiles.forEach(configFile => {
     },
     combiner: "OR",
     enabled: true,
-    notificationChannels: [NOTIFICATION_CHANNEL_EMAIL_JEM, NOTIFICATION_CHANNEL_DISCORD],
+    notificationChannels: [notificationEmail.id],
+  }, {
+    dependsOn: [storageBucket, notificationEmail],
   });
 
   /**

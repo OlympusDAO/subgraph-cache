@@ -1,3 +1,7 @@
 config:
   gcp:project: utility-descent-365911
   gcp:region: us-central1
+  subgraph-cache:emailAddress:
+    secure: AAABAJp/T3zlyaf4gkBSBaoW3Sfl8Di7SFkdwNncU/iFq7BB2JGhaUP0wELLWsJdtg==
+  subgraph-cache:graphProtocolApiKey:
+    secure: AAABACvPfJcWKHLzppDhZjJKGrC160XflmaQLKZncc/YuiZdjkfPzMGzLK3aye4R7eFPZgXTFvXEEewRc0SLwQ==

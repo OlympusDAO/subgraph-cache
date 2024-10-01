@@ -14,7 +14,7 @@
         "esModuleInterop": true
     },
     "include": [
-        "src/**/*.ts", "../src/helpers/subgraphSchema.ts", "../src/helpers/bigquerySchema.ts", "../src/helpers/jsonSchema.ts",
+        "src/**/*.ts",
     ],
     "exclude": [
         "node_modules",
