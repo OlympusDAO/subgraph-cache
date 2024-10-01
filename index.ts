@@ -68,17 +68,6 @@ const storageBucket = new gcp.storage.Bucket(BUCKET_NAME_PREFIX, {
 export const storageBucketUrl = storageBucket.url;
 export const storageBucketName = storageBucket.name;
 
-/**
- * Create a BigQuery external table
- */
-const bigQueryDataset = new gcp.bigquery.Dataset(BUCKET_NAME_PREFIX, {
-  datasetId: BUCKET_NAME_PREFIX.replace(/-/g, "_"), // - is unsupported
-}, {
-  dependsOn: [enabledApisBigQuery],
-});
-
-export const bigQueryDatasetId = bigQueryDataset.datasetId;
-
 // Define email notification channels
 const notificationEmail = new gcp.monitoring.NotificationChannel("email", {
   type: "email",
@@ -241,6 +230,14 @@ configFiles.forEach(configFile => {
   });
   module.exports[`${FUNCTION_PREFIX}-bigQueryDummyObjectName`] = bigQueryDummyObjectName;
 
+  // Create a BigQuery dataset
+  const bigQueryDataset = new gcp.bigquery.Dataset(`${subgraphConfig.subgraphName}-${subgraphConfig.deploymentId}`, {
+    datasetId: `${subgraphConfig.subgraphName}-${subgraphConfig.deploymentId}`.replace(/-/g, "_"), // - is unsupported
+  }, {
+    dependsOn: [enabledApisBigQuery],
+  });
+  module.exports[`${FUNCTION_PREFIX}-bigQueryDatasetId`] = bigQueryDataset.datasetId;
+
   // storageBucketUrl is not known until deploy-time, so we use a pulumi-provided function to utilise it
   // Source: https://www.pulumi.com/docs/intro/concepts/inputs-outputs/#apply
   const bigQuerySourceUriPrefix = storageBucketUrl.apply(url => `${url}/${subgraphConfig.getDirectory()}/`);
@@ -256,7 +253,7 @@ configFiles.forEach(configFile => {
     FUNCTION_PREFIX,
     {
       datasetId: bigQueryDataset.datasetId,
-      tableId: FUNCTION_PREFIX,
+      tableId: subgraphConfig.object,
       deletionProtection: false,
       externalDataConfiguration: {
         sourceFormat: "NEWLINE_DELIMITED_JSON",
