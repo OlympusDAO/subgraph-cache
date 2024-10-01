@@ -12,7 +12,7 @@ import {
   printSchema,
 } from "graphql";
 
-import { writeFile } from "./fs";
+import { writeFile } from "../../function/src/helpers/fs";
 
 /**
  * Generates a GraphQLSchema object from the subgraph URL.

@@ -1,18 +1,18 @@
 import { execSync } from "child_process";
 import path from "path";
 
-import { GENERATED_DIR } from "./constants";
+import { GENERATED_FILES_DIR } from "./constants";
 import { getBigQuerySchema } from "./helpers/bigquerySchema";
-import { writeFile } from "./helpers/fs";
+import { writeFile } from "../function/src/helpers/fs";
 import { generateJSONSchema } from "./helpers/jsonSchema";
-import { getSubgraphConfig, getSubgraphConfigFiles } from "./helpers/subgraphConfig";
+import { getSubgraphConfig, getSubgraphConfigFiles } from "../function/src/helpers/subgraphConfig";
 import { generateTypes } from "./helpers/subgraphSchema";
-import { SubgraphConfig } from "./types/subgraphConfig";
+import { SubgraphConfig } from "../function/src/types/subgraphConfig";
 
 const writeSchema = async (configFilePath: string): Promise<void> => {
   const config: SubgraphConfig = getSubgraphConfig(configFilePath);
 
-  const subgraphDir = `${GENERATED_DIR}/${config.getDirectory()}`;
+  const subgraphDir = `${GENERATED_FILES_DIR}/${config.getDirectory()}`;
   const typesFilepath = `${subgraphDir}/${config.object}_types.ts`;
   await generateTypes(config.getUrl(), typesFilepath);
 

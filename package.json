@@ -2,11 +2,12 @@
     "name": "subgraph-cache",
     "main": "index.ts",
     "scripts": {
-        "test": "jest",
-        "codegen": "ts-node src/codegen.ts && yarn lint:fix generated/",
-        "execute": "ts-node src/index.ts",
-        "lint": "eslint --config ./.eslintrc.js ./src/ --ext .jsx,.js,.tsx,.ts",
-        "lint:fix": "prettier --write ./src/ & yarn lint --fix"
+        "build": "cd function && yarn build",
+        "postinstall": "cd function && yarn install",
+        "test": "cd function && yarn test",
+        "codegen": "ts-node src/codegen.ts && cd function && yarn lint",
+        "execute": "cd function && yarn execute",
+        "lint": "cd function && yarn lint"
     },
     "devDependencies": {
         "@apidevtools/json-schema-ref-parser": "^9.0.9",
@@ -19,32 +20,15 @@
         "@graphql-typed-document-node/core": "^3.1.1",
         "@pulumi/gcp": "^6.0.0",
         "@pulumi/pulumi": "^3.0.0",
-        "@types/jest": "^29.0.3",
         "@types/json-schema": "^7.0.11",
-        "@types/node": "^14",
-        "@typescript-eslint/eslint-plugin": "^5.38.0",
-        "@typescript-eslint/parser": "^5.38.0",
-        "eslint": "^8.23.1",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-import": "^2.26.0",
-        "eslint-plugin-prettier": "^4.2.1",
-        "eslint-plugin-simple-import-sort": "^8.0.0",
-        "eslint-plugin-unused-imports": "^2.0.0",
-        "jest": "^29.1.1",
+        "@types/node": "^18",
         "jsonschema-bigquery": "^5.1.0",
-        "prettier": "^2.7.1",
-        "ts-jest": "^29.0.2",
         "ts-node": "^10.9.1",
         "typescript": "^4.8.4",
-        "typescript-json-schema": "^0.54.0"
+        "typescript-json-schema": "^0.65.1"
     },
     "dependencies": {
-        "@google-cloud/pubsub": "^3.2.0",
-        "@google-cloud/storage": "^6.5.2",
-        "@urql/core": "^3.0.3",
-        "cross-fetch": "^3.1.5",
         "graphql": "^16.6.0",
-        "graphql-tag": "^2.12.6",
         "jsonl-parse-stringify": "^1.0.3"
     }
 }

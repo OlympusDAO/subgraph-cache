@@ -2,9 +2,8 @@ import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import { readFileSync } from "fs";
 
-import { GENERATED_DIR } from "./src/constants";
-import { getSubgraphConfig, getSubgraphConfigFiles } from "./src/helpers/subgraphConfig";
-import { handler } from "./src/index";
+import { GENERATED_FILES_DIR } from "./src/constants";
+import { getSubgraphConfig, getSubgraphConfigFiles } from "./function/src/helpers/subgraphConfig";
 
 const BUCKET_NAME_PREFIX = `olympusdao-subgraph-cache-${pulumi.getStack()}`;
 
@@ -42,6 +41,31 @@ configFiles.forEach(configFile => {
   console.log(`Processing subgraph object ${FUNCTION_PREFIX}`);
 
   /**
+   * Function asset storage
+   */
+  // Create a GCS bucket to store the assets
+  const functionBucket = new gcp.storage.Bucket(
+    `${FUNCTION_PREFIX}-assets`,
+    {
+      location: "us-central1",
+    },
+  );
+
+  // Archive the function code in the bucket
+  const functionBucketObject = new gcp.storage.BucketObject(
+    "function-code",
+    {
+      bucket: functionBucket.name,
+      source: new pulumi.asset.AssetArchive({
+        ".": new pulumi.asset.FileArchive("./function"),
+      }),
+    },
+    {
+      dependsOn: [functionBucket],
+    },
+  );
+
+  /**
    * PubSub topic
    */
   const pubSubTopic = new gcp.pubsub.Topic(FUNCTION_NAME);
@@ -67,40 +91,39 @@ configFiles.forEach(configFile => {
 
   // Grab the JSON schema
   const jsonSchemaString = readFileSync(
-    `${GENERATED_DIR}/${subgraphConfig.getDirectory()}/${subgraphConfig.object}.jsonschema`,
+    `${GENERATED_FILES_DIR}/${subgraphConfig.getDirectory()}/${subgraphConfig.object}.jsonschema`,
   ).toString("utf-8");
 
   /**
    * Execution: Google Cloud Functions
    */
   const functionTimeoutSeconds = 540;
-  const tokenHolderFunction = new gcp.cloudfunctions.HttpCallbackFunction(FUNCTION_NAME, {
-    runtime: "nodejs14",
-    timeout: functionTimeoutSeconds,
+  const tokenHolderFunction = new gcp.cloudfunctions.Function(FUNCTION_NAME, {
+    sourceArchiveBucket: functionBucket.name,
+    sourceArchiveObject: functionBucketObject.name,
+    triggerHttp: true,
+    runtime: "nodejs18",
+    entryPoint: "run",
     availableMemoryMb: 1024,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    callback: async (req, res) => {
-      console.log("Received callback. Initiating handler.");
-      await handler(
-        subgraphConfig.getUrl(),
-        subgraphConfig.object,
-        subgraphConfig.dateField,
-        jsonSchemaString,
-        subgraphConfig.getDirectory(),
-        storageBucketName.get(),
-        pubSubTopic.name.get(),
-        functionTimeoutSeconds,
-        pubSubSubscription.id.get(),
-        pulumiConfig.get("finalDate"),
-      );
-      // It's not documented in the Pulumi documentation, but the function will timeout if `.end()` is missing.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (<any>res).send("OK").end();
+    timeout: functionTimeoutSeconds,
+    environmentVariables: {
+      SUBGRAPH_URL: subgraphConfig.getUrl(),
+      SUBGRAPH_OBJECT: subgraphConfig.object,
+      SUBGRAPH_DATE_FIELD: subgraphConfig.dateField,
+      JSON_SCHEMA_STRING: jsonSchemaString,
+      STORAGE_PREFIX: subgraphConfig.getDirectory(),
+      BUCKET_NAME: storageBucketName,
+      PUBSUB_TOPIC: pubSubTopic.name,
+      FUNCTION_TIMEOUT_SECONDS: functionTimeoutSeconds,
+      PUBSUB_SUBSCRIPTION_ID: pubSubSubscription.id,
+      FINAL_DATE_OVERRIDE: pulumiConfig.get("finalDate"),
     },
+  }, {
+    dependsOn: [functionBucketObject, storageBucket, pubSubTopic, pubSubSubscription],
   });
 
   module.exports[`${FUNCTION_PREFIX}-functionUrl`] = tokenHolderFunction.httpsTriggerUrl;
-  module.exports[`${FUNCTION_PREFIX}-functionName`] = tokenHolderFunction.function.name;
+  module.exports[`${FUNCTION_PREFIX}-functionName`] = tokenHolderFunction.name;
   module.exports[`${FUNCTION_PREFIX}-storagePrefix`] = subgraphConfig.getDirectory();
   module.exports[`${FUNCTION_PREFIX}-bucketName`] = storageBucketName;
 
@@ -113,8 +136,28 @@ configFiles.forEach(configFile => {
     httpTarget: {
       httpMethod: "GET",
       uri: tokenHolderFunction.httpsTriggerUrl,
+      oidcToken: {
+        serviceAccountEmail: tokenHolderFunction.serviceAccountEmail,
+      },
     },
+  }, {
+    dependsOn: [tokenHolderFunction],
   });
+
+  // Allow Cloud Scheduler to invoke the Cloud Function
+  new gcp.cloudfunctions.FunctionIamMember(
+    "function-invoker",
+    {
+      project: tokenHolderFunction.project,
+      region: tokenHolderFunction.region,
+      cloudFunction: tokenHolderFunction.name,
+      role: "roles/cloudfunctions.invoker",
+      member: pulumi.interpolate`serviceAccount:${gcp.config.project}@appspot.gserviceaccount.com`,
+    },
+    {
+      dependsOn: [tokenHolderFunction],
+    },
+  );
 
   module.exports[`${FUNCTION_PREFIX}-schedulerJobName`] = schedulerJob.name;
 
@@ -137,7 +180,7 @@ configFiles.forEach(configFile => {
 
   // For the moment, we generate a BigQuery schema file and store it locally
   const bigQuerySchemaJson = readFileSync(
-    `${GENERATED_DIR}/${subgraphConfig.getDirectory()}/${subgraphConfig.object}_schema.json`,
+    `${GENERATED_FILES_DIR}/${subgraphConfig.getDirectory()}/${subgraphConfig.object}_schema.json`,
   ).toString("utf-8");
 
   const bigQueryTable = new gcp.bigquery.Table(
@@ -177,7 +220,7 @@ configFiles.forEach(configFile => {
       {
         displayName: "Function Status Not OK",
         conditionThreshold: {
-          filter: pulumi.interpolate`resource.type = "cloud_function" AND resource.labels.function_name = "${tokenHolderFunction.function.name}" AND metric.type = "cloudfunctions.googleapis.com/function/execution_count" AND metric.labels.status != "ok"`,
+          filter: pulumi.interpolate`resource.type = "cloud_function" AND resource.labels.function_name = "${tokenHolderFunction.name}" AND metric.type = "cloudfunctions.googleapis.com/function/execution_count" AND metric.labels.status != "ok"`,
           aggregations: [
             {
               alignmentPeriod: `${ALERT_POLICY_FUNCTION_ERROR_WINDOW_SECONDS}s`,
@@ -210,7 +253,7 @@ configFiles.forEach(configFile => {
       {
         displayName: `Function Executions > 1 / ${ALERT_POLICY_FUNCTION_EXECUTIONS_WINDOW_SECONDS / 60} minutes`,
         conditionThreshold: {
-          filter: pulumi.interpolate`resource.type = "cloud_function" AND resource.labels.function_name = "${tokenHolderFunction.function.name}" AND metric.type = "cloudfunctions.googleapis.com/function/execution_count"`,
+          filter: pulumi.interpolate`resource.type = "cloud_function" AND resource.labels.function_name = "${tokenHolderFunction.name}" AND metric.type = "cloudfunctions.googleapis.com/function/execution_count"`,
           aggregations: [
             {
               alignmentPeriod: `${ALERT_POLICY_FUNCTION_EXECUTIONS_WINDOW_SECONDS}s`,
@@ -328,7 +371,7 @@ configFiles.forEach(configFile => {
                             "perSeriesAligner": "ALIGN_SUM"
                           },
                           "filter": "resource.type = \\"cloud_function\\" resource.labels.function_name = \\"${
-                            tokenHolderFunction.function.name
+                            tokenHolderFunction.name
                           }\\" metric.type = \\"cloudfunctions.googleapis.com/function/execution_count\\""
                         }
                       }
