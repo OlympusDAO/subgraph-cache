@@ -66,8 +66,9 @@ export const generateQuery = (
   page: number,
   dateField: string,
   orderDirection: "asc" | "desc",
-  date_gte?: string,
-  date_lt?: string,
+  date_gte?: Date,
+  date_lt?: Date,
+  isTimestampInSeconds = true,
 ): string => {
   const objectName = getObjectQueryName(type);
 
@@ -80,8 +81,8 @@ export const generateQuery = (
       ${
         date_gte || date_lt
           ? `where: {
-          ${date_gte ? `${dateField}_gte: "${date_gte}" ` : ""}
-          ${date_lt ? `${dateField}_lt: "${date_lt}" ` : ""}
+          ${date_gte ? `${dateField}_gte: "${date_gte.getTime() / (isTimestampInSeconds ? 1000 : 1)}" ` : ""}
+          ${date_lt ? `${dateField}_lt: "${date_lt.getTime() / (isTimestampInSeconds ? 1000 : 1)}" ` : ""}
         }`
           : ""
       }

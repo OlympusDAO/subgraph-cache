@@ -100,11 +100,14 @@ export const handler = async (
   });
 
   // Get the earliest date in the subgraph
-  const subgraphEarliestDate: Date = addDays(
-    await getEarliestTransactionDate(client, jsonSchema, subgraphObject, subgraphDateField),
-    0,
-    true,
-  ); // Start of the same day
+  const [subgraphEarliestDateRaw, isTimestampInSeconds] = await getEarliestTransactionDate(
+    client,
+    jsonSchema,
+    subgraphObject,
+    subgraphDateField,
+  );
+
+  const subgraphEarliestDate: Date = addDays(subgraphEarliestDateRaw, 0, true); // Start of the same day
   console.log(`Subgraph earliest date: ${getISO8601DateString(subgraphEarliestDate)}`);
   // Final date in the subgraph
   const subgraphFinalDate: Date = finalDateOverride
@@ -163,6 +166,7 @@ export const handler = async (
     bucketName,
     startDate,
     subgraphFinalDate,
+    isTimestampInSeconds,
     shouldTerminate,
   );
 

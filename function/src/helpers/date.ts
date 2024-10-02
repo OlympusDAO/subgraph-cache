@@ -11,3 +11,11 @@ export const addDays = (date: Date, days: number, midnight: boolean): Date => {
 
   return newDate;
 };
+
+export const isTimestampInSeconds = (dateTimestamp: number): boolean => {
+  return dateTimestamp < 10000000000;
+};
+
+export const getDateFromTimestamp = (dateTimestamp: number): Date => {
+  return new Date(dateTimestamp * (isTimestampInSeconds(dateTimestamp) ? 1000 : 1));
+};

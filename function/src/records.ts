@@ -34,6 +34,7 @@ export const getRecords = async (
   bucketName: string,
   startDate: Date,
   finalDate: Date,
+  isTimestampInSeconds: boolean,
   shouldTerminate: IShouldTerminate,
 ): Promise<Date> => {
   console.info(`\n\nFetching records`);
@@ -42,7 +43,14 @@ export const getRecords = async (
 
   // We loop over each day, fetch records and write those to disk
   while (currentDate < finalDate) {
-    const records: any[] = await getGraphQLRecords(client, schema, object, dateField, currentDate);
+    const records: any[] = await getGraphQLRecords(
+      client,
+      schema,
+      object,
+      dateField,
+      currentDate,
+      isTimestampInSeconds,
+    );
 
     // Write to file
     await writeRecords(storagePrefix, bucketName, records, currentDate);

@@ -1,7 +1,7 @@
 import { Client } from "@urql/core";
 import $RefParser = require("@apidevtools/json-schema-ref-parser");
 
-import { getISO8601DateString } from "./helpers/date";
+import { getDateFromTimestamp, getISO8601DateString, isTimestampInSeconds } from "./helpers/date";
 import { generateQuery, getObjectQueryName } from "./helpers/subgraphQuery";
 
 /**
@@ -21,6 +21,7 @@ const fetchGraphQLRecords = async (
   page: number,
   startDate: Date,
   finishDate: Date,
+  isTimestampInSeconds: boolean,
 ): Promise<any[]> => {
   console.debug(
     `Fetching records for object ${object}, date range ${startDate.toISOString()} - ${finishDate.toISOString()} and page ${page}`,
@@ -33,9 +34,11 @@ const fetchGraphQLRecords = async (
     page,
     dateField,
     "desc",
-    startDate.toISOString(),
-    finishDate.toISOString(),
+    startDate,
+    finishDate,
+    isTimestampInSeconds,
   );
+  console.log("Query:", query);
   const queryResults = await client.query(query, {}).toPromise();
 
   // TODO it sometimes receives no records, even though they exist
@@ -56,7 +59,16 @@ const fetchGraphQLRecords = async (
   }
 
   // Otherwise we recursively fetch the next page
-  const nextRecords = await fetchGraphQLRecords(client, schema, object, dateField, page + 1, startDate, finishDate);
+  const nextRecords = await fetchGraphQLRecords(
+    client,
+    schema,
+    object,
+    dateField,
+    page + 1,
+    startDate,
+    finishDate,
+    isTimestampInSeconds,
+  );
   return [...records, ...nextRecords];
 };
 
@@ -72,6 +84,7 @@ export const getGraphQLRecords = async (
   object: string,
   dateField: string,
   date: Date,
+  isTimestampInSeconds: boolean,
 ): Promise<any[]> => {
   const timeDelta = 1 * 60 * 60 * 1000; // 1 hours for each loop
 
@@ -96,6 +109,7 @@ export const getGraphQLRecords = async (
       0,
       queryStartDate,
       queryFinishDate,
+      isTimestampInSeconds,
     );
     records.push(...queryRecords);
 
@@ -127,7 +141,8 @@ export const getLatestTransactionDate = async (
     throw new Error(`Did not receive results from GraphQL query for latest transaction`);
   }
 
-  return new Date(queryResults.data[normalisedObjectName][0][dateField]);
+  const latestDateValue = parseInt(queryResults.data[normalisedObjectName][0][dateField]);
+  return getDateFromTimestamp(latestDateValue);
 };
 
 /**
@@ -141,8 +156,11 @@ export const getEarliestTransactionDate = async (
   schema: $RefParser.JSONSchema,
   object: string,
   dateField: string,
-): Promise<Date> => {
+): Promise<[Date, boolean]> => {
+  console.info(`Determining earliest transaction date for ${object}`);
+
   const query = generateQuery(schema, object, 1, 0, dateField, "asc");
+  console.debug(`Earliest transaction query:\n${query}`);
   const queryResults = await client.query(query, {}).toPromise();
 
   const normalisedObjectName = getObjectQueryName(object);
@@ -151,5 +169,7 @@ export const getEarliestTransactionDate = async (
     throw new Error(`Did not receive results from GraphQL query for earliest transaction. Query: ${query}`);
   }
 
-  return new Date(queryResults.data[normalisedObjectName][0][dateField]);
+  const earliestDateValue = parseInt(queryResults.data[normalisedObjectName][0][dateField]);
+  const isSeconds = isTimestampInSeconds(earliestDateValue);
+  return [getDateFromTimestamp(earliestDateValue), isSeconds];
 };
