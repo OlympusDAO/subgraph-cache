@@ -71,6 +71,7 @@ export const storageBucketName = storageBucket.name;
 // Define email notification channels
 const notificationEmail = new gcp.monitoring.NotificationChannel("email", {
   type: "email",
+  displayName: "Email Notification",
   labels: {
     email_address: pulumiConfig.requireSecret("emailAddress"),
   },
