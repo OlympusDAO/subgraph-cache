@@ -1,0 +1,167 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "createdBlock",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "createdTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "createdTransaction",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cooler",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "request",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "loanId",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "borrower",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "lender",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "interest",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "principal",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "collateral",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "expiryTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "hasCallback",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "collateralToken",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "debtToken",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "creationEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "defaultedClaimEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "repaymentEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "extendEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  }
+]

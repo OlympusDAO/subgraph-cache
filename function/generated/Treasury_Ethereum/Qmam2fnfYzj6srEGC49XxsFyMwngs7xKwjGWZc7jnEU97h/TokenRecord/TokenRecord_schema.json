@@ -46,27 +46,27 @@
   },
   {
     "name": "rate",
-    "type": "BIGNUMERIC",
+    "type": "STRING",
     "mode": "NULLABLE"
   },
   {
     "name": "balance",
-    "type": "BIGNUMERIC",
+    "type": "STRING",
     "mode": "NULLABLE"
   },
   {
     "name": "multiplier",
-    "type": "BIGNUMERIC",
+    "type": "STRING",
     "mode": "NULLABLE"
   },
   {
     "name": "value",
-    "type": "BIGNUMERIC",
+    "type": "STRING",
     "mode": "NULLABLE"
   },
   {
     "name": "valueExcludingOhm",
-    "type": "BIGNUMERIC",
+    "type": "STRING",
     "mode": "NULLABLE"
   },
   {

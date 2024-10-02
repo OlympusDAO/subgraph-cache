@@ -1,13 +1,6 @@
 {
     "subgraphName": "Treasury_Ethereum",
     "object": "TokenRecord",
-    "dateField": "date",
-    "typeOverrides": {
-        "rate": "BIGNUMERIC",
-        "balance": "BIGNUMERIC",
-        "multiplier": "BIGNUMERIC",
-        "value": "BIGNUMERIC",
-        "valueExcludingOhm": "BIGNUMERIC"
-    },
+    "dateField": "timestamp",
     "deploymentId": "Qmam2fnfYzj6srEGC49XxsFyMwngs7xKwjGWZc7jnEU97h"
 }
