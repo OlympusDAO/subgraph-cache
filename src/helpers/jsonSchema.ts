@@ -1,7 +1,4 @@
-import $RefParser = require("@apidevtools/json-schema-ref-parser");
 import { JSONSchema7, JSONSchema7Definition } from "json-schema";
-import { resolve } from "path";
-import * as TJS from "typescript-json-schema";
 import * as tsj from "ts-json-schema-generator";
 
 /**
@@ -15,7 +12,7 @@ import * as tsj from "ts-json-schema-generator";
  * @param typesFilename
  * @returns
  */
-export const generateJSONSchema = async (type: string, typesFilename: string): Promise<$RefParser.JSONSchema> => {
+export const generateJSONSchema = async (type: string, typesFilename: string): Promise<JSONSchema7> => {
   console.log(`Generating JSONSchema for object ${type}`);
   // Convert to JSONSchema
   const tsjConfig: tsj.Config = {
@@ -25,20 +22,18 @@ export const generateJSONSchema = async (type: string, typesFilename: string): P
   };
   const jsonSchema = tsj.createGenerator(tsjConfig).createSchema(tsjConfig.type);
 
-  // We need to de-reference types in the JSONSchema, otherwise the BigQuery schema library will complain
-  const derefSchema = await $RefParser.dereference(jsonSchema as JSONSchema7);
   // Remove the definitions (as they are already included in the properties)
-  delete derefSchema.definitions;
+  delete jsonSchema.definitions;
   // Remove the required fields (as we are not using them)
-  delete derefSchema.required;
+  delete jsonSchema.required;
 
   // Iterate over the properties and perform some transformations
-  if (derefSchema.properties) {
+  if (jsonSchema.properties) {
     const newProperties: Record<string, JSONSchema7Definition> = {};
 
-    for (const [key, val] of Object.entries(derefSchema.properties)) {
+    for (const [key, val] of Object.entries(jsonSchema.properties)) {
       // If it is not an object, we can add it to the new properties
-      if (val.type !== "object") {
+      if (typeof val == "boolean" || (typeof val == "object" && val.$ref == undefined)) {
         newProperties[key] = val;
         continue;
       }
@@ -51,8 +46,8 @@ export const generateJSONSchema = async (type: string, typesFilename: string): P
       console.log(`Replaced ${key} with ${newKey}`);
     }
 
-    derefSchema.properties = newProperties;
+    jsonSchema.properties = newProperties;
   }
 
-  return derefSchema;
+  return jsonSchema;
 };

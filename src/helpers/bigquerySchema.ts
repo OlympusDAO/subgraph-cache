@@ -1,4 +1,4 @@
-import $RefParser = require("@apidevtools/json-schema-ref-parser");
+import { JSONSchema7 } from "json-schema";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import * as jsonSchemaBigQuery from "jsonschema-bigquery";
@@ -17,7 +17,7 @@ const setTypeOverrides = (fields: any[], typeOverrides: Record<string, string>):
   });
 };
 
-export const getBigQuerySchema = (schema: $RefParser.JSONSchema, typeOverrides?: Record<string, string>): string => {
+export const getBigQuerySchema = (schema: JSONSchema7, typeOverrides?: Record<string, string>): string => {
   console.log(`Converting schema to BigQuery format`);
   // Convert to BigQuery schema: https://github.com/thedumbterminal/jsonschema-bigquery
   const bigQuerySchema = jsonSchemaBigQuery.run(schema);
