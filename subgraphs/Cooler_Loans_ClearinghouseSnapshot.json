@@ -1,6 +1,6 @@
 {
     "subgraphName": "Cooler_Loans",
-    "object": "ClearingHouseSnapshot",
+    "object": "ClearinghouseSnapshot",
     "dateField": "blockTimestamp",
     "typeOverrides": {
         "interestReceivables": "BIGNUMERIC",
