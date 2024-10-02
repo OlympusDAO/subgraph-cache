@@ -34,25 +34,33 @@ export const generateJSONSchema = async (type: string, typesFilename: string): P
     for (const [key, val] of Object.entries(jsonSchema.properties)) {
       // If it is an object with a $ref entry, we replace it with an id field
       if (typeof val == "object" && val.$ref !== undefined) {
-        const newKey = `${key}__id`;
-        newProperties[newKey] = {
-          type: "string",
+        newProperties[key] = {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+            },
+          },
         };
-        console.log(`Replaced ${key} with ${newKey}`);
+        console.log(`Replaced ${key} definition`);
 
         continue;
       }
 
       // If it is an array, we replace it with an array of ids
       if (typeof val == "object" && val.type == "array") {
-        const newKey = `${key}__ids`;
-        newProperties[newKey] = {
+        newProperties[key] = {
           type: "array",
           items: {
-            type: "string",
+            type: "object",
+            properties: {
+              id: {
+                type: "string",
+              },
+            },
           },
         };
-        console.log(`Replaced ${key} with ${newKey}`);
+        console.log(`Replaced ${key} array definition`);
 
         continue;
       }
