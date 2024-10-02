@@ -91,7 +91,7 @@ configFiles.forEach(configFile => {
    */
   // Create a GCS bucket to store the assets
   const functionBucket = new gcp.storage.Bucket(
-    `${FUNCTION_PREFIX.toLowerCase()}-assets`,
+    `${FUNCTION_PREFIX.toLowerCase()}-assets`, // Lowercase to avoid issues with GCS
     {
       location: "us-central1",
     },
@@ -102,7 +102,7 @@ configFiles.forEach(configFile => {
 
   // Archive the function code in the bucket
   const functionBucketObject = new gcp.storage.BucketObject(
-    "function-code",
+    `${FUNCTION_PREFIX.toLowerCase()}-function`, // Lowercase to avoid issues with GCS
     {
       bucket: functionBucket.name,
       source: new pulumi.asset.AssetArchive({
@@ -200,7 +200,7 @@ configFiles.forEach(configFile => {
 
   // Allow Cloud Scheduler to invoke the Cloud Function
   new gcp.cloudfunctions.FunctionIamMember(
-    "function-invoker",
+    `${FUNCTION_PREFIX}-invoker`,
     {
       project: tokenHolderFunction.project,
       region: tokenHolderFunction.region,
