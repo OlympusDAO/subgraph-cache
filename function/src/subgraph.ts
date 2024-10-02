@@ -38,7 +38,7 @@ const fetchGraphQLRecords = async (
     finishDate,
     isTimestampInSeconds,
   );
-  console.log("Query:", query);
+  console.debug("Query:", query);
   const queryResults = await client.query(query, {}).toPromise();
 
   // TODO it sometimes receives no records, even though they exist

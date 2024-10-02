@@ -37,6 +37,9 @@ export const generateJSONSchema = async (type: string, typesFilename: string): P
         newProperties[key] = {
           type: "object",
           properties: {
+            __typename: {
+              type: "string",
+            },
             id: {
               type: "string",
             },
@@ -54,6 +57,9 @@ export const generateJSONSchema = async (type: string, typesFilename: string): P
           items: {
             type: "object",
             properties: {
+              __typename: {
+                type: "string",
+              },
               id: {
                 type: "string",
               },
