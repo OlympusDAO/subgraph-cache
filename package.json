@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "graphql": "^16.6.0",
-        "jsonl-parse-stringify": "^1.0.3"
+        "jsonl-parse-stringify": "^1.0.3",
+        "ts-json-schema-generator": "^2.3.0"
     }
 }

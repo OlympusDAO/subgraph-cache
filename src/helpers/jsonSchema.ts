@@ -1,7 +1,8 @@
 import $RefParser = require("@apidevtools/json-schema-ref-parser");
-import { JSONSchema7 } from "json-schema";
+import { JSONSchema7, JSONSchema7Definition } from "json-schema";
 import { resolve } from "path";
 import * as TJS from "typescript-json-schema";
+import * as tsj from "ts-json-schema-generator";
 
 /**
  * Generates a JSONSchema for the given {type},
@@ -17,15 +18,41 @@ import * as TJS from "typescript-json-schema";
 export const generateJSONSchema = async (type: string, typesFilename: string): Promise<$RefParser.JSONSchema> => {
   console.log(`Generating JSONSchema for object ${type}`);
   // Convert to JSONSchema
-  const jsonSchemaProgram = TJS.getProgramFromFiles([resolve(typesFilename)], {
-    strictNullChecks: true,
-  });
-  const jsonSchema = TJS.generateSchema(jsonSchemaProgram, type);
-  if (!jsonSchema) {
-    throw new Error(`Unable to generate JSONSchema for type ${type} and types file ${typesFilename}`);
-  }
+  const tsjConfig: tsj.Config = {
+    path: typesFilename,
+    type: type,
+    topRef: false, // Avoid generating a $ref at the root of the schema, which confuses the de-referencer. See: https://github.com/APIDevTools/json-schema-ref-parser/issues/48
+  };
+  const jsonSchema = tsj.createGenerator(tsjConfig).createSchema(tsjConfig.type);
 
   // We need to de-reference types in the JSONSchema, otherwise the BigQuery schema library will complain
   const derefSchema = await $RefParser.dereference(jsonSchema as JSONSchema7);
+  // Remove the definitions (as they are already included in the properties)
+  delete derefSchema.definitions;
+  // Remove the required fields (as we are not using them)
+  delete derefSchema.required;
+
+  // Iterate over the properties and perform some transformations
+  if (derefSchema.properties) {
+    const newProperties: Record<string, JSONSchema7Definition> = {};
+
+    for (const [key, val] of Object.entries(derefSchema.properties)) {
+      // If it is not an object, we can add it to the new properties
+      if (val.type !== "object") {
+        newProperties[key] = val;
+        continue;
+      }
+
+      // If it is an object, we replace it with an id field
+      const newKey = `${key}__id`;
+      newProperties[newKey] = {
+        type: "string",
+      };
+      console.log(`Replaced ${key} with ${newKey}`);
+    }
+
+    derefSchema.properties = newProperties;
+  }
+
   return derefSchema;
 };
