@@ -32,18 +32,33 @@ export const generateJSONSchema = async (type: string, typesFilename: string): P
     const newProperties: Record<string, JSONSchema7Definition> = {};
 
     for (const [key, val] of Object.entries(jsonSchema.properties)) {
-      // If it is not an object, we can add it to the new properties
-      if (typeof val == "boolean" || (typeof val == "object" && val.$ref == undefined)) {
-        newProperties[key] = val;
+      // If it is an object with a $ref entry, we replace it with an id field
+      if (typeof val == "object" && val.$ref !== undefined) {
+        const newKey = `${key}__id`;
+        newProperties[newKey] = {
+          type: "string",
+        };
+        console.log(`Replaced ${key} with ${newKey}`);
+
         continue;
       }
 
-      // If it is an object, we replace it with an id field
-      const newKey = `${key}__id`;
-      newProperties[newKey] = {
-        type: "string",
-      };
-      console.log(`Replaced ${key} with ${newKey}`);
+      // If it is an array, we replace it with an array of ids
+      if (typeof val == "object" && val.type == "array") {
+        const newKey = `${key}__ids`;
+        newProperties[newKey] = {
+          type: "array",
+          items: {
+            type: "string",
+          },
+        };
+        console.log(`Replaced ${key} with ${newKey}`);
+
+        continue;
+      }
+
+      // Otherwise, we keep the property as is
+      newProperties[key] = val;
     }
 
     jsonSchema.properties = newProperties;
