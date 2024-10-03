@@ -1,6 +1,6 @@
 {
-    "subgraphName": "Cooler_Loans",
-    "object": "CoolerLoan",
-    "dateField": "createdTimestamp",
-    "deploymentId": "QmQoJMZT4bLLUNvf9Z15VNub6Wk1oq6VcMm34omrrVZevs"
+  "subgraphName": "Cooler_Loans",
+  "object": "CoolerLoan",
+  "dateField": "createdTimestamp",
+  "deploymentId": "QmQoJMZT4bLLUNvf9Z15VNub6Wk1oq6VcMm34omrrVZevs"
 }

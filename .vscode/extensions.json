@@ -1,9 +1,9 @@
 {
-    "recommendations": [
-        "rvest.vs-code-prettier-eslint",
-        "dbaeumer.vscode-eslint",
-        "mquandalle.graphql",
-        "gruntfuggly.todo-tree",
-        "redhat.vscode-yaml"
-    ]
+  "recommendations": [
+    "rvest.vs-code-prettier-eslint",
+    "dbaeumer.vscode-eslint",
+    "mquandalle.graphql",
+    "gruntfuggly.todo-tree",
+    "redhat.vscode-yaml"
+  ]
 }

@@ -30,13 +30,10 @@ const enabledApisStorage = new gcp.projects.Service("storage", {
   service: "storage.googleapis.com",
 });
 
-const enabledApisArtifactRegistry = new gcp.projects.Service(
-  "artifact-registry",
-  {
-    project: gcp.config.project,
-    service: "artifactregistry.googleapis.com",
-  },
-);
+const enabledApisArtifactRegistry = new gcp.projects.Service("artifact-registry", {
+  project: gcp.config.project,
+  service: "artifactregistry.googleapis.com",
+});
 
 const enabledApisCloudBuild = new gcp.projects.Service("cloud-build", {
   project: gcp.config.project,
@@ -57,13 +54,17 @@ const enabledApisPubSub = new gcp.projects.Service("pubsub", {
  * Record storage: GCS bucket
  */
 // Create a bucket to store the cached results
-const storageBucket = new gcp.storage.Bucket(BUCKET_NAME_PREFIX, {
-  location: "US", // Get this from the provider instead?
-  uniformBucketLevelAccess: true,
-  versioning: { enabled: false },
-}, {
-  dependsOn: [enabledApisStorage],
-});
+const storageBucket = new gcp.storage.Bucket(
+  BUCKET_NAME_PREFIX,
+  {
+    location: "US", // Get this from the provider instead?
+    uniformBucketLevelAccess: true,
+    versioning: { enabled: false },
+  },
+  {
+    dependsOn: [enabledApisStorage],
+  },
+);
 
 // Export the DNS name of the bucket
 export const storageBucketUrl = storageBucket.url;
@@ -108,11 +109,15 @@ for (const subgraphName in subgraphNameToConfigs) {
   console.log(`Processing subgraph ${subgraphName}`);
 
   // Create a GCS bucket to store the assets for all record types in the subgraph
-  const functionBucket = new gcp.storage.Bucket(`${subgraphName.toLowerCase()}-assets`, {
-    location: "us-central1",
-  }, {
-    dependsOn: [enabledApisStorage],
-  });
+  const functionBucket = new gcp.storage.Bucket(
+    `${subgraphName.toLowerCase()}-assets`,
+    {
+      location: "us-central1",
+    },
+    {
+      dependsOn: [enabledApisStorage],
+    },
+  );
 
   // Iterate over each deployment id
   for (const deploymentId in deploymentIdToConfigs) {
@@ -121,11 +126,15 @@ for (const subgraphName in subgraphNameToConfigs) {
 
     // Create a BigQuery dataset to store the records for all record types in the subgraph
     const bigQueryDatasetId = `${subgraphName}-${deploymentId}`.replace(/-/g, "_"); // - is unsupported
-    const bigQueryDataset = new gcp.bigquery.Dataset(bigQueryDatasetId, {
-      datasetId: bigQueryDatasetId,
-    }, {
-      dependsOn: [enabledApisBigQuery],
-    });
+    const bigQueryDataset = new gcp.bigquery.Dataset(
+      bigQueryDatasetId,
+      {
+        datasetId: bigQueryDatasetId,
+      },
+      {
+        dependsOn: [enabledApisBigQuery],
+      },
+    );
     module.exports[`${bigQueryDatasetId}-bigQueryDatasetId`] = bigQueryDataset.datasetId;
 
     // Iterate over each subgraph config
@@ -155,9 +164,13 @@ for (const subgraphName in subgraphNameToConfigs) {
       /**
        * PubSub topic
        */
-      const pubSubTopic = new gcp.pubsub.Topic(FUNCTION_NAME, {}, {
-        dependsOn: [enabledApisPubSub],
-      });
+      const pubSubTopic = new gcp.pubsub.Topic(
+        FUNCTION_NAME,
+        {},
+        {
+          dependsOn: [enabledApisPubSub],
+        },
+      );
       module.exports[`${FUNCTION_PREFIX}-pubSubTopicName`] = pubSubTopic.name;
       module.exports[`${FUNCTION_PREFIX}-pubSubTopicId`] = pubSubTopic.id;
 
@@ -169,50 +182,65 @@ for (const subgraphName in subgraphNameToConfigs) {
        * which spawn functions.
        */
       const expirationSeconds = 24 * 60 * 60;
-      const pubSubSubscription = new gcp.pubsub.Subscription(FUNCTION_NAME, {
-        topic: pubSubTopic.name,
-        retainAckedMessages: false,
-        expirationPolicy: { ttl: `${expirationSeconds}s` },
-        messageRetentionDuration: `${expirationSeconds}s`,
-      }, {
-        dependsOn: [pubSubTopic],
-      });
+      const pubSubSubscription = new gcp.pubsub.Subscription(
+        FUNCTION_NAME,
+        {
+          topic: pubSubTopic.name,
+          retainAckedMessages: false,
+          expirationPolicy: { ttl: `${expirationSeconds}s` },
+          messageRetentionDuration: `${expirationSeconds}s`,
+        },
+        {
+          dependsOn: [pubSubTopic],
+        },
+      );
 
       module.exports[`${FUNCTION_PREFIX}-pubSubSubscriptionName`] = pubSubSubscription.name;
 
       // Grab the JSON schema
-      const jsonSchemaString = readFileSync(
-        `${subgraphGeneratedFiles}/${subgraphConfig.object}.jsonschema`,
-      ).toString("utf-8");
+      const jsonSchemaString = readFileSync(`${subgraphGeneratedFiles}/${subgraphConfig.object}.jsonschema`).toString(
+        "utf-8",
+      );
 
       /**
        * Execution: Google Cloud Functions
        */
       const functionTimeoutSeconds = 540;
-      const tokenHolderFunction = new gcp.cloudfunctions.Function(FUNCTION_NAME, {
-        sourceArchiveBucket: functionBucket.name,
-        sourceArchiveObject: functionBucketObject.name,
-        triggerHttp: true,
-        runtime: "nodejs18",
-        entryPoint: "run",
-        availableMemoryMb: 1024,
-        timeout: functionTimeoutSeconds,
-        environmentVariables: {
-          SUBGRAPH_URL: subgraphConfig.getUrl(),
-          SUBGRAPH_OBJECT: subgraphConfig.object,
-          SUBGRAPH_DATE_FIELD: subgraphConfig.dateField,
-          JSON_SCHEMA_STRING: jsonSchemaString,
-          STORAGE_PREFIX: subgraphConfig.getDirectory(),
-          BUCKET_NAME: storageBucketName,
-          PUBSUB_TOPIC: pubSubTopic.name,
-          FUNCTION_TIMEOUT_SECONDS: functionTimeoutSeconds,
-          PUBSUB_SUBSCRIPTION_ID: pubSubSubscription.id,
-          FINAL_DATE_OVERRIDE: pulumiConfig.get("finalDate"),
-          GRAPH_PROTOCOL_API_KEY: pulumiConfig.requireSecret("graphProtocolApiKey"),
+      const tokenHolderFunction = new gcp.cloudfunctions.Function(
+        FUNCTION_NAME,
+        {
+          sourceArchiveBucket: functionBucket.name,
+          sourceArchiveObject: functionBucketObject.name,
+          triggerHttp: true,
+          runtime: "nodejs18",
+          entryPoint: "run",
+          availableMemoryMb: 1024,
+          timeout: functionTimeoutSeconds,
+          environmentVariables: {
+            SUBGRAPH_URL: subgraphConfig.getUrl(),
+            SUBGRAPH_OBJECT: subgraphConfig.object,
+            SUBGRAPH_DATE_FIELD: subgraphConfig.dateField,
+            JSON_SCHEMA_STRING: jsonSchemaString,
+            STORAGE_PREFIX: subgraphConfig.getDirectory(),
+            BUCKET_NAME: storageBucketName,
+            PUBSUB_TOPIC: pubSubTopic.name,
+            FUNCTION_TIMEOUT_SECONDS: functionTimeoutSeconds,
+            PUBSUB_SUBSCRIPTION_ID: pubSubSubscription.id,
+            FINAL_DATE_OVERRIDE: pulumiConfig.get("finalDate"),
+            GRAPH_PROTOCOL_API_KEY: pulumiConfig.requireSecret("graphProtocolApiKey"),
+          },
         },
-      }, {
-        dependsOn: [functionBucketObject, storageBucket, pubSubTopic, pubSubSubscription, enabledApisCloudFunctions, enabledApisCloudBuild],
-      });
+        {
+          dependsOn: [
+            functionBucketObject,
+            storageBucket,
+            pubSubTopic,
+            pubSubSubscription,
+            enabledApisCloudFunctions,
+            enabledApisCloudBuild,
+          ],
+        },
+      );
 
       module.exports[`${FUNCTION_PREFIX}-functionUrl`] = tokenHolderFunction.httpsTriggerUrl;
       module.exports[`${FUNCTION_PREFIX}-functionName`] = tokenHolderFunction.name;
@@ -222,19 +250,23 @@ for (const subgraphName in subgraphNameToConfigs) {
       /**
        * Scheduling: Cloud Scheduler
        */
-      const schedulerJob = new gcp.cloudscheduler.Job(FUNCTION_NAME, {
-        schedule: "0 * * * *", // Start of every hour
-        timeZone: "UTC",
-        httpTarget: {
-          httpMethod: "GET",
-          uri: tokenHolderFunction.httpsTriggerUrl,
-          oidcToken: {
-            serviceAccountEmail: tokenHolderFunction.serviceAccountEmail,
+      const schedulerJob = new gcp.cloudscheduler.Job(
+        FUNCTION_NAME,
+        {
+          schedule: "0 * * * *", // Start of every hour
+          timeZone: "UTC",
+          httpTarget: {
+            httpMethod: "GET",
+            uri: tokenHolderFunction.httpsTriggerUrl,
+            oidcToken: {
+              serviceAccountEmail: tokenHolderFunction.serviceAccountEmail,
+            },
           },
         },
-      }, {
-        dependsOn: [tokenHolderFunction, enabledApisCloudScheduler],
-      });
+        {
+          dependsOn: [tokenHolderFunction, enabledApisCloudScheduler],
+        },
+      );
 
       // Allow Cloud Scheduler to invoke the Cloud Function
       new gcp.cloudfunctions.FunctionIamMember(
@@ -259,13 +291,17 @@ for (const subgraphName in subgraphNameToConfigs) {
        * We do this, otherwise the Hive partitioning will complain of no files being present.
        */
       const bigQueryDummyObjectName = `${subgraphConfig.getDirectory()}/dt=2021-01-01/dummy.jsonl`;
-      const bigQueryDummyObject = new gcp.storage.BucketObject(bigQueryDummyObjectName, {
-        bucket: storageBucketName,
-        content: "{}", // Empty file
-        name: bigQueryDummyObjectName,
-      }, {
-        dependsOn: [storageBucket],
-      });
+      const bigQueryDummyObject = new gcp.storage.BucketObject(
+        bigQueryDummyObjectName,
+        {
+          bucket: storageBucketName,
+          content: "{}", // Empty file
+          name: bigQueryDummyObjectName,
+        },
+        {
+          dependsOn: [storageBucket],
+        },
+      );
       module.exports[`${FUNCTION_PREFIX}-bigQueryDummyObjectName`] = bigQueryDummyObjectName;
 
       // storageBucketUrl is not known until deploy-time, so we use a pulumi-provided function to utilise it
@@ -307,129 +343,141 @@ for (const subgraphName in subgraphNameToConfigs) {
       // Alert when functions crash
       const ALERT_POLICY_FUNCTION_ERROR = `${FUNCTION_NAME}-function-error`;
       const ALERT_POLICY_FUNCTION_ERROR_WINDOW_SECONDS = 15 * 60;
-      new gcp.monitoring.AlertPolicy(ALERT_POLICY_FUNCTION_ERROR, {
-        displayName: ALERT_POLICY_FUNCTION_ERROR,
-        conditions: [
-          {
-            displayName: "Function Status Not OK",
-            conditionThreshold: {
-              filter: pulumi.interpolate`resource.type = "cloud_function" AND resource.labels.function_name = "${tokenHolderFunction.name}" AND metric.type = "cloudfunctions.googleapis.com/function/execution_count" AND metric.labels.status != "ok"`,
-              aggregations: [
-                {
-                  alignmentPeriod: `${ALERT_POLICY_FUNCTION_ERROR_WINDOW_SECONDS}s`,
-                  crossSeriesReducer: "REDUCE_NONE",
-                  perSeriesAligner: "ALIGN_SUM",
+      new gcp.monitoring.AlertPolicy(
+        ALERT_POLICY_FUNCTION_ERROR,
+        {
+          displayName: ALERT_POLICY_FUNCTION_ERROR,
+          conditions: [
+            {
+              displayName: "Function Status Not OK",
+              conditionThreshold: {
+                filter: pulumi.interpolate`resource.type = "cloud_function" AND resource.labels.function_name = "${tokenHolderFunction.name}" AND metric.type = "cloudfunctions.googleapis.com/function/execution_count" AND metric.labels.status != "ok"`,
+                aggregations: [
+                  {
+                    alignmentPeriod: `${ALERT_POLICY_FUNCTION_ERROR_WINDOW_SECONDS}s`,
+                    crossSeriesReducer: "REDUCE_NONE",
+                    perSeriesAligner: "ALIGN_SUM",
+                  },
+                ],
+                comparison: "COMPARISON_GT",
+                duration: "0s",
+                trigger: {
+                  count: 1,
                 },
-              ],
-              comparison: "COMPARISON_GT",
-              duration: "0s",
-              trigger: {
-                count: 1,
               },
             },
+          ],
+          alertStrategy: {
+            autoClose: "604800s",
           },
-        ],
-        alertStrategy: {
-          autoClose: "604800s",
+          combiner: "OR",
+          enabled: true,
+          notificationChannels: [notificationEmail.id],
         },
-        combiner: "OR",
-        enabled: true,
-        notificationChannels: [notificationEmail.id],
-      }, {
-        dependsOn: [tokenHolderFunction, notificationEmail],
-      });
+        {
+          dependsOn: [tokenHolderFunction, notificationEmail],
+        },
+      );
 
       // Alert when there are more executions than expected (1 every hour)
       const ALERT_POLICY_FUNCTION_EXECUTIONS = `${FUNCTION_NAME}-function-executions`;
       const ALERT_POLICY_FUNCTION_EXECUTIONS_WINDOW_SECONDS = 15 * 60;
-      new gcp.monitoring.AlertPolicy(ALERT_POLICY_FUNCTION_EXECUTIONS, {
-        displayName: ALERT_POLICY_FUNCTION_EXECUTIONS,
-        conditions: [
-          {
-            displayName: `Function Executions > 1 / ${ALERT_POLICY_FUNCTION_EXECUTIONS_WINDOW_SECONDS / 60} minutes`,
-            conditionThreshold: {
-              filter: pulumi.interpolate`resource.type = "cloud_function" AND resource.labels.function_name = "${tokenHolderFunction.name}" AND metric.type = "cloudfunctions.googleapis.com/function/execution_count"`,
-              aggregations: [
-                {
-                  alignmentPeriod: `${ALERT_POLICY_FUNCTION_EXECUTIONS_WINDOW_SECONDS}s`,
-                  crossSeriesReducer: "REDUCE_NONE",
-                  perSeriesAligner: "ALIGN_SUM",
+      new gcp.monitoring.AlertPolicy(
+        ALERT_POLICY_FUNCTION_EXECUTIONS,
+        {
+          displayName: ALERT_POLICY_FUNCTION_EXECUTIONS,
+          conditions: [
+            {
+              displayName: `Function Executions > 1 / ${ALERT_POLICY_FUNCTION_EXECUTIONS_WINDOW_SECONDS / 60} minutes`,
+              conditionThreshold: {
+                filter: pulumi.interpolate`resource.type = "cloud_function" AND resource.labels.function_name = "${tokenHolderFunction.name}" AND metric.type = "cloudfunctions.googleapis.com/function/execution_count"`,
+                aggregations: [
+                  {
+                    alignmentPeriod: `${ALERT_POLICY_FUNCTION_EXECUTIONS_WINDOW_SECONDS}s`,
+                    crossSeriesReducer: "REDUCE_NONE",
+                    perSeriesAligner: "ALIGN_SUM",
+                  },
+                ],
+                comparison: "COMPARISON_GT",
+                duration: "0s",
+                trigger: {
+                  count: 1,
                 },
-              ],
-              comparison: "COMPARISON_GT",
-              duration: "0s",
-              trigger: {
-                count: 1,
+                thresholdValue: 1,
               },
-              thresholdValue: 1,
             },
+          ],
+          alertStrategy: {
+            autoClose: "604800s",
           },
-        ],
-        alertStrategy: {
-          autoClose: "604800s",
+          combiner: "OR",
+          enabled: true,
+          notificationChannels: [notificationEmail.id],
         },
-        combiner: "OR",
-        enabled: true,
-        notificationChannels: [notificationEmail.id],
-      }, {
-        dependsOn: [tokenHolderFunction, notificationEmail],
-      });
+        {
+          dependsOn: [tokenHolderFunction, notificationEmail],
+        },
+      );
 
       // Alert when the GCS bucket network activity is greater than expected
       const ALERT_POLICY_GCS_NETWORK = `${FUNCTION_NAME}-gcs-activity`;
       const ALERT_POLICY_GCS_NETWORK_WINDOW_SECONDS = 15 * 60;
       const NETWORK_THRESHOLD_BYTES = 100000000;
-      new gcp.monitoring.AlertPolicy(ALERT_POLICY_GCS_NETWORK, {
-        displayName: ALERT_POLICY_GCS_NETWORK,
-        conditions: [
-          {
-            displayName: `GCS Bucket Received > 100 MB / ${ALERT_POLICY_GCS_NETWORK_WINDOW_SECONDS / 60} min`,
-            conditionThreshold: {
-              filter: pulumi.interpolate`resource.type = "gcs_bucket" AND resource.labels.bucket_name = "${storageBucketName}" AND metric.type = "storage.googleapis.com/network/received_bytes_count"`,
-              aggregations: [
-                {
-                  alignmentPeriod: `${ALERT_POLICY_GCS_NETWORK_WINDOW_SECONDS}s`,
-                  crossSeriesReducer: "REDUCE_NONE",
-                  perSeriesAligner: "ALIGN_SUM",
+      new gcp.monitoring.AlertPolicy(
+        ALERT_POLICY_GCS_NETWORK,
+        {
+          displayName: ALERT_POLICY_GCS_NETWORK,
+          conditions: [
+            {
+              displayName: `GCS Bucket Received > 100 MB / ${ALERT_POLICY_GCS_NETWORK_WINDOW_SECONDS / 60} min`,
+              conditionThreshold: {
+                filter: pulumi.interpolate`resource.type = "gcs_bucket" AND resource.labels.bucket_name = "${storageBucketName}" AND metric.type = "storage.googleapis.com/network/received_bytes_count"`,
+                aggregations: [
+                  {
+                    alignmentPeriod: `${ALERT_POLICY_GCS_NETWORK_WINDOW_SECONDS}s`,
+                    crossSeriesReducer: "REDUCE_NONE",
+                    perSeriesAligner: "ALIGN_SUM",
+                  },
+                ],
+                comparison: "COMPARISON_GT",
+                duration: "0s",
+                trigger: {
+                  count: 1,
                 },
-              ],
-              comparison: "COMPARISON_GT",
-              duration: "0s",
-              trigger: {
-                count: 1,
+                thresholdValue: NETWORK_THRESHOLD_BYTES,
               },
-              thresholdValue: NETWORK_THRESHOLD_BYTES,
             },
-          },
-          {
-            displayName: `GCS Bucket Sent > 100 MB / ${ALERT_POLICY_GCS_NETWORK_WINDOW_SECONDS / 60} min`,
-            conditionThreshold: {
-              filter: pulumi.interpolate`resource.type = "gcs_bucket" AND resource.labels.bucket_name = "${storageBucketName}" AND metric.type = "storage.googleapis.com/network/sent_bytes_count"`,
-              aggregations: [
-                {
-                  alignmentPeriod: `${ALERT_POLICY_GCS_NETWORK_WINDOW_SECONDS}s`,
-                  crossSeriesReducer: "REDUCE_NONE",
-                  perSeriesAligner: "ALIGN_SUM",
+            {
+              displayName: `GCS Bucket Sent > 100 MB / ${ALERT_POLICY_GCS_NETWORK_WINDOW_SECONDS / 60} min`,
+              conditionThreshold: {
+                filter: pulumi.interpolate`resource.type = "gcs_bucket" AND resource.labels.bucket_name = "${storageBucketName}" AND metric.type = "storage.googleapis.com/network/sent_bytes_count"`,
+                aggregations: [
+                  {
+                    alignmentPeriod: `${ALERT_POLICY_GCS_NETWORK_WINDOW_SECONDS}s`,
+                    crossSeriesReducer: "REDUCE_NONE",
+                    perSeriesAligner: "ALIGN_SUM",
+                  },
+                ],
+                comparison: "COMPARISON_GT",
+                duration: "0s",
+                trigger: {
+                  count: 1,
                 },
-              ],
-              comparison: "COMPARISON_GT",
-              duration: "0s",
-              trigger: {
-                count: 1,
+                thresholdValue: NETWORK_THRESHOLD_BYTES,
               },
-              thresholdValue: NETWORK_THRESHOLD_BYTES,
             },
+          ],
+          alertStrategy: {
+            autoClose: "604800s",
           },
-        ],
-        alertStrategy: {
-          autoClose: "604800s",
+          combiner: "OR",
+          enabled: true,
+          notificationChannels: [notificationEmail.id],
         },
-        combiner: "OR",
-        enabled: true,
-        notificationChannels: [notificationEmail.id],
-      }, {
-        dependsOn: [storageBucket, notificationEmail],
-      });
+        {
+          dependsOn: [storageBucket, notificationEmail],
+        },
+      );
 
       /**
        * Create a dashboard for monitoring activity
