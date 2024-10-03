@@ -255,6 +255,7 @@ for (const subgraphName in subgraphNameToConfigs) {
         {
           schedule: "0 * * * *", // Start of every hour
           timeZone: "UTC",
+          attemptDeadline: `${functionTimeoutSeconds}s`,
           httpTarget: {
             httpMethod: "GET",
             uri: tokenHolderFunction.httpsTriggerUrl,
