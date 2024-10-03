@@ -42,6 +42,6 @@
     "node": ">=18",
     "npm": "please-use-yarn",
     "pnpm": "please-use-yarn",
-    "yarn": ">=1.22.x"
+    "yarn": ">=1.22.0 <2.0.0"
   }
 }
