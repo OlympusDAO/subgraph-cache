@@ -20,7 +20,7 @@ const generateQueryFields = (schema: $RefParser.JSONSchema, fieldName: string, s
     if (!schema.properties) {
       throwError(`Excepted property ${fieldName} to have child properties, but it was empty`);
     }
-    const schemaProperties = !schema.properties;
+    const schemaProperties = schema.properties!;
 
     /**
      * If there is an object/entity type, we need to produce a query in the following format:
