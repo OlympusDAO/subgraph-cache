@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "const": "ExtendLoanEvent"
+    },
+    "id": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "blockNumber": {
+      "type": "string"
+    },
+    "blockTimestamp": {
+      "type": "string"
+    },
+    "transactionHash": {
+      "type": "string"
+    },
+    "periods": {
+      "type": "number"
+    },
+    "loan": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "expiryTimestamp": {
+      "type": "string"
+    },
+    "interestDue": {
+      "type": "string"
+    },
+    "clearinghouseDaiBalance": {
+      "type": "string"
+    },
+    "clearinghouseSDaiBalance": {
+      "type": "string"
+    },
+    "clearinghouseSDaiInDaiBalance": {
+      "type": "string"
+    },
+    "treasuryDaiBalance": {
+      "type": "string"
+    },
+    "treasurySDaiBalance": {
+      "type": "string"
+    },
+    "treasurySDaiInDaiBalance": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

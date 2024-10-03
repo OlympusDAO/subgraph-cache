@@ -1,8 +1,6 @@
 {
-    "subgraphName": "Cooler_Loans",
-    "object": "RescindLoanRequestEvent",
-    "dateField": "blockTimestamp",
-    "typeOverrides": {
-    },
-    "deploymentId": "QmQoJMZT4bLLUNvf9Z15VNub6Wk1oq6VcMm34omrrVZevs"
+  "subgraphName": "Cooler_Loans",
+  "object": "RescindLoanRequestEvent",
+  "dateField": "blockTimestamp",
+  "deploymentId": "QmQoJMZT4bLLUNvf9Z15VNub6Wk1oq6VcMm34omrrVZevs"
 }

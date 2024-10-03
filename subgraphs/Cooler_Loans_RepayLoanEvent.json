@@ -1,18 +1,6 @@
 {
-    "subgraphName": "Cooler_Loans",
-    "object": "RepayLoanEvent",
-    "dateField": "blockTimestamp",
-    "typeOverrides": {
-        "amountPaid": "BIGNUMERIC",
-        "principalPayable": "BIGNUMERIC",
-        "interestPayable": "BIGNUMERIC",
-        "collateralDeposited": "BIGNUMERIC",
-        "clearinghouseDaiBalance": "BIGNUMERIC",
-        "clearinghouseSdaiBalance": "BIGNUMERIC",
-        "clearinghouseSdaiInDaiBalance": "BIGNUMERIC",
-        "treasuryDaiBalance": "BIGNUMERIC",
-        "treasurySdaiBalance": "BIGNUMERIC",
-        "treasurySdaiInDaiBalance": "BIGNUMERIC"
-    },
-    "deploymentId": "QmQoJMZT4bLLUNvf9Z15VNub6Wk1oq6VcMm34omrrVZevs"
+  "subgraphName": "Cooler_Loans",
+  "object": "RepayLoanEvent",
+  "dateField": "blockTimestamp",
+  "deploymentId": "QmQoJMZT4bLLUNvf9Z15VNub6Wk1oq6VcMm34omrrVZevs"
 }

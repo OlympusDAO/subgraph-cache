@@ -1,11 +1,6 @@
 {
-    "subgraphName": "Cooler_Loans",
-    "object": "ClaimDefaultedLoanEvent",
-    "dateField": "blockTimestamp",
-    "typeOverrides": {
-        "collateralQuantityClaimed": "BIGNUMERIC",
-        "collateralPrice": "BIGNUMERIC",
-        "collateralValueClaimed": "BIGNUMERIC"
-    },
-    "deploymentId": "QmQoJMZT4bLLUNvf9Z15VNub6Wk1oq6VcMm34omrrVZevs"
+  "subgraphName": "Cooler_Loans",
+  "object": "ClaimDefaultedLoanEvent",
+  "dateField": "blockTimestamp",
+  "deploymentId": "QmQoJMZT4bLLUNvf9Z15VNub6Wk1oq6VcMm34omrrVZevs"
 }

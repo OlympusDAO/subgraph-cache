@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "const": "ClearinghouseSnapshot"
+    },
+    "id": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "blockNumber": {
+      "type": "string"
+    },
+    "blockTimestamp": {
+      "type": "string"
+    },
+    "clearinghouse": {
+      "type": "string"
+    },
+    "coolerFactoryAddress": {
+      "type": "string"
+    },
+    "collateralAddress": {
+      "type": "string"
+    },
+    "debtAddress": {
+      "type": "string"
+    },
+    "isActive": {
+      "type": "boolean"
+    },
+    "nextRebalanceTimestamp": {
+      "type": "string"
+    },
+    "interestReceivables": {
+      "type": "string"
+    },
+    "principalReceivables": {
+      "type": "string"
+    },
+    "interestRate": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "string"
+    },
+    "fundCadence": {
+      "type": "string"
+    },
+    "fundAmount": {
+      "type": "string"
+    },
+    "loanToCollateral": {
+      "type": "string"
+    },
+    "daiBalance": {
+      "type": "string"
+    },
+    "sDaiBalance": {
+      "type": "string"
+    },
+    "sDaiInDaiBalance": {
+      "type": "string"
+    },
+    "treasuryDaiBalance": {
+      "type": "string"
+    },
+    "treasurySDaiBalance": {
+      "type": "string"
+    },
+    "treasurySDaiInDaiBalance": {
+      "type": "string"
+    },
+    "rebalanceEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "defundEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
