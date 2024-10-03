@@ -3,18 +3,19 @@ import $RefParser = require("@apidevtools/json-schema-ref-parser");
 
 import { IShouldTerminate } from "./constants";
 import { addDays } from "./helpers/date";
+import { logger } from "./helpers/logging";
 import { getLatestRecordsDate, writeRecords } from "./helpers/recordFs";
 import { getGraphQLRecords } from "./subgraph";
 
 export const getRecordsFetchStartDate = async (storagePrefix: string, bucketName: string): Promise<Date | null> => {
   const latestRecordsDate: Date | null = await getLatestRecordsDate(bucketName, storagePrefix);
   if (!latestRecordsDate) {
-    console.log(`No records found in ${storagePrefix}`);
+    logger.info(`No records found in ${storagePrefix}`);
     return null;
   }
 
   // Shift to midnight
-  console.log(`Latest records date: ${latestRecordsDate}`);
+  logger.info(`Latest records date: ${latestRecordsDate}`);
   return addDays(latestRecordsDate, 0, true);
 };
 
@@ -37,7 +38,7 @@ export const getRecords = async (
   isTimestampInSeconds: boolean,
   shouldTerminate: IShouldTerminate,
 ): Promise<Date> => {
-  console.info(`\n\nFetching records`);
+  logger.info(`\n\nFetching records`);
   const timeDelta: number = 24 * 60 * 60 * 1000; // 1 day
   let currentDate: Date = startDate;
 
@@ -64,6 +65,6 @@ export const getRecords = async (
     currentDate = new Date(currentDate.getTime() + timeDelta);
   }
 
-  console.info(`Fetching complete`);
+  logger.info(`Fetching complete`);
   return currentDate;
 };

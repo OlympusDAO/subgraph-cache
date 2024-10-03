@@ -2,6 +2,7 @@ import { Client } from "@urql/core";
 import $RefParser = require("@apidevtools/json-schema-ref-parser");
 
 import { getDateFromTimestamp, getISO8601DateString, isTimestampInSeconds } from "./helpers/date";
+import { logger } from "./helpers/logging";
 import { generateQuery, getObjectQueryName } from "./helpers/subgraphQuery";
 
 /**
@@ -23,7 +24,7 @@ const fetchGraphQLRecords = async (
   finishDate: Date,
   isTimestampInSeconds: boolean,
 ): Promise<any[]> => {
-  console.debug(
+  logger.debug(
     `Fetching records for object ${object}, date range ${startDate.toISOString()} - ${finishDate.toISOString()} and page ${page}`,
   );
   const RECORD_COUNT = 1000;
@@ -38,7 +39,7 @@ const fetchGraphQLRecords = async (
     finishDate,
     isTimestampInSeconds,
   );
-  console.debug("Query:", query);
+  logger.debug("Query:", query);
   const queryResults = await client.query(query, {}).toPromise();
 
   // TODO it sometimes receives no records, even though they exist
@@ -52,7 +53,7 @@ const fetchGraphQLRecords = async (
 
   const normalisedObjectName = getObjectQueryName(object);
   const records = queryResults.data[normalisedObjectName] as any[];
-  console.debug(`Received ${records.length} records`);
+  logger.debug(`Received ${records.length} records`);
   // If we haven't hit the page limit...
   if (records.length < RECORD_COUNT) {
     return records;
@@ -91,7 +92,7 @@ export const getGraphQLRecords = async (
   // Ensure the starting date is at midnight
   let queryStartDate = new Date(date.getTime());
   queryStartDate.setUTCHours(0);
-  console.info(`\n\n📆 Date: ${getISO8601DateString(queryStartDate)}`);
+  logger.info(`\n\n📆 Date: ${getISO8601DateString(queryStartDate)}`);
 
   // Ending date is the start of the next day
   const finalDate = new Date(queryStartDate.getTime());
@@ -117,7 +118,7 @@ export const getGraphQLRecords = async (
     queryStartDate = queryFinishDate;
   }
 
-  console.info(`✅ Total of ${records.length} records for date ${getISO8601DateString(date)}`);
+  logger.info(`✅ Total of ${records.length} records for date ${getISO8601DateString(date)}`);
   return records;
 };
 
@@ -157,10 +158,10 @@ export const getEarliestTransactionDate = async (
   object: string,
   dateField: string,
 ): Promise<[Date, boolean]> => {
-  console.info(`Determining earliest transaction date for ${object}`);
+  logger.info(`Determining earliest transaction date for ${object}`);
 
   const query = generateQuery(schema, object, 1, 0, dateField, "asc");
-  console.debug(`Earliest transaction query:\n${query}`);
+  logger.debug(`Earliest transaction query:\n${query}`);
   const queryResults = await client.query(query, {}).toPromise();
 
   const normalisedObjectName = getObjectQueryName(object);

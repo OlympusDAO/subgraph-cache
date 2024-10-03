@@ -5,13 +5,14 @@ import { readFileSync } from "fs";
 
 import { GENERATED_DIR } from "./constants";
 import { addDays, getISO8601DateString } from "./helpers/date";
+import { logger } from "./helpers/logging";
 import { getLatestFinishDate, sendPubSubMessage } from "./helpers/pubsub";
 import { getRecords, getRecordsFetchStartDate } from "./records";
 import { getEarliestTransactionDate, getLatestTransactionDate } from "./subgraph";
 import { SubgraphConfig } from "./types/subgraphConfig";
 
 export const run = async (req: express.Request, res: express.Response) => {
-  console.log("Received callback. Initiating handler.");
+  logger.info("Received callback. Initiating handler.");
 
   // Validate inputs
   if (!process.env.SUBGRAPH_URL) {
@@ -85,7 +86,7 @@ export const handler = async (
 
     // If the current time is > initialTimestamp + functionTimeoutSeconds*1000 - buffer, exit
     if (currentTimestamp > initialTimestamp + functionTimeoutSeconds * 1000 - BUFFER_MS) {
-      console.log(`Current timestamp ${currentTimestamp} is outside of buffer. Exiting.`);
+      logger.info(`Current timestamp ${currentTimestamp} is outside of buffer. Exiting.`);
       return true;
     }
 
@@ -108,15 +109,15 @@ export const handler = async (
   );
 
   const subgraphEarliestDate: Date = addDays(subgraphEarliestDateRaw, 0, true); // Start of the same day
-  console.log(`Subgraph earliest date: ${getISO8601DateString(subgraphEarliestDate)}`);
+  logger.info(`Subgraph earliest date: ${getISO8601DateString(subgraphEarliestDate)}`);
   // Final date in the subgraph
   const subgraphFinalDate: Date = finalDateOverride
     ? new Date(finalDateOverride)
     : addDays(await getLatestTransactionDate(client, jsonSchema, subgraphObject, subgraphDateField), 1, true); // Midnight of the next day
-  console.log(`Subgraph final date: ${getISO8601DateString(subgraphFinalDate)}`);
+  logger.info(`Subgraph final date: ${getISO8601DateString(subgraphFinalDate)}`);
   // Date up to which records have been cached
   const recordsFetchedUpToDate: Date | null = await getRecordsFetchStartDate(storagePrefix, bucketName);
-  console.log(
+  logger.info(
     `Records fetched up to date: ${recordsFetchedUpToDate ? getISO8601DateString(recordsFetchedUpToDate) : "null"}`,
   );
 
@@ -133,7 +134,7 @@ export const handler = async (
      * - No records exist
      */
     if (pubSubFinishDate && recordsFetchedUpToDate && recordsFetchedUpToDate >= pubSubFinishDate) {
-      console.log(
+      logger.info(
         `getFetchStartDate: Using finish date from PubSub message queue: ${getISO8601DateString(pubSubFinishDate)}`,
       );
       return pubSubFinishDate;
@@ -141,20 +142,20 @@ export const handler = async (
 
     // If records exist, continue from where we left off
     if (recordsFetchedUpToDate) {
-      console.log(
+      logger.info(
         `getFetchStartDate: Using latest cached records date: ${getISO8601DateString(recordsFetchedUpToDate)}`,
       );
       return recordsFetchedUpToDate;
     }
 
     // Otherwise proceed from the start of the subgraph
-    console.log(`getFetchStartDate: Using subgraph start date: ${getISO8601DateString(subgraphEarliestDate)}`);
+    logger.info(`getFetchStartDate: Using subgraph start date: ${getISO8601DateString(subgraphEarliestDate)}`);
     return subgraphEarliestDate;
   };
 
   // Move one day prior to the start date, to catch any missing records
   const startDate = addDays(await getFetchStartDate(), -1, true);
-  console.log(`Transactions will be fetched from ${getISO8601DateString(startDate)}`);
+  logger.info(`Transactions will be fetched from ${getISO8601DateString(startDate)}`);
 
   // Get and write records
   const fetchedUpTo: Date = await getRecords(

@@ -1,15 +1,16 @@
 import { PubSub, v1 } from "@google-cloud/pubsub";
 
 import { getISO8601DateString } from "./date";
+import { logger } from "./logging";
 
 export const sendPubSubMessage = async (pubSubTopic: string, startDate: Date, finishDate: Date): Promise<void> => {
   const client = new PubSub();
   const messageContent = { startDate: getISO8601DateString(startDate), finishDate: getISO8601DateString(finishDate) };
-  console.log(`Publishing message on PubSub topic ${pubSubTopic}: ${JSON.stringify(messageContent)}`);
+  logger.info(`Publishing message on PubSub topic ${pubSubTopic}: ${JSON.stringify(messageContent)}`);
   const messageId = await client.topic(pubSubTopic).publishMessage({
     json: messageContent,
   });
-  console.log(`Published message with id ${messageId} on PubSub topic ${pubSubTopic}`);
+  logger.info(`Published message with id ${messageId} on PubSub topic ${pubSubTopic}`);
 };
 
 export const getLatestFinishDate = async (subscriptionName: string): Promise<Date | null> => {
@@ -35,7 +36,7 @@ export const getLatestFinishDate = async (subscriptionName: string): Promise<Dat
 
       const dataObject = JSON.parse(rawData.toString());
       if (!dataObject.finishDate) {
-        console.log(
+        logger.info(
           `getLatestFinishDate: did not find finishDate on message. Skipping.\nMessage: ${JSON.stringify(dataObject)}`,
         );
         return;
@@ -43,7 +44,7 @@ export const getLatestFinishDate = async (subscriptionName: string): Promise<Dat
 
       const messageFinishDate = new Date(dataObject.finishDate);
       if (!latestFinishDate || latestFinishDate < messageFinishDate) {
-        console.log(`getLatestFinishDate: Setting latestFinishDate to ${dataObject.finishDate}`);
+        logger.info(`getLatestFinishDate: Setting latestFinishDate to ${dataObject.finishDate}`);
         latestFinishDate = messageFinishDate;
       }
 
