@@ -1,7 +1,7 @@
 import { PubSub, v1 } from "@google-cloud/pubsub";
 
 import { getISO8601DateString } from "./date";
-import { logger } from "./logging";
+import { logger, throwError } from "./logging";
 
 export const sendPubSubMessage = async (pubSubTopic: string, startDate: Date, finishDate: Date): Promise<void> => {
   const client = new PubSub();
@@ -29,7 +29,7 @@ export const getLatestFinishDate = async (subscriptionName: string): Promise<Dat
 
       // We expect it to be a Uint8Array
       if (typeof rawData !== "object") {
-        throw new Error(
+        throwError(
           `getLatestFinishDate: unsure how to handle message data of type ${typeof rawData}, contents: ${rawData}`,
         );
       }

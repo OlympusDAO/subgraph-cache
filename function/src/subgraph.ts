@@ -2,7 +2,7 @@ import { Client } from "@urql/core";
 import $RefParser = require("@apidevtools/json-schema-ref-parser");
 
 import { getDateFromTimestamp, getISO8601DateString, isTimestampInSeconds } from "./helpers/date";
-import { logger } from "./helpers/logging";
+import { logger, throwError } from "./helpers/logging";
 import { generateQuery, getObjectQueryName } from "./helpers/subgraphQuery";
 
 /**
@@ -44,7 +44,7 @@ const fetchGraphQLRecords = async (
 
   // TODO it sometimes receives no records, even though they exist
   if (!queryResults.data) {
-    throw new Error(
+    throwError(
       `Did not receive results from GraphQL query for page ${page}, start date ${startDate.toISOString()}, finish date ${finishDate.toISOString()}. Error: ${
         queryResults.error
       }`,
@@ -139,7 +139,7 @@ export const getLatestTransactionDate = async (
 
   const normalisedObjectName = getObjectQueryName(object);
   if (!queryResults.data || queryResults.data[normalisedObjectName].length === 0) {
-    throw new Error(`Did not receive results from GraphQL query for latest transaction`);
+    throwError(`Did not receive results from GraphQL query for latest transaction`);
   }
 
   const latestDateValue = parseInt(queryResults.data[normalisedObjectName][0][dateField]);
@@ -167,7 +167,7 @@ export const getEarliestTransactionDate = async (
   const normalisedObjectName = getObjectQueryName(object);
   // TODO consider how to handle no results
   if (!queryResults.data || queryResults.data[normalisedObjectName].length === 0) {
-    throw new Error(`Did not receive results from GraphQL query for earliest transaction. Query: ${query}`);
+    throwError(`Did not receive results from GraphQL query for earliest transaction. Query: ${query}`);
   }
 
   const earliestDateValue = parseInt(queryResults.data[normalisedObjectName][0][dateField]);

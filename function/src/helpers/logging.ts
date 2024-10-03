@@ -18,4 +18,9 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
-export { logger };
+const throwError = (message: string): never => {
+  logger.error(message);
+  throw new Error(message);
+};
+
+export { logger, throwError };

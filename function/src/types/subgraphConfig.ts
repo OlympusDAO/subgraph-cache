@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 
 import { BASE_URL } from "../constants";
+import { getEnv } from "../helpers/env";
+import { throwError } from "../helpers/logging";
 
 dotenv.config();
 
@@ -16,10 +18,7 @@ export class SubgraphConfig {
 
   getUrl(): string {
     // If the url has a placeholder for the Graph Protocol API key, replace it with the actual key
-    const graphProtocolApiKey = process.env.GRAPH_PROTOCOL_API_KEY;
-    if (!graphProtocolApiKey) {
-      throw new Error("GRAPH_PROTOCOL_API_KEY environment variable is not set");
-    }
+    const graphProtocolApiKey = getEnv("GRAPH_PROTOCOL_API_KEY");
 
     return `${BASE_URL.replace("{GRAPH_PROTOCOL_API_KEY}", graphProtocolApiKey)}/${this.deploymentId}`;
   }
@@ -33,10 +32,10 @@ export class SubgraphConfig {
   }
 
   static fromJSON(jsonObject: any): SubgraphConfig {
-    if (!jsonObject.dateField) throw new Error("dateField must be set");
-    if (!jsonObject.subgraphName) throw new Error("subgraphName must be set");
-    if (!jsonObject.object) throw new Error("object must be set");
-    if (!jsonObject.deploymentId) throw new Error("deploymentId must be set");
+    if (!jsonObject.dateField) throwError("dateField must be set");
+    if (!jsonObject.subgraphName) throwError("subgraphName must be set");
+    if (!jsonObject.object) throwError("object must be set");
+    if (!jsonObject.deploymentId) throwError("deploymentId must be set");
 
     return new SubgraphConfig(
       jsonObject.subgraphName,

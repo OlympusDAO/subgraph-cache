@@ -1,5 +1,6 @@
 import $RefParser = require("@apidevtools/json-schema-ref-parser");
 
+import { throwError } from "./logging";
 import { toLowerCaseFirstCharacter } from "./string";
 
 /**
@@ -17,8 +18,9 @@ const generateQueryFields = (schema: $RefParser.JSONSchema, fieldName: string, s
 
   if (schema.type == "object") {
     if (!schema.properties) {
-      throw new Error(`Excepted property ${fieldName} to have child properties, but it was empty`);
+      throwError(`Excepted property ${fieldName} to have child properties, but it was empty`);
     }
+    const schemaProperties = !schema.properties;
 
     /**
      * If there is an object/entity type, we need to produce a query in the following format:
@@ -30,7 +32,7 @@ const generateQueryFields = (schema: $RefParser.JSONSchema, fieldName: string, s
      */
     let objectQuery = `${skipFieldName ? "" : fieldName} {\n`;
 
-    objectQuery += Object.entries(schema.properties).reduce((previousString, [fieldName, fieldDefinition]) => {
+    objectQuery += Object.entries(schemaProperties).reduce((previousString, [fieldName, fieldDefinition]) => {
       if (fieldName == "__typename") return previousString;
 
       // If a scalar type, append the field name to the previous value, otherwise recurse

@@ -5,6 +5,7 @@ import { readFileSync } from "fs";
 
 import { GENERATED_DIR } from "./constants";
 import { addDays, getISO8601DateString } from "./helpers/date";
+import { getEnv, getEnvNullable } from "./helpers/env";
 import { logger } from "./helpers/logging";
 import { getLatestFinishDate, sendPubSubMessage } from "./helpers/pubsub";
 import { getRecords, getRecordsFetchStartDate } from "./records";
@@ -14,52 +15,17 @@ import { SubgraphConfig } from "./types/subgraphConfig";
 export const run = async (req: express.Request, res: express.Response) => {
   logger.info("Received callback. Initiating handler.");
 
-  // Validate inputs
-  if (!process.env.SUBGRAPH_URL) {
-    throw new Error("SUBGRAPH_URL is not set");
-  }
-  if (!process.env.SUBGRAPH_OBJECT) {
-    throw new Error("SUBGRAPH_OBJECT is not set");
-  }
-  if (!process.env.SUBGRAPH_DATE_FIELD) {
-    throw new Error("SUBGRAPH_DATE_FIELD is not set");
-  }
-  if (!process.env.JSON_SCHEMA_STRING) {
-    throw new Error("JSON_SCHEMA_STRING is not set");
-  }
-  if (!process.env.STORAGE_PREFIX) {
-    throw new Error("STORAGE_PREFIX is not set");
-  }
-  if (!process.env.BUCKET_NAME) {
-    throw new Error("BUCKET_NAME is not set");
-  }
-  if (!process.env.PUBSUB_TOPIC) {
-    throw new Error("PUBSUB_TOPIC is not set");
-  }
-  if (!process.env.FUNCTION_TIMEOUT_SECONDS) {
-    throw new Error("FUNCTION_TIMEOUT_SECONDS is not set");
-  }
-  if (!process.env.PUBSUB_SUBSCRIPTION_ID) {
-    throw new Error("PUBSUB_SUBSCRIPTION_ID is not set");
-  }
-  if (!process.env.FUNCTION_TIMEOUT_SECONDS) {
-    throw new Error("FUNCTION_TIMEOUT_SECONDS is not set");
-  }
-  if (!process.env.PUBSUB_SUBSCRIPTION_ID) {
-    throw new Error("PUBSUB_SUBSCRIPTION_ID is not set");
-  }
-
   await handler(
-    process.env.SUBGRAPH_URL,
-    process.env.SUBGRAPH_OBJECT,
-    process.env.SUBGRAPH_DATE_FIELD,
-    process.env.JSON_SCHEMA_STRING,
-    process.env.STORAGE_PREFIX,
-    process.env.BUCKET_NAME,
-    process.env.PUBSUB_TOPIC,
-    parseInt(process.env.FUNCTION_TIMEOUT_SECONDS),
-    process.env.PUBSUB_SUBSCRIPTION_ID,
-    process.env.FINAL_DATE_OVERRIDE,
+    getEnv("SUBGRAPH_URL"),
+    getEnv("SUBGRAPH_OBJECT"),
+    getEnv("SUBGRAPH_DATE_FIELD"),
+    getEnv("JSON_SCHEMA_STRING"),
+    getEnv("STORAGE_PREFIX"),
+    getEnv("BUCKET_NAME"),
+    getEnv("PUBSUB_TOPIC"),
+    parseInt(getEnv("FUNCTION_TIMEOUT_SECONDS")),
+    getEnv("PUBSUB_SUBSCRIPTION_ID"),
+    getEnvNullable("FINAL_DATE_OVERRIDE"),
   );
 
   // It's not documented in the Pulumi documentation, but the function will timeout if `.end()` is missing.

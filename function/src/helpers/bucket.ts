@@ -1,10 +1,12 @@
 import { Bucket, File, Storage } from "@google-cloud/storage";
 
+import { throwError } from "./logging";
+
 const getBucket = async (bucketName: string): Promise<Bucket> => {
   const storage: Storage = new Storage();
   const bucket: Bucket = storage.bucket(bucketName);
   if (!(await bucket.exists())[0]) {
-    throw new Error(`Bucket ${bucketName} does not exist`);
+    throwError(`Bucket ${bucketName} does not exist`);
   }
 
   return bucket;
