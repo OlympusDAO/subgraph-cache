@@ -37,5 +37,11 @@
   "dependencies": {
     "graphql": "^16.6.0",
     "ts-json-schema-generator": "^2.3.0"
+  },
+  "engines": {
+    "node": ">=18",
+    "yarn": ">=1.22.x",
+    "npm": "please-use-yarn",
+    "pnpm": "please-use-yarn"
   }
 }

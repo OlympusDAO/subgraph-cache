@@ -31,5 +31,11 @@
     "graphql-tag": "^2.12.6",
     "jsonl-parse-stringify": "^1.0.3",
     "winston": "^3.14.2"
+  },
+  "engines": {
+    "node": ">=18",
+    "yarn": ">=1.22.x",
+    "npm": "please-use-yarn",
+    "pnpm": "please-use-yarn"
   }
 }
