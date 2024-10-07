@@ -157,7 +157,7 @@ export const getEarliestTransactionDate = async (
   schema: $RefParser.JSONSchema,
   object: string,
   dateField: string,
-): Promise<[Date, boolean]> => {
+): Promise<[Date | null, boolean]> => {
   logger.info(`Determining earliest transaction date for ${object}`);
 
   const query = generateQuery(schema, object, 1, 0, dateField, "asc");
@@ -165,9 +165,9 @@ export const getEarliestTransactionDate = async (
   const queryResults = await client.query(query, {}).toPromise();
 
   const normalisedObjectName = getObjectQueryName(object);
-  // TODO consider how to handle no results
   if (!queryResults.data || queryResults.data[normalisedObjectName].length === 0) {
-    throwError(`Did not receive results from GraphQL query for earliest transaction. Query: ${query}`);
+    logger.warn(`Did not receive results from GraphQL query for earliest transaction. Query: ${query}`);
+    return [null, false];
   }
 
   const earliestDateValue = parseInt(queryResults.data[normalisedObjectName][0][dateField]);

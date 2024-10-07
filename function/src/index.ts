@@ -74,6 +74,11 @@ export const handler = async (
     subgraphDateField,
   );
 
+  if (!subgraphEarliestDateRaw) {
+    logger.warn(`No results found in subgraph. Skipping.`);
+    return;
+  }
+
   const subgraphEarliestDate: Date = addDays(subgraphEarliestDateRaw, 0, true); // Start of the same day
   logger.info(`Subgraph earliest date: ${getISO8601DateString(subgraphEarliestDate)}`);
   // Final date in the subgraph
