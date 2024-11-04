@@ -36,71 +36,23 @@
   },
   {
     "name": "pool",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "poolAddress",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "source",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "sourceAddress",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "type",

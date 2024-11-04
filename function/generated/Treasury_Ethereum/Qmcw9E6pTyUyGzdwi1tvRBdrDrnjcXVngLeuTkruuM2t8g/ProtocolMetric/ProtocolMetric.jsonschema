@@ -25,29 +25,19 @@
       "type": "string"
     },
     "gOhmSyntheticSupply": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "gOhmTotalSupply": {
       "type": "string"
     },
     "marketCap": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "nextDistributedOhm": {
       "type": "string"
@@ -56,26 +46,16 @@
       "type": "string"
     },
     "ohmCirculatingSupply": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "ohmFloatingSupply": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "ohmPrice": {
       "type": "string"
@@ -93,48 +73,28 @@
       "type": "string"
     },
     "treasuryLiquidBacking": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "treasuryLiquidBackingPerGOhmSynthetic": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "treasuryLiquidBackingPerOhmFloating": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "treasuryMarketValue": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     }
   },
   "additionalProperties": false

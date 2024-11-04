@@ -36,20 +36,8 @@
   },
   {
     "name": "gOhmSyntheticSupply",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "gOhmTotalSupply",
@@ -58,20 +46,8 @@
   },
   {
     "name": "marketCap",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "nextDistributedOhm",
@@ -85,37 +61,13 @@
   },
   {
     "name": "ohmCirculatingSupply",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "ohmFloatingSupply",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "ohmPrice",
@@ -144,70 +96,22 @@
   },
   {
     "name": "treasuryLiquidBacking",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "treasuryLiquidBackingPerGOhmSynthetic",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "treasuryLiquidBackingPerOhmFloating",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   },
   {
     "name": "treasuryMarketValue",
-    "type": "RECORD",
-    "mode": "NULLABLE",
-    "fields": [
-      {
-        "name": "__typename",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      },
-      {
-        "name": "id",
-        "type": "STRING",
-        "mode": "NULLABLE"
-      }
-    ]
+    "type": "STRING",
+    "mode": "NULLABLE"
   }
 ]

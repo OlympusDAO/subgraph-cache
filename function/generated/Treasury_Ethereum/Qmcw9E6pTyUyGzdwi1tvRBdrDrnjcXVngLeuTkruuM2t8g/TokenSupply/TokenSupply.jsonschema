@@ -25,48 +25,28 @@
       "type": "string"
     },
     "pool": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "poolAddress": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "source": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "sourceAddress": {
-      "type": "object",
-      "properties": {
-        "__typename": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "type": {
       "type": "string"
