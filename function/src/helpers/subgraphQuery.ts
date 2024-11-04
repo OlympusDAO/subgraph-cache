@@ -49,7 +49,15 @@ const generateQueryFields = (schema: $RefParser.JSONSchema, fieldName: string, s
 };
 
 export const getObjectQueryName = (object: string): string => {
-  return toLowerCaseFirstCharacter(object) + "s";
+  const singular = toLowerCaseFirstCharacter(object);
+
+  // Consonant followed by "y" becomes "ies"
+  if (singular.endsWith("y") && !["a", "e", "i", "o", "u"].includes(singular[singular.length - 2])) {
+    return singular.slice(0, -1) + "ies";
+  }
+
+  // Otherwise just add an "s"
+  return singular + "s";
 };
 
 /**
