@@ -28,7 +28,8 @@ export class SubgraphConfig {
   }
 
   getUniqueName(): string {
-    return `${this.subgraphName}-${this.object}`;
+    // Use the first 6 characters of the deployment ID to avoid issues with long IDs
+    return `${this.subgraphName}-${this.deploymentId.slice(0, 6)}-${this.object}`;
   }
 
   static fromJSON(jsonObject: any): SubgraphConfig {
