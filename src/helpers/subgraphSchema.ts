@@ -43,7 +43,9 @@ export const generateTypes = async (url: string, filename: string): Promise<void
   const schema = generateSchema(url);
   const codegenConfig = {
     documents: [],
-    config: {},
+    config: {
+      maybeValue: "T | null | undefined",
+    },
     filename: "",
     schema: parse(printSchema(schema)),
     plugins: [
