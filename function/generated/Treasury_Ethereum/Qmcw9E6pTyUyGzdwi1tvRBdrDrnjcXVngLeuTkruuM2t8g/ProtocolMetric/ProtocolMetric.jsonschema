@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "const": "ProtocolMetric"
+    },
+    "id": {
+      "type": "string"
+    },
+    "block": {
+      "type": "string"
+    },
+    "currentAPY": {
+      "type": "string"
+    },
+    "currentIndex": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "gOhmPrice": {
+      "type": "string"
+    },
+    "gOhmSyntheticSupply": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "gOhmTotalSupply": {
+      "type": "string"
+    },
+    "marketCap": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "nextDistributedOhm": {
+      "type": "string"
+    },
+    "nextEpochRebase": {
+      "type": "string"
+    },
+    "ohmCirculatingSupply": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "ohmFloatingSupply": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "ohmPrice": {
+      "type": "string"
+    },
+    "ohmTotalSupply": {
+      "type": "string"
+    },
+    "sOhmCirculatingSupply": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "totalValueLocked": {
+      "type": "string"
+    },
+    "treasuryLiquidBacking": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "treasuryLiquidBackingPerGOhmSynthetic": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "treasuryLiquidBackingPerOhmFloating": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "treasuryMarketValue": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
