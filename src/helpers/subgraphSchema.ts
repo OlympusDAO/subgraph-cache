@@ -44,6 +44,7 @@ export const generateTypes = async (url: string, filename: string): Promise<void
   const codegenConfig = {
     documents: [],
     config: {
+      // This avoids having "Maybe<T>" in the generated types, which doesn't get translated into JSONSchema format correctly
       maybeValue: "T | null | undefined",
     },
     filename: "",
