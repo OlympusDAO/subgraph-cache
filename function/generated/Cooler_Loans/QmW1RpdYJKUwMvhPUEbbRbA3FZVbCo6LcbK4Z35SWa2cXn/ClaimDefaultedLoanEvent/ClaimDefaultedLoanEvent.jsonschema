@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "const": "ClaimDefaultedLoanEvent"
+    },
+    "id": {
+      "type": "string",
+      "description": "Record ID.\n\nIn the format of `cooler-loanId`."
+    },
+    "date": {
+      "type": "string",
+      "description": "Event date in YYYY-MM-DD format."
+    },
+    "blockNumber": {
+      "type": "string",
+      "description": "Block number at the time of the event."
+    },
+    "blockTimestamp": {
+      "type": "string",
+      "description": "Block timestamp at the time of the event."
+    },
+    "transactionHash": {
+      "type": "string",
+      "description": "Transaction hash of the event."
+    },
+    "collateralQuantityClaimed": {
+      "type": "string",
+      "description": "Collateral quantity claimed."
+    },
+    "collateralPrice": {
+      "type": "string",
+      "description": "Price of the collateral token at the time of the event."
+    },
+    "collateralValueClaimed": {
+      "type": "string",
+      "description": "Value of the collateral claimed."
+    },
+    "loan": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "secondsSinceExpiry": {
+      "type": "string",
+      "description": "Seconds since the loan expired."
+    },
+    "clearinghouseSnapshot": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

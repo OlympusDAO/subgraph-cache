@@ -1,0 +1,95 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Record ID.\n\nIn the format of `cooler-loanId`."
+  },
+  {
+    "name": "date",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Event date in YYYY-MM-DD format."
+  },
+  {
+    "name": "blockNumber",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block number at the time of the event."
+  },
+  {
+    "name": "blockTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block timestamp at the time of the event."
+  },
+  {
+    "name": "transactionHash",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Transaction hash of the event."
+  },
+  {
+    "name": "collateralQuantityClaimed",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Collateral quantity claimed."
+  },
+  {
+    "name": "collateralPrice",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Price of the collateral token at the time of the event."
+  },
+  {
+    "name": "collateralValueClaimed",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Value of the collateral claimed."
+  },
+  {
+    "name": "loan",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "secondsSinceExpiry",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Seconds since the loan expired."
+  },
+  {
+    "name": "clearinghouseSnapshot",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  }
+]

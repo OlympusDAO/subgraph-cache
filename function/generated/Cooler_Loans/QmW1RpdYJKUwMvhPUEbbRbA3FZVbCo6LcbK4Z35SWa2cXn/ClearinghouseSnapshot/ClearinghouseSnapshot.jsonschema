@@ -1,0 +1,174 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "const": "ClearinghouseSnapshot"
+    },
+    "id": {
+      "type": "string",
+      "description": "The id of the snapshot.\n\nIn the format of `address-blockNumber-logIndex`."
+    },
+    "date": {
+      "type": "string",
+      "description": "Snapshot date in YYYY-MM-DD format."
+    },
+    "blockNumber": {
+      "type": "string",
+      "description": "Block number at the time of the event."
+    },
+    "blockTimestamp": {
+      "type": "string",
+      "description": "Block timestamp at the time of the event."
+    },
+    "transactionHash": {
+      "type": "string",
+      "description": "Transaction hash of the event."
+    },
+    "clearinghouse": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "isActive": {
+      "type": "boolean",
+      "description": "Whether the Clearinghouse is active."
+    },
+    "nextRebalanceTimestamp": {
+      "type": "string",
+      "description": "Timestamp of the next rebalance."
+    },
+    "interestReceivables": {
+      "type": "string",
+      "description": "Total interest receivables."
+    },
+    "principalReceivables": {
+      "type": "string",
+      "description": "Total principal receivables."
+    },
+    "reserveToken": {
+      "type": "string",
+      "description": "Address of the reserve token."
+    },
+    "sReserveToken": {
+      "type": "string",
+      "description": "Address of the sReserve token."
+    },
+    "reserveBalance": {
+      "type": "string",
+      "description": "Reserve balance of the clearinghouse."
+    },
+    "sReserveBalance": {
+      "type": "string",
+      "description": "sReserve balance of the clearinghouse."
+    },
+    "sReserveInReserveBalance": {
+      "type": "string",
+      "description": "sReserve balance of the clearinghouse, in terms of reserve tokens."
+    },
+    "treasuryReserveBalance": {
+      "type": "string",
+      "description": "Reserve balance of the treasury."
+    },
+    "treasurySReserveBalance": {
+      "type": "string",
+      "description": "sReserve balance of the treasury."
+    },
+    "treasurySReserveInReserveBalance": {
+      "type": "string",
+      "description": "sReserve balance of the treasury, in terms of reserve tokens."
+    },
+    "rebalanceEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "defundEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "creationEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "defaultedClaimEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "repaymentEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "extendEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

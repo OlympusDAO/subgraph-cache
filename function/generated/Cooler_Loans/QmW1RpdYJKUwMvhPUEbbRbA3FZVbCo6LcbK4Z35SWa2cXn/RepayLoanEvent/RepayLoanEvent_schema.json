@@ -1,0 +1,101 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Record ID.\n\nIn the format of `cooler-loanId`."
+  },
+  {
+    "name": "date",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Event date in YYYY-MM-DD format."
+  },
+  {
+    "name": "blockNumber",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block number at the time of the event."
+  },
+  {
+    "name": "blockTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block timestamp at the time of the event."
+  },
+  {
+    "name": "transactionHash",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Transaction hash of the event."
+  },
+  {
+    "name": "amountPaid",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Amount paid."
+  },
+  {
+    "name": "loan",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "secondsToExpiry",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Seconds to expiry."
+  },
+  {
+    "name": "principalPayable",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Principal payable after the repayment."
+  },
+  {
+    "name": "interestPayable",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Interest payable after the repayment."
+  },
+  {
+    "name": "collateralDeposited",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Collateral deposited after the repayment."
+  },
+  {
+    "name": "clearinghouseSnapshot",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  }
+]

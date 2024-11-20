@@ -1,0 +1,181 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Record ID.\n\nIn the format of `cooler-loanId`."
+  },
+  {
+    "name": "createdBlock",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block number at the time of the loan."
+  },
+  {
+    "name": "createdTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Timestamp at the time of the loan."
+  },
+  {
+    "name": "createdTransaction",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Transaction hash of the loan."
+  },
+  {
+    "name": "cooler",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the Cooler."
+  },
+  {
+    "name": "request",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "loanId",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Loan ID.\n\nThe ID is unique to the Cooler."
+  },
+  {
+    "name": "borrower",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the borrower."
+  },
+  {
+    "name": "clearinghouse",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "interest",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Interest to be paid."
+  },
+  {
+    "name": "principal",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Principal to be paid."
+  },
+  {
+    "name": "collateral",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Collateral held."
+  },
+  {
+    "name": "expiryTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Expiry timestamp."
+  },
+  {
+    "name": "hasCallback",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Whether the loan has a callback."
+  },
+  {
+    "name": "creationEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "defaultedClaimEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "repaymentEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "extendEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  }
+]

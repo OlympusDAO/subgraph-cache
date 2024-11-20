@@ -1,0 +1,89 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Record ID.\n\nIn the format of `cooler-loanId`."
+  },
+  {
+    "name": "date",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Event date in YYYY-MM-DD format."
+  },
+  {
+    "name": "blockNumber",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block number at the time of the event."
+  },
+  {
+    "name": "blockTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block timestamp at the time of the event."
+  },
+  {
+    "name": "transactionHash",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Transaction hash of the event."
+  },
+  {
+    "name": "periods",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "Number of duration periods the loan has been extended for."
+  },
+  {
+    "name": "loan",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "expiryTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "The new expiry timestamp."
+  },
+  {
+    "name": "interestDue",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Amount of interest due after the extension."
+  },
+  {
+    "name": "clearinghouseSnapshot",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  }
+]
