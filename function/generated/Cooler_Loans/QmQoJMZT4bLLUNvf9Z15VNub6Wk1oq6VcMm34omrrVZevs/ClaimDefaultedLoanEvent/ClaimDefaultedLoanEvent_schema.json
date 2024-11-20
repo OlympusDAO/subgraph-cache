@@ -1,0 +1,69 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "date",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "blockNumber",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "blockTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "transactionHash",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "collateralQuantityClaimed",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "collateralPrice",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "collateralValueClaimed",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "loan",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "secondsSinceExpiry",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  }
+]

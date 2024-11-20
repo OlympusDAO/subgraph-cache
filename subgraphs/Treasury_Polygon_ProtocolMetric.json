@@ -1,0 +1,6 @@
+{
+  "subgraphName": "Treasury_Polygon",
+  "object": "ProtocolMetric",
+  "dateField": "timestamp",
+  "deploymentId": "QmdDUpqEzfKug1ER6HWM8c7U6wf3wtEtRBvXV7LkVoBi9f"
+}

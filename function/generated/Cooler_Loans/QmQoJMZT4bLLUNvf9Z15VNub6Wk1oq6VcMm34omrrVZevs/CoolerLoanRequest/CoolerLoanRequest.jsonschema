@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "const": "CoolerLoanRequest"
+    },
+    "id": {
+      "type": "string"
+    },
+    "createdBlock": {
+      "type": "string"
+    },
+    "createdTimestamp": {
+      "type": "string"
+    },
+    "createdTransaction": {
+      "type": "string"
+    },
+    "cooler": {
+      "type": "string"
+    },
+    "requestId": {
+      "type": "string"
+    },
+    "borrower": {
+      "type": "string"
+    },
+    "collateralToken": {
+      "type": "string"
+    },
+    "debtToken": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "string"
+    },
+    "interestPercentage": {
+      "type": "string"
+    },
+    "loanToCollateralRatio": {
+      "type": "string"
+    },
+    "durationSeconds": {
+      "type": "string"
+    },
+    "isRescinded": {
+      "type": "boolean"
+    },
+    "requestEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rescindEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "clearEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "loans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

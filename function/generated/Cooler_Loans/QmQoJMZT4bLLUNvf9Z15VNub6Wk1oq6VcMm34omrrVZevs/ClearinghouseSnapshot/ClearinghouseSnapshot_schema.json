@@ -1,0 +1,156 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "date",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "blockNumber",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "blockTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "clearinghouse",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "coolerFactoryAddress",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "collateralAddress",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "debtAddress",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "isActive",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "nextRebalanceTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "interestReceivables",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "principalReceivables",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "interestRate",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "duration",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "fundCadence",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "fundAmount",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "loanToCollateral",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "daiBalance",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "sDaiBalance",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "sDaiInDaiBalance",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "treasuryDaiBalance",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "treasurySDaiBalance",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "treasurySDaiInDaiBalance",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "rebalanceEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "defundEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  }
+]

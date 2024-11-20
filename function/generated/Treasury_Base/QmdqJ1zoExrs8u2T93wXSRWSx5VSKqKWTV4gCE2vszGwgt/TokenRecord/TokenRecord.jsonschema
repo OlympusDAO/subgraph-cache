@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "const": "TokenRecord"
+    },
+    "id": {
+      "type": "string"
+    },
+    "block": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "token": {
+      "type": "string"
+    },
+    "tokenAddress": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "sourceAddress": {
+      "type": "string"
+    },
+    "rate": {
+      "type": "string"
+    },
+    "balance": {
+      "type": "string"
+    },
+    "multiplier": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "valueExcludingOhm": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "isLiquid": {
+      "type": "boolean"
+    },
+    "isBluechip": {
+      "type": "boolean"
+    },
+    "blockchain": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

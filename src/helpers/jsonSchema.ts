@@ -1,7 +1,5 @@
-import $RefParser = require("@apidevtools/json-schema-ref-parser");
-import { JSONSchema7 } from "json-schema";
-import { resolve } from "path";
-import * as TJS from "typescript-json-schema";
+import { JSONSchema7, JSONSchema7Definition } from "json-schema";
+import * as tsj from "ts-json-schema-generator";
 
 /**
  * Generates a JSONSchema for the given {type},
@@ -14,18 +12,71 @@ import * as TJS from "typescript-json-schema";
  * @param typesFilename
  * @returns
  */
-export const generateJSONSchema = async (type: string, typesFilename: string): Promise<$RefParser.JSONSchema> => {
+export const generateJSONSchema = async (type: string, typesFilename: string): Promise<JSONSchema7> => {
   console.log(`Generating JSONSchema for object ${type}`);
   // Convert to JSONSchema
-  const jsonSchemaProgram = TJS.getProgramFromFiles([resolve(typesFilename)], {
-    strictNullChecks: true,
-  });
-  const jsonSchema = TJS.generateSchema(jsonSchemaProgram, type);
-  if (!jsonSchema) {
-    throw new Error(`Unable to generate JSONSchema for type ${type} and types file ${typesFilename}`);
+  const tsjConfig: tsj.Config = {
+    path: typesFilename,
+    type: type,
+    topRef: false, // Avoid generating a $ref at the root of the schema, which confuses the de-referencer. See: https://github.com/APIDevTools/json-schema-ref-parser/issues/48
+  };
+  const jsonSchema = tsj.createGenerator(tsjConfig).createSchema(tsjConfig.type);
+
+  // Remove the definitions (as they are already included in the properties)
+  delete jsonSchema.definitions;
+  // Remove the required fields (as we are not using them)
+  delete jsonSchema.required;
+
+  // Iterate over the properties and perform some transformations
+  if (jsonSchema.properties) {
+    const newProperties: Record<string, JSONSchema7Definition> = {};
+
+    for (const [key, val] of Object.entries(jsonSchema.properties)) {
+      // If it is an object with a $ref entry, we replace it with an id field
+      if (typeof val == "object" && val.$ref !== undefined) {
+        newProperties[key] = {
+          type: "object",
+          properties: {
+            __typename: {
+              type: "string",
+            },
+            id: {
+              type: "string",
+            },
+          },
+        };
+        console.log(`Replaced ${key} definition`);
+
+        continue;
+      }
+
+      // If it is an array, we replace it with an array of ids
+      if (typeof val == "object" && val.type == "array") {
+        newProperties[key] = {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              __typename: {
+                type: "string",
+              },
+              id: {
+                type: "string",
+              },
+            },
+          },
+        };
+        console.log(`Replaced ${key} array definition`);
+
+        continue;
+      }
+
+      // Otherwise, we keep the property as is
+      newProperties[key] = val;
+    }
+
+    jsonSchema.properties = newProperties;
   }
 
-  // We need to de-reference types in the JSONSchema, otherwise the BigQuery schema library will complain
-  const derefSchema = await $RefParser.dereference(jsonSchema as JSONSchema7);
-  return derefSchema;
+  return jsonSchema;
 };

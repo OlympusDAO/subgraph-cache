@@ -1,0 +1,6 @@
+{
+  "subgraphName": "Treasury_Base",
+  "object": "TokenSupply",
+  "dateField": "timestamp",
+  "deploymentId": "QmdqJ1zoExrs8u2T93wXSRWSx5VSKqKWTV4gCE2vszGwgt"
+}

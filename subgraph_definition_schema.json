@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "subgraphName": {
+      "type": "string"
+    },
+    "object": {
+      "type": "string"
+    },
+    "dateField": {
+      "type": "string"
+    },
+    "typeOverrides": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "deploymentId": {
+      "type": "string"
+    }
+  }
+}

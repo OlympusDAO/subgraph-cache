@@ -12,7 +12,7 @@ import {
   printSchema,
 } from "graphql";
 
-import { writeFile } from "./fs";
+import { writeFile } from "../../function/src/helpers/fs";
 
 /**
  * Generates a GraphQLSchema object from the subgraph URL.
@@ -43,16 +43,21 @@ export const generateTypes = async (url: string, filename: string): Promise<void
   const schema = generateSchema(url);
   const codegenConfig = {
     documents: [],
-    config: {},
+    config: {
+      // This avoids having "Maybe<T>" in the generated types, which doesn't get translated into JSONSchema format correctly
+      maybeValue: "T | null | undefined",
+    },
     filename: "",
     schema: parse(printSchema(schema)),
     plugins: [
       {
         typescript: {
           scalars: {
-            BigDecimal: "number",
-            BigInt: "number",
+            BigDecimal: "string",
+            BigInt: "string",
             Bytes: "string",
+            Int8: "string",
+            Timestamp: "string",
           },
         },
       },

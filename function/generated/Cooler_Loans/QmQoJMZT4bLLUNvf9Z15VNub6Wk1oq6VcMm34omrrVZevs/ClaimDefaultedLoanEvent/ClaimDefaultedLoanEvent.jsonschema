@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "const": "ClaimDefaultedLoanEvent"
+    },
+    "id": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "blockNumber": {
+      "type": "string"
+    },
+    "blockTimestamp": {
+      "type": "string"
+    },
+    "transactionHash": {
+      "type": "string"
+    },
+    "collateralQuantityClaimed": {
+      "type": "string"
+    },
+    "collateralPrice": {
+      "type": "string"
+    },
+    "collateralValueClaimed": {
+      "type": "string"
+    },
+    "loan": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "secondsSinceExpiry": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

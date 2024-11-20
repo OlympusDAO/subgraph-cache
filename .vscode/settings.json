@@ -3,7 +3,13 @@
   "eslint.packageManager": "yarn",
   "eslint.format.enable": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "typescript.format.enable": false,
+  "json.schemas": [
+    {
+      "fileMatch": ["subgraphs/*.json"],
+      "url": "./subgraph_definition_schema.json"
+    }
+  ]
 }

@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "const": "CoolerLoan"
+    },
+    "id": {
+      "type": "string"
+    },
+    "createdBlock": {
+      "type": "string"
+    },
+    "createdTimestamp": {
+      "type": "string"
+    },
+    "createdTransaction": {
+      "type": "string"
+    },
+    "cooler": {
+      "type": "string"
+    },
+    "request": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "loanId": {
+      "type": "string"
+    },
+    "borrower": {
+      "type": "string"
+    },
+    "lender": {
+      "type": "string"
+    },
+    "interest": {
+      "type": "string"
+    },
+    "principal": {
+      "type": "string"
+    },
+    "collateral": {
+      "type": "string"
+    },
+    "expiryTimestamp": {
+      "type": "string"
+    },
+    "hasCallback": {
+      "type": "boolean"
+    },
+    "collateralToken": {
+      "type": "string"
+    },
+    "debtToken": {
+      "type": "string"
+    },
+    "creationEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "defaultedClaimEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "repaymentEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "extendEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "__typename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

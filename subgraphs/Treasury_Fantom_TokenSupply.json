@@ -1,0 +1,6 @@
+{
+  "subgraphName": "Treasury_Fantom",
+  "object": "TokenSupply",
+  "dateField": "timestamp",
+  "deploymentId": "QmNUJtrE5Hiwj5eBeF5gSubY2vhuMdjaZnZsaq6vVY2aba"
+}

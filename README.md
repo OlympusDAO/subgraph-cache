@@ -2,11 +2,10 @@
 
 ## Purpose
 
-This deploys a Google Cloud Function that periodically fetches records from subgraphs and stores them in Google Cloud Storage
+This deploys a Google Cloud Function that periodically fetches records from subgraphs and exposes them in BigQuery.
 
 ## Potential Uses
 
-- Expose records in BigQuery through the external tables functionality
 - Post-processing of records (e.g. to generate daily balances)
 
 ## Architecture
@@ -14,7 +13,7 @@ This deploys a Google Cloud Function that periodically fetches records from subg
 This project has a few components:
 
 - Google Cloud Storage (GCS) bucket to store records (in JSONL files)
-  - Files are stored in the following location: `<bucket>/<object>/dt=<YYYY-MM-DD>/records.jsonl`
+  - Files are stored in the following location: `<bucket>/<subgraph name>/<deployment id>/<object>/dt=<YYYY-MM-DD>/records.jsonl`
   - Files are stored in the `JSONL` (newline-delimited) format in order to make it easy to ingest into BigQuery
   - The parent directory of the `records.jsonl` file contains `dt=` followed by the date, so that [Hive partitioning](https://cloud.google.com/bigquery/docs/hive-partitioned-queries-gcs#supported_data_layouts) is supported without further transformation.
 - Google Cloud Function (GCF) to fetch records from the subgraph
@@ -34,19 +33,11 @@ This project is designed to cache any Graph Protocol subgraph that is specified,
 
 GCP monitoring does not have a direct integration with Discord, and it seemed like overkill to write a GCP -> Discord webhook integration.
 
-Instead, a [scenario](https://us1.make.com/126792/scenarios/446857/edit) is defined in Make (formerly Integromat) that does the following:
-
-- Watches an email address supplied by the custom mailhook
-- Send a HTTP post request to the Discord webhook
-
-This results in a small message being sent into the alerts channel.
-
 ## Caveats
 
-- The [token-holder-balances](https://github.com/OlympusDAO/token-holder-balances) project has details of the resources in this project hard-coded into its configuration. Those values will need to be manually updated if the resource ids change (which is rare).
-- If a new subgraph version is deployed that changes historical data (such as a new token being indexed, or a different calcultion being used), this function will not (yet) detect those changes. To force re-fetching of the transactions, delete the `token-holders-transactions` directory in the GCS bucket. Upon the next schedule, records will be fetched automatically.
+- Data is by default stored as a string, to avoid any issues with data type. When performing queries in BigQuery, you will need to cast the data type appropriately.
 - If specifying a BigQuery type override for a date in ISO string format (e.g. `2022-10-11T10:05.001Z`), the type to specify is `TIMESTAMP` (not `DATE`).
-- After changing any of the contents of the `subgraph/*.json` files, run `yarn codegen`.
+- After changing any of the contents of the `subgraphs/*.json` files, run `yarn codegen`.
 - BigQuery does not support replacing the schema of an existing BigQuery table. If the type overrides are changed, you will need to delete the BigQuery table manually, run `pulumi refresh`, and then run `pulumi up`.
 
 ## Subgraph Configuration
@@ -56,12 +47,11 @@ For each subgraph, there is a corresponding JSON file in the `subgraphs/` direct
 - generate a query to fetch all fields in the subgraph
 - generate a schema that is used in conjunction with Pulumi to create a BigQuery table
 
-See the [TokenHolderTransaction](subgraphs/token-holder-transactions.json) file as an example.
+See the [Cooler_Loans_Loan.json](subgraphs/Cooler_Loans_Loan.json) file as an example.
 
 To cache a new subgraph, perform the following:
 
 - Add a new definition file in `subgraphs/`, adhering to the `SubgraphConfig` type
-  - If a number is large or has a large number of decimal places, it should have a type override to be `BIGNUMERIC`
-  - See the [data types](https://cloud.google.com/bigquery/docs/schemas#standard_sql_data_types)
 - Run `yarn codegen` to generate the GraphQL & BigQuery schemas, and the Typescript typings
 - Run `pulumi up` on the appropriate stack to update the resources
+- Once this is done, the function can be manually triggered by running `yarn run execute <subgraphFile>`

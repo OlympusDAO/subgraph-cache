@@ -1,0 +1,145 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "createdBlock",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "createdTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "createdTransaction",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "cooler",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "requestId",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "borrower",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "collateralToken",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "debtToken",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "amount",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "interestPercentage",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "loanToCollateralRatio",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "durationSeconds",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "isRescinded",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "requestEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "rescindEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "clearEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "loans",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  }
+]
