@@ -537,6 +537,16 @@ export type Clearinghouse = {
    */
   id: Scalars["String"];
   /**
+   * Block number at the time of the creation of the record.
+   *
+   */
+  createdBlock: Scalars["BigInt"];
+  /**
+   * Timestamp at the time of the creation of the record.
+   *
+   */
+  createdTimestamp: Scalars["BigInt"];
+  /**
    * Address of the Clearinghouse.
    *
    */
@@ -1038,6 +1048,8 @@ export enum ClearinghouseSnapshot_OrderBy {
   TransactionHash = "transactionHash",
   Clearinghouse = "clearinghouse",
   ClearinghouseId = "clearinghouse__id",
+  ClearinghouseCreatedBlock = "clearinghouse__createdBlock",
+  ClearinghouseCreatedTimestamp = "clearinghouse__createdTimestamp",
   ClearinghouseAddress = "clearinghouse__address",
   ClearinghouseVersion = "clearinghouse__version",
   ClearinghouseCoolerFactoryAddress = "clearinghouse__coolerFactoryAddress",
@@ -1093,6 +1105,22 @@ export type Clearinghouse_Filter = {
   id_ends_with_nocase?: InputMaybe<Scalars["String"]>;
   id_not_ends_with?: InputMaybe<Scalars["String"]>;
   id_not_ends_with_nocase?: InputMaybe<Scalars["String"]>;
+  createdBlock?: InputMaybe<Scalars["BigInt"]>;
+  createdBlock_not?: InputMaybe<Scalars["BigInt"]>;
+  createdBlock_gt?: InputMaybe<Scalars["BigInt"]>;
+  createdBlock_lt?: InputMaybe<Scalars["BigInt"]>;
+  createdBlock_gte?: InputMaybe<Scalars["BigInt"]>;
+  createdBlock_lte?: InputMaybe<Scalars["BigInt"]>;
+  createdBlock_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  createdBlock_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  createdTimestamp?: InputMaybe<Scalars["BigInt"]>;
+  createdTimestamp_not?: InputMaybe<Scalars["BigInt"]>;
+  createdTimestamp_gt?: InputMaybe<Scalars["BigInt"]>;
+  createdTimestamp_lt?: InputMaybe<Scalars["BigInt"]>;
+  createdTimestamp_gte?: InputMaybe<Scalars["BigInt"]>;
+  createdTimestamp_lte?: InputMaybe<Scalars["BigInt"]>;
+  createdTimestamp_in?: InputMaybe<Array<Scalars["BigInt"]>>;
+  createdTimestamp_not_in?: InputMaybe<Array<Scalars["BigInt"]>>;
   address?: InputMaybe<Scalars["Bytes"]>;
   address_not?: InputMaybe<Scalars["Bytes"]>;
   address_gt?: InputMaybe<Scalars["Bytes"]>;
@@ -1258,6 +1286,8 @@ export type Clearinghouse_Filter = {
 
 export enum Clearinghouse_OrderBy {
   Id = "id",
+  CreatedBlock = "createdBlock",
+  CreatedTimestamp = "createdTimestamp",
   Address = "address",
   Version = "version",
   Singleton = "singleton",
@@ -1854,6 +1884,8 @@ export enum CoolerLoan_OrderBy {
   Borrower = "borrower",
   Clearinghouse = "clearinghouse",
   ClearinghouseId = "clearinghouse__id",
+  ClearinghouseCreatedBlock = "clearinghouse__createdBlock",
+  ClearinghouseCreatedTimestamp = "clearinghouse__createdTimestamp",
   ClearinghouseAddress = "clearinghouse__address",
   ClearinghouseVersion = "clearinghouse__version",
   ClearinghouseCoolerFactoryAddress = "clearinghouse__coolerFactoryAddress",
@@ -2056,6 +2088,8 @@ export enum DefundEvent_OrderBy {
   TransactionHash = "transactionHash",
   Clearinghouse = "clearinghouse",
   ClearinghouseId = "clearinghouse__id",
+  ClearinghouseCreatedBlock = "clearinghouse__createdBlock",
+  ClearinghouseCreatedTimestamp = "clearinghouse__createdTimestamp",
   ClearinghouseAddress = "clearinghouse__address",
   ClearinghouseVersion = "clearinghouse__version",
   ClearinghouseCoolerFactoryAddress = "clearinghouse__coolerFactoryAddress",
@@ -2755,6 +2789,8 @@ export enum RebalanceEvent_OrderBy {
   TransactionHash = "transactionHash",
   Clearinghouse = "clearinghouse",
   ClearinghouseId = "clearinghouse__id",
+  ClearinghouseCreatedBlock = "clearinghouse__createdBlock",
+  ClearinghouseCreatedTimestamp = "clearinghouse__createdTimestamp",
   ClearinghouseAddress = "clearinghouse__address",
   ClearinghouseVersion = "clearinghouse__version",
   ClearinghouseCoolerFactoryAddress = "clearinghouse__coolerFactoryAddress",
