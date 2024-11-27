@@ -30,7 +30,16 @@ export const fileExists = async (bucketName: string, fileName: string): Promise<
 
 // Will return the full path, e.g. `token-balances/dt=2021-01-01/dummy.jsonl
 export const listFiles = async (bucketName: string, path: string): Promise<string[]> => {
+  // Ensure that the path ends with a slash, otherwise partial matches will be returned
+  const terminatedPath = path.endsWith("/") ? path : `${path}/`;
+
+  console.info(`Listing files in ${bucketName}/${terminatedPath}`);
   const bucket: Bucket = await getBucket(bucketName);
-  const files: File[] = (await bucket.getFiles({ prefix: path }))[0];
+  const files: File[] = (
+    await bucket.getFiles({
+      prefix: terminatedPath,
+      softDeleted: false,
+    })
+  )[0];
   return files.map(file => file.name);
 };
