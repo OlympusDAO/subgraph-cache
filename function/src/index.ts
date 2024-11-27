@@ -167,9 +167,9 @@ if (require.main === module) {
     subgraphConfig.dateField,
     jsonSchemaString,
     subgraphConfig.getDirectory(),
-    "olympusdao-subgraph-cache-dev-47c613e",
-    `projects/utility-descent-365911/topics/Treasury_Ethereum-TokenRecord-dev-52887b3`,
+    "olympus-subgraph-cache-dev-1d625e2",
+    `projects/subgraph-cache-dev/topics/Cooler_Loans-QmbKnr-CoolerLoan-dev-f063986`,
     60,
-    `projects/utility-descent-365911/subscriptions/Treasury_Ethereum-TokenRecord-dev-b92e640`,
+    `projects/subgraph-cache-dev/subscriptions/Cooler_Loans-QmbKnr-CoolerLoan-dev-d35632b`,
   );
 }
