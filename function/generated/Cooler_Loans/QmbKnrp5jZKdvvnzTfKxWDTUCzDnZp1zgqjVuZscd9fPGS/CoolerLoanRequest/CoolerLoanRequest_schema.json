@@ -1,0 +1,159 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Record ID.\n\nIn the format of `cooler-requestId`."
+  },
+  {
+    "name": "createdBlock",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block number at the time of the request."
+  },
+  {
+    "name": "createdTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Timestamp at the time of the request."
+  },
+  {
+    "name": "createdTransaction",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Transaction hash of the request."
+  },
+  {
+    "name": "cooler",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the Cooler."
+  },
+  {
+    "name": "requestId",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Request id."
+  },
+  {
+    "name": "borrower",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the borrower."
+  },
+  {
+    "name": "collateralToken",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the collateral token."
+  },
+  {
+    "name": "debtToken",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the debt token."
+  },
+  {
+    "name": "amount",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Amount to be borrowed."
+  },
+  {
+    "name": "interestPercentage",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Annualized percentage to be paid as interest. Represented as a decimal, e.g. 0.1 = 10%"
+  },
+  {
+    "name": "loanToCollateralRatio",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Ratio of the quantity of debt token to 1 collateral token, e.g. 3000 DAI/gOHM"
+  },
+  {
+    "name": "durationSeconds",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Duration of the loan in seconds."
+  },
+  {
+    "name": "isRescinded",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Whether the request has been rescinded."
+  },
+  {
+    "name": "requestEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "rescindEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "clearEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "loans",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  }
+]

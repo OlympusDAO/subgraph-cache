@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "__typename": {
+      "type": "string",
+      "const": "ClearLoanRequestEvent"
+    },
+    "id": {
+      "type": "string",
+      "description": "Record ID.\n\nIn the format of `cooler-requestId`."
+    },
+    "date": {
+      "type": "string",
+      "description": "Event date in YYYY-MM-DD format."
+    },
+    "blockNumber": {
+      "type": "string",
+      "description": "Block number at the time of the event."
+    },
+    "blockTimestamp": {
+      "type": "string",
+      "description": "Block timestamp at the time of the event."
+    },
+    "transactionHash": {
+      "type": "string",
+      "description": "Transaction hash of the event."
+    },
+    "request": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "loan": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "clearinghouseSnapshot": {
+      "type": "object",
+      "properties": {
+        "__typename": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

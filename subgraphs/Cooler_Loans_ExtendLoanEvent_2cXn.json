@@ -1,0 +1,6 @@
+{
+  "subgraphName": "Cooler_Loans",
+  "object": "ExtendLoanEvent",
+  "dateField": "blockTimestamp",
+  "deploymentId": "QmbKnrp5jZKdvvnzTfKxWDTUCzDnZp1zgqjVuZscd9fPGS"
+}

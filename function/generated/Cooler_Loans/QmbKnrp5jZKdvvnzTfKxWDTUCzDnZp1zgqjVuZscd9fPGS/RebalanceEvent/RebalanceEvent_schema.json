@@ -1,0 +1,77 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Record ID.\n\nIn the format of `clearinghouse-blockNumber`."
+  },
+  {
+    "name": "date",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Event date in YYYY-MM-DD format."
+  },
+  {
+    "name": "blockNumber",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block number at the time of the event."
+  },
+  {
+    "name": "blockTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block timestamp at the time of the event."
+  },
+  {
+    "name": "transactionHash",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Transaction hash of the event."
+  },
+  {
+    "name": "clearinghouse",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "clearinghouseSnapshot",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "amount",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Amount of reserve tokens in (positive)/out (negative) of the Clearinghouse."
+  }
+]

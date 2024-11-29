@@ -1,0 +1,228 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "The id of the snapshot.\n\nIn the format of `address-blockNumber-logIndex`."
+  },
+  {
+    "name": "date",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Snapshot date in YYYY-MM-DD format."
+  },
+  {
+    "name": "blockNumber",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block number at the time of the event."
+  },
+  {
+    "name": "blockTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block timestamp at the time of the event."
+  },
+  {
+    "name": "transactionHash",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Transaction hash of the event."
+  },
+  {
+    "name": "clearinghouse",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "isActive",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Whether the Clearinghouse is active."
+  },
+  {
+    "name": "nextRebalanceTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Timestamp of the next rebalance."
+  },
+  {
+    "name": "interestReceivables",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Total interest receivables."
+  },
+  {
+    "name": "principalReceivables",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Total principal receivables."
+  },
+  {
+    "name": "reserveToken",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the reserve token."
+  },
+  {
+    "name": "sReserveToken",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the sReserve token."
+  },
+  {
+    "name": "reserveBalance",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Reserve balance of the clearinghouse."
+  },
+  {
+    "name": "sReserveBalance",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "sReserve balance of the clearinghouse."
+  },
+  {
+    "name": "sReserveInReserveBalance",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "sReserve balance of the clearinghouse, in terms of reserve tokens."
+  },
+  {
+    "name": "treasuryReserveBalance",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Reserve balance of the treasury."
+  },
+  {
+    "name": "treasurySReserveBalance",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "sReserve balance of the treasury."
+  },
+  {
+    "name": "treasurySReserveInReserveBalance",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "sReserve balance of the treasury, in terms of reserve tokens."
+  },
+  {
+    "name": "rebalanceEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "defundEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "creationEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "defaultedClaimEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "repaymentEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "extendEvents",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  }
+]

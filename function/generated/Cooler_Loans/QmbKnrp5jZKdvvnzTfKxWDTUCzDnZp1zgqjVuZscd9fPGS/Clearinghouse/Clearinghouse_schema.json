@@ -1,0 +1,160 @@
+[
+  {
+    "name": "__typename",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Record ID.\n\nIn the format of `address`."
+  },
+  {
+    "name": "createdBlock",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Block number at the time of the creation of the record."
+  },
+  {
+    "name": "createdTimestamp",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Timestamp at the time of the creation of the record."
+  },
+  {
+    "name": "address",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the Clearinghouse."
+  },
+  {
+    "name": "version",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Version of the Clearinghouse."
+  },
+  {
+    "name": "singleton",
+    "type": "RECORD",
+    "mode": "NULLABLE",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "coolerFactoryAddress",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the CoolerFactory."
+  },
+  {
+    "name": "collateralToken",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the collateral token."
+  },
+  {
+    "name": "collateralTokenDecimals",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "Number of decimals of the collateral token."
+  },
+  {
+    "name": "reserveToken",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the reserve (and debt) token."
+  },
+  {
+    "name": "reserveTokenDecimals",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "Number of decimals of the reserve token."
+  },
+  {
+    "name": "sReserveToken",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Address of the sReserve token."
+  },
+  {
+    "name": "sReserveTokenDecimals",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "Number of decimals of the sReserve token."
+  },
+  {
+    "name": "interestRate",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Annual interest rate.\n\nIn the format of 0.1 = 10%."
+  },
+  {
+    "name": "duration",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Duration of loans in seconds."
+  },
+  {
+    "name": "fundCadence",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Frequency of rebalances in seconds."
+  },
+  {
+    "name": "fundAmount",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Amount of reserves required to be in the Clearinghouse."
+  },
+  {
+    "name": "loanToCollateral",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Ratio of the quantity of debt token to 1 collateral token, e.g. 3000 reserve/gOHM"
+  },
+  {
+    "name": "loans",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  },
+  {
+    "name": "snapshots",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "__typename",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      }
+    ]
+  }
+]
