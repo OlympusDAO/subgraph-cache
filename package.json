@@ -7,7 +7,8 @@
     "test": "cd function && yarn test",
     "codegen": "ts-node src/codegen.ts && yarn lint",
     "execute": "cd function && yarn execute",
-    "lint": "prettier --write . && eslint --fix --config ./.eslintrc.js . --ext .jsx,.js,.tsx,.ts"
+    "lint": "prettier --write . && eslint --fix --config ./.eslintrc.js . --ext .jsx,.js,.tsx,.ts",
+    "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.12.2",
@@ -40,8 +41,9 @@
   },
   "engines": {
     "node": ">=18",
-    "npm": "please-use-yarn",
-    "pnpm": "please-use-yarn",
-    "yarn": ">=1.22.0 <2.0.0"
-  }
+    "npm": "use-pnpm",
+    "pnpm": "10.33.0",
+    "yarn": "use-pnpm"
+  },
+  "packageManager": "pnpm@10.33.0"
 }
