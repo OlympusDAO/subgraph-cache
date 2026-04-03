@@ -3,7 +3,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "gcp-build": "yarn run build",
+    "gcp-build": "pnpm run build",
     "test": "jest",
     "execute": "ts-node src/index.ts"
   },
@@ -34,8 +34,9 @@
   },
   "engines": {
     "node": ">=18",
-    "npm": "please-use-yarn",
-    "pnpm": "please-use-yarn",
-    "yarn": ">=1.22.0 <2.0.0"
-  }
+    "npm": "use-pnpm",
+    "pnpm": "10.33.0",
+    "yarn": "use-pnpm"
+  },
+  "packageManager": "pnpm@10.33.0"
 }
